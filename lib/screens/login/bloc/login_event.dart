@@ -1,6 +1,6 @@
-part of 'login_bloc.dart';
+// part of 'login_bloc.dart';
 
-@immutable
-abstract class LoginEvent {}
+// @immutable
+// abstract class LoginEvent {}
 
-class EnviarLogin extends LoginEvent {}
+// class EnviarLogin extends LoginEvent {}
