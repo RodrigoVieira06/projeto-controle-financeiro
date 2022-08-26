@@ -14,6 +14,9 @@ class _LoginWidgetState extends State<LoginWidget> {
   final formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController senha = TextEditingController();
+  TextEditingController confirmarSenha = TextEditingController();
+  TextEditingController nome = TextEditingController();
+  TextEditingController foto = TextEditingController();
 
   bool isLogin = true;
   late String titulo;
@@ -52,7 +55,12 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   registrar() async {
     try {
-      await context.read<AuthService>().registrar(email.text, senha.text);
+      await context.read<AuthService>().registrar(
+            email.text,
+            senha.text,
+            nome.text,
+            foto.text,
+          );
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
@@ -69,7 +77,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               width: 320,
-              height: 450,
+              height: 610,
               child: Card(
                 color: Colors.white,
                 child: Center(
@@ -88,6 +96,25 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
+                        !isLogin
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  controller: nome,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Nome de usuário',
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Informe o seu nome.';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              )
+                            : Container(),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
@@ -127,6 +154,30 @@ class _LoginWidgetState extends State<LoginWidget> {
                             },
                           ),
                         ),
+                        !isLogin
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  controller: confirmarSenha,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  obscureText: true,
+                                  enableSuggestions: false,
+                                  autocorrect: false,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Repita sua senha',
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Repita a sua senha.';
+                                    } else if (value != senha.text) {
+                                      return 'A senha não é a mesma.';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              )
+                            : Container(),
                         ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
