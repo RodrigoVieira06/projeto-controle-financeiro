@@ -18,7 +18,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   bool isLogin = true;
   late String titulo;
   late String acessarButton;
-  late String cadastrarButton;
+  late String toggleButton;
 
   @override
   void initState() {
@@ -32,32 +32,28 @@ class _LoginWidgetState extends State<LoginWidget> {
       if (isLogin) {
         titulo = 'Controle Financeiro';
         acessarButton = 'Acessar';
-        cadastrarButton = 'Cadastrar';
+        toggleButton = 'Cadastrar';
       } else {
         titulo = 'Crie sua conta';
         acessarButton = 'Cadastrar';
-        cadastrarButton = 'Voltar ao login';
+        toggleButton = 'Voltar ao login';
       }
     });
   }
 
   login() async {
-    // setState(() => loading = true);
     try {
       await context.read<AuthService>().login(email.text, senha.text);
     } on AuthException catch (e) {
-      // setState(() => loading = false);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
     }
   }
 
   registrar() async {
-    // setState(() => loading = true);
     try {
       await context.read<AuthService>().registrar(email.text, senha.text);
     } on AuthException catch (e) {
-      // setState(() => loading = false);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
     }
@@ -153,7 +149,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             primary: Colors.grey,
                             fixedSize: const Size(130, 10),
                           ),
-                          child: Text(cadastrarButton),
+                          child: Text(toggleButton),
                         ),
                       ],
                     ),

@@ -29,6 +29,13 @@
             {
               "client_id": "256037788100-09icpqp4e8lj210jm9vb7v82dipgblim.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "256037788100-rutmd5p901gqnase5frni4m43cj5o77s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.projetoControleFinanceiro"
+              }
             }
           ]
         }

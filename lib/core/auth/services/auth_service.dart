@@ -15,17 +15,17 @@ class AuthService extends ChangeNotifier {
     _authCheck();
   }
 
-  _getUser() {
-    usuario = _auth.currentUser;
-    notifyListeners();
-  }
-
   _authCheck() {
     _auth.authStateChanges().listen((User? user) {
       usuario = (user == null) ? null : user;
       isLoading = false;
       notifyListeners();
     });
+  }
+
+  _getUser() {
+    usuario = _auth.currentUser;
+    notifyListeners();
   }
 
   login(String email, String senha) async {
@@ -37,6 +37,8 @@ class AuthService extends ChangeNotifier {
         throw AuthException('Email não encontrado. Por favor, cadastre-se.');
       } else if (e.code == 'wrong-password') {
         throw AuthException('Senha incorreta.');
+      } else if (e.code == 'invalid-email') {
+        throw AuthException('Email inválido.');
       }
     }
   }
@@ -55,6 +57,8 @@ class AuthService extends ChangeNotifier {
         throw AuthException('A senha é muito fraca.');
       } else if (e.code == 'email-already-in-use') {
         throw AuthException('Este email já foi utilizado.');
+      } else if (e.code == 'invalid-email') {
+        throw AuthException('Email inválido.');
       }
     }
   }

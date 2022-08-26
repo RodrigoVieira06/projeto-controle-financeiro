@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_controle_financeiro/components/drawer_widget.dart';
 import 'package:projeto_controle_financeiro/components/nav_bar_widget.dart';
 import 'package:projeto_controle_financeiro/screens/home/home_widget.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
@@ -10,7 +11,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 233, 233, 233),
-      //drawer: const NavDrawer(),
+      drawer: const DrawerWidget(),
       appBar: AppBar(
         title: const Text('Controle Financeiro'),
         backgroundColor: projectTheme.primaryColor,
