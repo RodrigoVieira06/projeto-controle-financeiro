@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:projeto_controle_financeiro/core/auth/services/auth_service.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
+import 'package:provider/provider.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -22,6 +22,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   late String titulo;
   late String acessarButton;
   late String toggleButton;
+  bool loading = false;
 
   @override
   void initState() {
@@ -45,15 +46,18 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   login() async {
+    setState(() => loading = true);
     try {
       await context.read<AuthService>().login(email.text, senha.text);
     } on AuthException catch (e) {
+      setState(() => loading = false);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
     }
   }
 
   registrar() async {
+    setState(() => loading = true);
     try {
       await context.read<AuthService>().registrar(
             email.text,
@@ -62,6 +66,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             foto.text,
           );
     } on AuthException catch (e) {
+      setState(() => loading = false);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
     }
@@ -192,7 +197,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                             primary: projectTheme.primaryColor,
                             fixedSize: const Size(130, 10),
                           ),
-                          child: Text(acessarButton),
+                          child: loading
+                              ? const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    height: 30,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              : Text(acessarButton),
                         ),
                         ElevatedButton(
                           onPressed: () => setFormAction(!isLogin),

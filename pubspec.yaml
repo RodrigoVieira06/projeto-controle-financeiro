@@ -11,7 +11,6 @@ dependencies:
     sdk: flutter
 
   flutter_modular: ^5.0.3
-  # flutter_bloc: ^8.1.1
   firebase_core: ^1.21.0
   firebase_auth: ^3.6.4
   firebase_database: ^9.1.2

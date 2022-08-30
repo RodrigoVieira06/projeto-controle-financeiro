@@ -18,7 +18,8 @@ class _AuthCheckState extends State<AuthCheck> {
     AuthService auth = Provider.of<AuthService>(context);
     if (auth.isLoading) {
       return const LoadingWidget();
-    } else if (auth.usuario == null) {
+    }
+    if (auth.usuario == null) {
       return const LoginPage();
     } else {
       return const HomePage();

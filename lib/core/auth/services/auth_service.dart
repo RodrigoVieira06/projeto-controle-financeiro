@@ -13,29 +13,50 @@ class AuthService extends ChangeNotifier {
 
   AuthService() {
     _authCheck();
+    _getUser();
   }
 
   _authCheck() {
     _auth.authStateChanges().listen((User? user) {
       usuario = (user == null) ? null : user;
       isLoading = false;
-      notifyListeners();
     });
   }
 
-  _setUser() async {
+  _getUser() {
     usuario = _auth.currentUser;
     notifyListeners();
   }
 
-  User? getUser() {
-    return usuario;
+  registrar(
+    String email,
+    String senha,
+    String nome,
+    String? foto,
+  ) async {
+    try {
+      await _auth.createUserWithEmailAndPassword(email: email, password: senha);
+      await _auth.currentUser!.updateDisplayName(nome);
+      usuario = _auth.currentUser;
+      if (foto != null) {
+        await usuario?.updatePhotoURL(foto);
+      }
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'weak-password':
+          throw AuthException('A senha é muito fraca.');
+        case 'email-already-in-use':
+          throw AuthException('Este email já foi utilizado.');
+        case 'invalid-email':
+          throw AuthException('Email inválido.');
+      }
+    }
   }
 
   login(String email, String senha) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
-      await _setUser();
+      _getUser();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         throw AuthException('Email não encontrado. Por favor, cadastre-se.');
@@ -49,30 +70,6 @@ class AuthService extends ChangeNotifier {
 
   logout() async {
     await _auth.signOut();
-    _setUser();
-  }
-
-  registrar(
-    String email,
-    String senha,
-    String nome,
-    String? foto,
-  ) async {
-    try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: senha);
-      await usuario?.updateDisplayName(nome);
-      if (foto != null) {
-        await usuario?.updatePhotoURL(foto);
-      }
-      _setUser();
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw AuthException('A senha é muito fraca.');
-      } else if (e.code == 'email-already-in-use') {
-        throw AuthException('Este email já foi utilizado.');
-      } else if (e.code == 'invalid-email') {
-        throw AuthException('Email inválido.');
-      }
-    }
+    _getUser();
   }
 }
