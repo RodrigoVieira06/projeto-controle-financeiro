@@ -3,7 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider/provider.dart';
 import 'package:projeto_controle_financeiro/components/loading_widget.dart';
 import 'package:projeto_controle_financeiro/core/auth/services/auth_service.dart';
-import 'package:projeto_controle_financeiro/screens/home/home_page.dart';
+import 'package:projeto_controle_financeiro/screens/home/pages/home_page.dart';
 import 'package:projeto_controle_financeiro/screens/login/login_page.dart';
 
 class AuthCheck extends StatefulWidget {
