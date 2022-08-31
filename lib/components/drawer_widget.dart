@@ -31,11 +31,7 @@ class DrawerWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                     child: Text(
-                      authService.usuario!.displayName!,
-                      // ReadContext(context)
-                      //     .read<AuthService>()
-                      //     .getUser()!
-                      //     .displayName!,
+                      authService.usuario?.displayName ?? '',
                       style: const TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w700,
@@ -46,11 +42,7 @@ class DrawerWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                     child: Text(
-                      authService.usuario!.email!,
-                      // ReadContext(context)
-                      //     .read<AuthService>()
-                      //     .getUser()!
-                      //     .email!,
+                      authService.usuario?.email ?? '',
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -61,8 +53,10 @@ class DrawerWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ElevatedButton(
-                      onPressed: () => authService.logout(),
-                      // ReadContext(context).read<AuthService>().logout(),
+                      onPressed: () {
+                        authService.logout();
+                        Modular.to.navigate('/');
+                      },
                       child: const Text('Logout'),
                     ),
                   ),

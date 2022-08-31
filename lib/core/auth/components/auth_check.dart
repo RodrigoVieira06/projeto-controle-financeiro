@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider/provider.dart';
 import 'package:projeto_controle_financeiro/components/loading_widget.dart';
 import 'package:projeto_controle_financeiro/core/auth/services/auth_service.dart';
@@ -20,8 +21,10 @@ class _AuthCheckState extends State<AuthCheck> {
       return const LoadingWidget();
     }
     if (auth.usuario == null) {
+      Modular.to.navigate('/');
       return const LoginPage();
     } else {
+      Modular.to.navigate('/home/');
       return const HomePage();
     }
   }
