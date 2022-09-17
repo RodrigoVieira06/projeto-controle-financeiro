@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_controle_financeiro/components/drawer_widget.dart';
-import 'package:projeto_controle_financeiro/screens/home/components/nav_bar_widget.dart';
-import 'package:projeto_controle_financeiro/screens/home/components/body/inicio_widget.dart';
-import 'package:projeto_controle_financeiro/screens/home/pages/relatorios_page.dart';
-import 'package:projeto_controle_financeiro/screens/home/pages/resumo_mensal_page.dart';
+import 'package:projeto_controle_financeiro/screens/home/components/body/body.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,17 +21,22 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _widgetOptions = <Widget>[
     const InicioWidget(),
-    const ResumoMensalPage(),
-    const RelatoriosPage(),
+    const ResumoMensalWidget(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 233, 233, 233),
+      backgroundColor: projectTheme.backgroundColor,
       drawer: const DrawerWidget(),
       appBar: AppBar(
-        title: const Text('Controle Financeiro'),
+        title: const Text(
+          'PAINEL INICIAL',
+          style: TextStyle(
+            fontFamily: 'Lato',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: projectTheme.primaryColor,
         titleTextStyle: const TextStyle(
           fontSize: 21,
@@ -51,10 +53,6 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
             label: 'Resumo mensal',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Relatórios',
           ),
         ],
         currentIndex: _selectedIndex,

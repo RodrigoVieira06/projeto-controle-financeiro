@@ -14,64 +14,116 @@ class DrawerWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Container(
-              color: projectTheme.primaryColor,
-              height: 350,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 60.0, bottom: 8.0),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.blue,
-                      minRadius: 50,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: Text(
-                      authService.usuario?.displayName ?? '',
-                      style: const TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
+          Container(
+            color: projectTheme.primaryColor,
+            height: 350,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(top: 60.0, bottom: 8.0),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        minRadius: 50,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: Text(
-                      authService.usuario?.email ?? '',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      child: Text(
+                        authService.usuario?.displayName ?? '',
+                        style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Lato',
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        authService.logout();
-                        Modular.to.navigate('/');
-                      },
-                      child: const Text('Logout'),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      child: Text(
+                        authService.usuario?.email ?? '',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Lato',
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, right: 16),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          minimumSize: const Size(80, 30),
+                        ),
+                        child: Text(
+                          'Minha conta',
+                          style: TextStyle(
+                            color: projectTheme.primaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          authService.logout();
+                          Modular.to.navigate('/');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color.fromARGB(255, 218, 93, 84),
+                          minimumSize: const Size(80, 30),
+                        ),
+                        child: const Text(
+                          'Sair',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
               leading: const Icon(Icons.home),
-              title: const Text(
-                'Painel Inicial',
+              title: Text(
+                'Painel inicial',
                 style: TextStyle(
                   fontSize: 16,
+                  color: projectTheme.primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Lato',
                 ),
               ),
               onTap: () => Modular.to.navigate('/home/'),
@@ -80,11 +132,14 @@ class DrawerWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
-              leading: const Icon(Icons.attach_money_sharp),
-              title: const Text(
-                'Faturamentos',
+              leading: const Icon(Icons.swap_vertical_circle_sharp),
+              title: Text(
+                'Fluxo de caixa',
                 style: TextStyle(
                   fontSize: 16,
+                  color: projectTheme.primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Lato',
                 ),
               ),
               onTap: () {},
@@ -93,11 +148,14 @@ class DrawerWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
-              leading: const Icon(Icons.money_off),
-              title: const Text(
-                'Despesas',
+              leading: const Icon(Icons.monetization_on),
+              title: Text(
+                'Tipos de faturamentos e despesas',
                 style: TextStyle(
                   fontSize: 16,
+                  color: projectTheme.primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Lato',
                 ),
               ),
               onTap: () {},
@@ -106,11 +164,30 @@ class DrawerWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
-              leading: const Icon(Icons.account_balance_wallet_rounded),
-              title: const Text(
-                'Carteiras',
+              leading: const Icon(Icons.credit_card),
+              title: Text(
+                'Cartões',
                 style: TextStyle(
                   fontSize: 16,
+                  color: projectTheme.primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Lato',
+                ),
+              ),
+              onTap: () {},
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              leading: const Icon(Icons.bar_chart_rounded),
+              title: Text(
+                'Gráficos',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: projectTheme.primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Lato',
                 ),
               ),
               onTap: () {},

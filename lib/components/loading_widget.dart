@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({Key? key}) : super(key: key);
@@ -6,13 +7,13 @@ class LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 233, 233, 233),
+      backgroundColor: projectTheme.backgroundColor,
       body: Center(
         child: SizedBox(
           height: 250,
           width: 250,
           child: Dialog(
-            backgroundColor: Colors.white,
+            backgroundColor: projectTheme.backgroundColor,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
