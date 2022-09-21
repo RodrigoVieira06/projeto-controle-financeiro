@@ -13,10 +13,10 @@ class ResumoMensalWidget extends StatelessWidget {
           children: const [
             DateSelectWidget(),
             ResumoDespesasCard(),
-            Padding(
-              padding: EdgeInsets.only(bottom: 32.0),
-              child: PercentualGastosCard(),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(bottom: 32.0),
+            //   child: PercentualGastosCard(),
+            // ),
           ],
         ),
       ],

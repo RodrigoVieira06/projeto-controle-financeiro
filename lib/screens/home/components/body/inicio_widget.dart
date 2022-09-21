@@ -10,7 +10,7 @@ class InicioWidget extends StatelessWidget {
       children: [
         Column(children: const [
           VisaoGeralCard(),
-          GraficoGeralCard(),
+          // GraficoGeralCard(),
         ]),
       ],
     );
