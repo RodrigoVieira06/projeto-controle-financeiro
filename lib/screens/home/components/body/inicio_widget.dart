@@ -8,12 +8,10 @@ class InicioWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Column(
-          children: const [
-            VisaoGeralCard(),
-            GraficoGeralCard(),
-          ],
-        ),
+        Column(children: const [
+          VisaoGeralCard(),
+          GraficoGeralCard(),
+        ]),
       ],
     );
   }

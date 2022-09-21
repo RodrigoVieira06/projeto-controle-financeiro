@@ -44,14 +44,22 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 0, 27, 67),
+        child: const Icon(Icons.add),
+        onPressed: () => {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
+            backgroundColor: Color.fromARGB(255, 0, 27, 67),
             label: 'Início',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
+            backgroundColor: Color.fromARGB(255, 0, 27, 67),
             label: 'Resumo mensal',
           ),
         ],

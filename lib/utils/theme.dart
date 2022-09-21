@@ -8,6 +8,6 @@ final projectTheme = ThemeData(
     size: 36,
   ),
   buttonTheme: const ButtonThemeData(
-    buttonColor: Color.fromARGB(255, 30, 30, 30),
+    buttonColor: Color.fromARGB(255, 21, 18, 154),
   ),
 );
