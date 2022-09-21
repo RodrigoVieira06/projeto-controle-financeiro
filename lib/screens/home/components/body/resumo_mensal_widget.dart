@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/home/components/cards/cards.dart';
-import 'package:projeto_controle_financeiro/screens/home/components/date_select/date_select_widget.dart';
 
 class ResumoMensalWidget extends StatelessWidget {
   const ResumoMensalWidget({Key? key}) : super(key: key);
@@ -13,7 +13,10 @@ class ResumoMensalWidget extends StatelessWidget {
           children: const [
             DateSelectWidget(),
             ResumoDespesasCard(),
-            PercentualGastosCard(),
+            Padding(
+              padding: EdgeInsets.only(bottom: 32.0),
+              child: PercentualGastosCard(),
+            ),
           ],
         ),
       ],

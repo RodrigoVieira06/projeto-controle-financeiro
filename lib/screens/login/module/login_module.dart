@@ -1,7 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/core/auth/components/auth_check.dart';
-import 'package:projeto_controle_financeiro/core/auth/services/auth_service.dart';
-import 'package:projeto_controle_financeiro/screens/login/login_page.dart';
+import 'package:projeto_controle_financeiro/auth/auth_check.dart';
+import 'package:projeto_controle_financeiro/screens/login/page/login_page.dart';
+import 'package:projeto_controle_financeiro/services/services.dart';
 
 class LoginModule extends Module {
   @override

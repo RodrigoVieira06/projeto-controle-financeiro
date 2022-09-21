@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_controle_financeiro/components/drawer_widget.dart';
-import 'package:projeto_controle_financeiro/screens/home/components/body/body.dart';
+import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class FluxodecaixaPageWidget extends StatefulWidget {
+  const FluxodecaixaPageWidget({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<FluxodecaixaPageWidget> createState() => _FluxodecaixaPageWidgetState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _FluxodecaixaPageWidgetState extends State<FluxodecaixaPageWidget> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -20,8 +19,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Widget> _widgetOptions = <Widget>[
-    const InicioWidget(),
-    const ResumoMensalWidget(),
+    const DateSelectWidget(),
+    const DateSelectWidget(),
   ];
 
   @override
@@ -31,7 +30,7 @@ class _HomePageState extends State<HomePage> {
       drawer: const DrawerWidget(),
       appBar: AppBar(
         title: const Text(
-          'PAINEL INICIAL',
+          'FLUXO DE CAIXA',
           style: TextStyle(
             fontFamily: 'Lato',
             fontWeight: FontWeight.bold,
@@ -51,16 +50,16 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            backgroundColor: Color.fromARGB(255, 0, 27, 67),
-            label: 'Início',
+            icon: const Icon(Icons.money_off),
+            backgroundColor: Colors.red[400],
+            label: 'Despesas',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            backgroundColor: Color.fromARGB(255, 0, 27, 67),
-            label: 'Resumo mensal',
+            icon: const Icon(Icons.attach_money_rounded),
+            backgroundColor: Colors.blue[400],
+            label: 'Faturamentos',
           ),
         ],
         currentIndex: _selectedIndex,

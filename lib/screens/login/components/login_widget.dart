@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_controle_financeiro/core/auth/services/auth_service.dart';
+import 'package:projeto_controle_financeiro/services/services.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 import 'package:provider/provider.dart';
 

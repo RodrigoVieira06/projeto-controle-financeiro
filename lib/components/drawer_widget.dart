@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/core/auth/services/auth_service.dart';
+import 'package:projeto_controle_financeiro/services/services.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -142,7 +142,7 @@ class DrawerWidget extends StatelessWidget {
                   fontFamily: 'Lato',
                 ),
               ),
-              onTap: () {},
+              onTap: () => Modular.to.navigate('/fluxodecaixa/'),
             ),
           ),
           Padding(
@@ -158,7 +158,7 @@ class DrawerWidget extends StatelessWidget {
                   fontFamily: 'Lato',
                 ),
               ),
-              onTap: () {},
+              onTap: () => Modular.to.navigate('/tiposdespesasfaturamentos/'),
             ),
           ),
           Padding(
@@ -174,7 +174,7 @@ class DrawerWidget extends StatelessWidget {
                   fontFamily: 'Lato',
                 ),
               ),
-              onTap: () {},
+              onTap: () => Modular.to.navigate('/cartoes/'),
             ),
           ),
           Padding(
@@ -190,7 +190,7 @@ class DrawerWidget extends StatelessWidget {
                   fontFamily: 'Lato',
                 ),
               ),
-              onTap: () {},
+              onTap: () => Modular.to.navigate('/graficos/'),
             ),
           ),
         ],
