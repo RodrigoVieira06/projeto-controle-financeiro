@@ -47,10 +47,13 @@ class _CartoesPageWidgetState extends State<CartoesPageWidget> {
         ),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 0, 27, 67),
-        child: const Icon(Icons.add),
-        onPressed: () => {},
+      floatingActionButton: AddButtonWidget(
+        icon1: const Icon(Icons.credit_card),
+        iconcolor1: const Color.fromARGB(255, 49, 205, 244),
+        formdialog1: Container(),
+        icon2: const Icon(Icons.credit_card),
+        iconcolor2: const Color.fromARGB(255, 177, 67, 255),
+        formdialog2: Container(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(

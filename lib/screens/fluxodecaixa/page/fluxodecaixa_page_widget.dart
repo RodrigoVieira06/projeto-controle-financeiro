@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
+import 'package:projeto_controle_financeiro/screens/fluxodecaixa/components/forms/forms.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class FluxodecaixaPageWidget extends StatefulWidget {
@@ -43,10 +44,13 @@ class _FluxodecaixaPageWidgetState extends State<FluxodecaixaPageWidget> {
         ),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 0, 27, 67),
-        child: const Icon(Icons.add),
-        onPressed: () => {},
+      floatingActionButton: AddButtonWidget(
+        icon1: const Icon(Icons.attach_money),
+        iconcolor1: const Color.fromARGB(255, 36, 137, 232),
+        formdialog1: FaturamentosFormWidget(),
+        icon2: const Icon(Icons.money_off),
+        iconcolor2: const Color.fromARGB(255, 255, 67, 67),
+        formdialog2: DespesasFormWidget(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(

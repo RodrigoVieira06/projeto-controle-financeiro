@@ -47,12 +47,6 @@ class _GraficosPageWidgetState extends State<GraficosPageWidget> {
         ),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 0, 27, 67),
-        child: const Icon(Icons.add),
-        onPressed: () => {},
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
