@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +34,7 @@ class AuthService extends ChangeNotifier {
     String email,
     String senha,
     String nome,
+    String sobrenome,
     String? foto,
   ) async {
     try {
@@ -42,6 +44,7 @@ class AuthService extends ChangeNotifier {
       if (foto != null) {
         await usuario?.updatePhotoURL(foto);
       }
+      _setProfile(nome: nome, sobrenome: sobrenome, email: email);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'weak-password':
@@ -72,5 +75,23 @@ class AuthService extends ChangeNotifier {
 
   logout() async {
     await _auth.signOut();
+  }
+
+  _setProfile({
+    required String nome,
+    required String sobrenome,
+    required String email,
+    DateTime? nascimento,
+  }) {
+    var db = FirebaseFirestore.instance;
+
+    final profile = <String, dynamic>{
+      "nome": nome,
+      "sobrenome": sobrenome,
+      "nascimento": nascimento,
+      "email": email,
+    };
+
+    db.collection("profiles").add(profile);
   }
 }

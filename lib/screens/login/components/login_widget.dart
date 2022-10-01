@@ -16,6 +16,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   TextEditingController senha = TextEditingController();
   TextEditingController confirmarSenha = TextEditingController();
   TextEditingController nome = TextEditingController();
+  TextEditingController sobrenome = TextEditingController();
   TextEditingController foto = TextEditingController();
 
   bool isLogin = true;
@@ -63,6 +64,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             email.text,
             senha.text,
             nome.text,
+            sobrenome.text,
             foto.text,
           );
     } on AuthException catch (e) {
@@ -108,12 +110,31 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   controller: nome,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Nome de usuário',
+                                    labelText: 'Nome',
                                   ),
-                                  keyboardType: TextInputType.emailAddress,
+                                  keyboardType: TextInputType.text,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Informe o seu nome.';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              )
+                            : Container(),
+                        !isLogin
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  controller: sobrenome,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Sobrenome',
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Informe o seu sobrenome.';
                                     }
                                     return null;
                                   },
