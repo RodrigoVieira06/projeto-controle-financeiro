@@ -21,7 +21,7 @@ class _FluxodecaixaPageWidgetState extends State<FluxodecaixaPageWidget> {
   }
 
   final List<Widget> _widgetOptions = <Widget>[
-    DespesasWidget(),
+    const DespesasWidget(),
     const DateSelectWidget(),
   ];
 
