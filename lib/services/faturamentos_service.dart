@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 import 'services.dart';
 
-class DespesasService {
+class FaturamentosService {
   AuthService authService = AuthService();
-  final List<Map<String, dynamic>> despesas = [];
+  final List<Map<String, dynamic>> faturamentos = [];
 
-  DespesasService();
+  FaturamentosService();
 
-  getDespesas() async {
+  getFaturamentos() async {
     var db = FirebaseFirestore.instance;
 
     await db.collection("profiles").get().then((event) async {
@@ -18,17 +18,17 @@ class DespesasService {
           await db
               .collection('profiles')
               .doc(doc.id)
-              .collection('despesas')
+              .collection('faturamentos')
               .get()
               .then((value) {
             for (var doc in value.docs) {
-              despesas.add(doc.data());
+              faturamentos.add(doc.data());
             }
           });
         }
       }
     });
-    return despesas;
+    return faturamentos;
   }
 
   setDespesa(

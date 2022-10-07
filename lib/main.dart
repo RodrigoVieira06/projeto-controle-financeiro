@@ -6,6 +6,8 @@ import 'package:projeto_controle_financeiro/core/components/app_widget.dart';
 import 'package:projeto_controle_financeiro/core/module/app_module.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
+import 'screens/fluxodecaixa/controllers/controllers.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -14,7 +16,8 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
-        ChangeNotifierProvider(create: (context) => DespesasService()),
+        ChangeNotifierProvider(create: (context) => DespesasController()),
+        ChangeNotifierProvider(create: (context) => FaturamentosController()),
       ],
       child: ModularApp(
         module: AppModule(),

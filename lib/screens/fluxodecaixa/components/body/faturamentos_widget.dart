@@ -3,14 +3,9 @@ import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/fluxodecaixa/controllers/controllers.dart';
 import 'package:provider/provider.dart';
 
-class DespesasWidget extends StatefulWidget {
-  const DespesasWidget({Key? key}) : super(key: key);
+class FaturamentosWidget extends StatelessWidget {
+  const FaturamentosWidget({Key? key}) : super(key: key);
 
-  @override
-  State<DespesasWidget> createState() => _DespesasWidgetState();
-}
-
-class _DespesasWidgetState extends State<DespesasWidget> {
   @override
   Widget build(BuildContext context) {
     // definindo margens por porcentagem
@@ -18,9 +13,9 @@ class _DespesasWidgetState extends State<DespesasWidget> {
     double width = MediaQuery.of(context).size.width;
 
     //Obtendo valores do service
-    List<Map<String, dynamic>> despesas =
-        context.watch<DespesasController>().despesas;
-    bool isLoading = context.watch<DespesasController>().isLoading;
+    List<Map<String, dynamic>> faturamentos =
+        context.watch<FaturamentosController>().faturamentos;
+    bool isLoading = context.watch<FaturamentosController>().isLoading;
 
     return SingleChildScrollView(
       child: Column(
@@ -31,10 +26,10 @@ class _DespesasWidgetState extends State<DespesasWidget> {
           ),
           if (isLoading)
             const CircularProgressIndicator()
-          else if (despesas.isEmpty)
+          else if (faturamentos.isEmpty)
             const ListaVaziaWidget()
           else
-            for (final despesa in despesas)
+            for (final faturamento in faturamentos)
               Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Row(
@@ -52,21 +47,17 @@ class _DespesasWidgetState extends State<DespesasWidget> {
                             children: [
                               Row(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.money_off,
-                                      color: Colors.red[400],
-                                    ),
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(Icons.money_off),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      despesa['titulo'],
+                                      faturamento['titulo'],
                                       style: const TextStyle(
                                         fontFamily: 'Lato',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
+                                        fontSize: 14,
                                       ),
                                     ),
                                   ),
@@ -80,7 +71,7 @@ class _DespesasWidgetState extends State<DespesasWidget> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'R\$ ${despesa['valor']}',
+                                  'R\$ ${faturamento['valor']}',
                                   style: TextStyle(
                                     fontFamily: 'Lato',
                                     fontSize: 14,
@@ -91,7 +82,7 @@ class _DespesasWidgetState extends State<DespesasWidget> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  despesa['data'],
+                                  faturamento['data'],
                                   style: const TextStyle(
                                     fontFamily: 'Lato',
                                     fontSize: 14,
@@ -105,10 +96,6 @@ class _DespesasWidgetState extends State<DespesasWidget> {
                       ),
                     )
                   ],
-                  // title: Text(despesa['titulo']),
-                  // subtitle: Text('R\$ ${despesa['valor']}'),
-                  // leading: const Icon(Icons.battery_full),
-                  // trailing: const Icon(Icons.star),
                 ),
               ),
         ],
