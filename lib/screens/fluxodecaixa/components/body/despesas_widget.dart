@@ -105,10 +105,6 @@ class _DespesasWidgetState extends State<DespesasWidget> {
                       ),
                     )
                   ],
-                  // title: Text(despesa['titulo']),
-                  // subtitle: Text('R\$ ${despesa['valor']}'),
-                  // leading: const Icon(Icons.battery_full),
-                  // trailing: const Icon(Icons.star),
                 ),
               ),
         ],
