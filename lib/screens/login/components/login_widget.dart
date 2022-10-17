@@ -35,7 +35,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     setState(() {
       isLogin = evento;
       if (isLogin) {
-        titulo = 'Controle Financeiro';
+        titulo = '';
         acessarButton = 'Acessar';
         toggleButton = 'Cadastrar';
       } else {
@@ -49,7 +49,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   login() async {
     setState(() => loading = true);
     try {
-      await context.read<AuthService>().login(email.text, senha.text);
+      await context.read<AuthService>().logar(email.text, senha.text);
     } on AuthException catch (e) {
       setState(() => loading = false);
       ScaffoldMessenger.of(context)
@@ -87,160 +87,169 @@ class _LoginWidgetState extends State<LoginWidget> {
               height: 610,
               child: Card(
                 color: Colors.white,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 26),
-                          child: Text(
-                            titulo,
-                            style: TextStyle(
-                                color: projectTheme.primaryColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        !isLogin
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  controller: nome,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Nome',
-                                  ),
-                                  keyboardType: TextInputType.text,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Informe o seu nome.';
-                                    }
-                                    return null;
-                                  },
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      !isLogin
+                          ? Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                titulo,
+                                style: TextStyle(
+                                  color: projectTheme.primaryColor,
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'lato',
                                 ),
-                              )
-                            : Container(),
-                        !isLogin
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  controller: sobrenome,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Sobrenome',
-                                  ),
-                                  keyboardType: TextInputType.text,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Informe o seu sobrenome.';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              )
-                            : Container(),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Image.asset('assets/images/LogoApp.png'),
+                            ),
+                      if (!isLogin)
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
-                            controller: email,
+                            controller: nome,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: 'Email',
+                              labelText: 'Nome',
                             ),
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.text,
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Informe o seu email corretamente.';
+                                return 'Informe o seu nome.';
                               }
                               return null;
                             },
                           ),
                         ),
+                      if (!isLogin)
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
-                            controller: senha,
+                            controller: sobrenome,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Sobrenome',
+                            ),
+                            keyboardType: TextInputType.text,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Informe o seu sobrenome.';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: email,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Email',
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Informe o seu email corretamente.';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: senha,
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Senha',
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Informe a sua senha.';
+                            } else if (value.length < 6) {
+                              return 'Senha inválida.';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      if (!isLogin)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: confirmarSenha,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
                             enableSuggestions: false,
                             autocorrect: false,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: 'Senha',
+                              labelText: 'Repita sua senha',
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Informe a sua senha.';
-                              } else if (value.length < 6) {
-                                return 'Senha inválida.';
+                                return 'Repita a sua senha.';
+                              } else if (value != senha.text) {
+                                return 'A senha não é a mesma.';
                               }
                               return null;
                             },
                           ),
                         ),
-                        !isLogin
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  controller: confirmarSenha,
-                                  keyboardType: TextInputType.visiblePassword,
-                                  obscureText: true,
-                                  enableSuggestions: false,
-                                  autocorrect: false,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Repita sua senha',
-                                  ),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Repita a sua senha.';
-                                    } else if (value != senha.text) {
-                                      return 'A senha não é a mesma.';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              )
-                            : Container(),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              if (isLogin) {
-                                login();
-                              } else {
-                                registrar();
-                              }
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: projectTheme.primaryColor,
-                            fixedSize: const Size(130, 10),
-                          ),
-                          child: loading
-                              ? const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    height: 30,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )
-                              : Text(acessarButton),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  if (isLogin) {
+                                    login();
+                                  } else {
+                                    registrar();
+                                  }
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: projectTheme.primaryColor,
+                                fixedSize: const Size(130, 10),
+                              ),
+                              child: loading
+                                  ? const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        height: 30,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    )
+                                  : Text(acessarButton),
+                            ),
+                            ElevatedButton(
+                              onPressed: () => setFormAction(!isLogin),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.grey,
+                                fixedSize: const Size(130, 10),
+                              ),
+                              child: Text(toggleButton),
+                            ),
+                          ],
                         ),
-                        ElevatedButton(
-                          onPressed: () => setFormAction(!isLogin),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.grey,
-                            fixedSize: const Size(130, 10),
-                          ),
-                          child: Text(toggleButton),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

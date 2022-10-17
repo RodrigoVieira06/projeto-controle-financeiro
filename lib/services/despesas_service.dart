@@ -1,22 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 import 'services.dart';
 
 class DespesasService {
   AuthService authService = AuthService();
   final List<Map<String, dynamic>> despesas = [];
+  var dbProfiles = FirebaseFirestore.instance.collection('profiles');
 
   DespesasService();
 
   getDespesas() async {
-    var db = FirebaseFirestore.instance;
-
-    await db.collection("profiles").get().then((event) async {
+    await dbProfiles.get().then((event) async {
       for (var doc in event.docs) {
-        if (doc.data()['email'] == authService.usuario?.email) {
-          await db
-              .collection('profiles')
+        if (doc.data()['uid'] == authService.usuario?.uid) {
+          await dbProfiles
               .doc(doc.id)
               .collection('despesas')
               .get()
@@ -31,20 +28,11 @@ class DespesasService {
     return despesas;
   }
 
-  setDespesa(
-    BuildContext context, {
-    required Map<String, dynamic> despesa,
-  }) async {
-    var db = FirebaseFirestore.instance;
-
-    await db.collection("profiles").get().then((event) {
+  setDespesa(Map<String, dynamic> despesa) async {
+    await dbProfiles.get().then((event) {
       for (var doc in event.docs) {
-        if (doc.data()['email'] == authService.usuario?.email) {
-          db
-              .collection('profiles')
-              .doc(doc.id)
-              .collection('despesas')
-              .add(despesa);
+        if (doc.data()['uid'] == authService.usuario?.uid) {
+          dbProfiles.doc(doc.id).collection('despesas').add(despesa);
         }
       }
     });

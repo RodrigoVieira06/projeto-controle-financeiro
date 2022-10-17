@@ -38,7 +38,8 @@ class DrawerWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: Text(
-                        authService.usuario?.displayName ?? '',
+                        '${authService.usuario?.displayName ?? ""} '
+                        '${authService.profile?['sobrenome'] ?? ""}',
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w700,

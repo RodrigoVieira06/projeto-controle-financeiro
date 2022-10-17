@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_controle_financeiro/screens/fluxodecaixa/controllers/controllers.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class DespesasFormWidget extends StatelessWidget {
+class DespesasFormWidget extends StatefulWidget {
   DespesasFormWidget({Key? key}) : super(key: key);
 
-  final formKey = GlobalKey<FormState>();
+  @override
+  State<DespesasFormWidget> createState() => _DespesasFormWidgetState();
+}
 
+class _DespesasFormWidgetState extends State<DespesasFormWidget> {
+  late DespesasController despesasController;
+
+  final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
   TextEditingController valor = TextEditingController();
   TextEditingController data = TextEditingController();
@@ -17,7 +25,7 @@ class DespesasFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DespesasService despesasService = DespesasService();
+    despesasController = Provider.of<DespesasController>(context);
 
     return SingleChildScrollView(
       child: AlertDialog(
@@ -64,6 +72,9 @@ class DespesasFormWidget extends StatelessWidget {
                     if (value!.isEmpty) {
                       return 'Informe o valor.';
                     }
+                    if (num.tryParse(value) == null) {
+                      return '"$value" não é um número válido.';
+                    }
                     return null;
                   },
                 ),
@@ -89,7 +100,7 @@ class DespesasFormWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: tipoDespesa,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Tipo de despesa',
@@ -137,14 +148,14 @@ class DespesasFormWidget extends StatelessWidget {
                     if (formKey.currentState!.validate()) {
                       Map<String, dynamic> despesa = {
                         "titulo": titulo.text,
-                        "valor": valor.text,
+                        "valor": num.parse(valor.text),
                         "data": data.text,
                         "tipoDespesa": tipoDespesa.text,
                         "formaPagamento": formaPagamento.text,
                         "observacoes": observacoes.text,
                       };
 
-                      despesasService.setDespesa(context, despesa: despesa);
+                      despesasController.setDespesa(despesa);
                       Navigator.of(context).pop();
                       const SnackBar(
                         content: Text('Despesa cadastrada com sucesso.'),
