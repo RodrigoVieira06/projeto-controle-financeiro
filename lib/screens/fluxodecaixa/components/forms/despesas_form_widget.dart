@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_controle_financeiro/screens/fluxodecaixa/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/services/services.dart';
+import 'package:projeto_controle_financeiro/utils/theme.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class DespesasFormWidget extends StatelessWidget {
+class DespesasFormWidget extends StatefulWidget {
   DespesasFormWidget({Key? key}) : super(key: key);
 
-  final formKey = GlobalKey<FormState>();
+  @override
+  State<DespesasFormWidget> createState() => _DespesasFormWidgetState();
+}
 
+class _DespesasFormWidgetState extends State<DespesasFormWidget> {
+  late DespesasController despesasController;
+
+  final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
   TextEditingController valor = TextEditingController();
   TextEditingController data = TextEditingController();
@@ -15,6 +25,8 @@ class DespesasFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    despesasController = Provider.of<DespesasController>(context);
+
     return SingleChildScrollView(
       child: AlertDialog(
         title: const Text(
@@ -52,9 +64,6 @@ class DespesasFormWidget extends StatelessWidget {
                 child: TextFormField(
                   controller: valor,
                   keyboardType: TextInputType.number,
-                  obscureText: true,
-                  enableSuggestions: false,
-                  autocorrect: false,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Valor *',
@@ -62,6 +71,9 @@ class DespesasFormWidget extends StatelessWidget {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Informe o valor.';
+                    }
+                    if (num.tryParse(value) == null) {
+                      return '"$value" não é um número válido.';
                     }
                     return null;
                   },
@@ -72,9 +84,6 @@ class DespesasFormWidget extends StatelessWidget {
                 child: TextFormField(
                   controller: data,
                   keyboardType: TextInputType.datetime,
-                  obscureText: true,
-                  enableSuggestions: false,
-                  autocorrect: false,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Data *',
@@ -91,10 +100,7 @@ class DespesasFormWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: tipoDespesa,
-                  keyboardType: TextInputType.number,
-                  obscureText: true,
-                  enableSuggestions: false,
-                  autocorrect: false,
+                  keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Tipo de despesa',
@@ -112,9 +118,6 @@ class DespesasFormWidget extends StatelessWidget {
                 child: TextFormField(
                   controller: formaPagamento,
                   keyboardType: TextInputType.text,
-                  obscureText: true,
-                  enableSuggestions: false,
-                  autocorrect: false,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Forma de pagamento',
@@ -132,38 +135,68 @@ class DespesasFormWidget extends StatelessWidget {
                 child: TextFormField(
                   controller: observacoes,
                   keyboardType: TextInputType.number,
-                  obscureText: true,
-                  enableSuggestions: false,
-                  autocorrect: false,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Observações',
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2.0, top: 8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      Map<String, dynamic> despesa = {
+                        "titulo": titulo.text,
+                        "valor": num.parse(valor.text),
+                        "data": data.text,
+                        "tipoDespesa": tipoDespesa.text,
+                        "formaPagamento": formaPagamento.text,
+                        "observacoes": observacoes.text,
+                      };
+
+                      despesasController.setDespesa(despesa);
+                      Navigator.of(context).pop();
+                      const SnackBar(
+                        content: Text('Despesa cadastrada com sucesso.'),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: projectTheme.primaryColor,
+                    minimumSize: const Size(100, 40),
+                  ),
+                  child: const Text(
+                    'Cadastrar',
+                    style: TextStyle(
+                      fontFamily: 'Lato',
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 2.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red[400],
+                    minimumSize: const Size(100, 40),
+                  ),
+                  child: const Text(
+                    'Cancelar',
+                    style: TextStyle(
+                      fontFamily: 'Lato',
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.labelLarge,
-            ),
-            child: const Text('Cadastrar'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.labelLarge,
-            ),
-            child: const Text('Cancelar'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
       ),
     );
   }

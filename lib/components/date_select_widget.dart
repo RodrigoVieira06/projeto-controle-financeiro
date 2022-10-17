@@ -26,7 +26,7 @@ class DateSelectWidget extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               primary: projectTheme.primaryColor,
             ),
-            child: const Text('SETEMBRO - 2022'),
+            child: const Text('OUTUBRO - 2022'),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16.0),

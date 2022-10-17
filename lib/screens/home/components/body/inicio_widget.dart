@@ -6,13 +6,11 @@ class InicioWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Column(children: const [
-          VisaoGeralCard(),
-          // GraficoGeralCard(),
-        ]),
-      ],
+    return SingleChildScrollView(
+      child: Column(children: [
+        VisaoGeralCard(),
+        // GraficoGeralCard(),
+      ]),
     );
   }
 }

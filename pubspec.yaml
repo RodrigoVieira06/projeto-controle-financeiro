@@ -14,7 +14,9 @@ dependencies:
   firebase_core: ^1.21.0
   firebase_auth: ^3.6.4
   firebase_database: ^9.1.2
+  cloud_firestore: ^3.5.0
   provider: ^6.0.3
+  flutter_triple: ^1.2.7+4
   fl_chart: ^0.55.1
 
 dev_dependencies:
@@ -29,7 +31,7 @@ flutter:
 
   assets:
     - assets/fonts/
-    # - images/a_dot_ham.jpeg
+    - assets/images/LogoApp.png
 
   fonts:
     - family: Lato

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
+import 'package:projeto_controle_financeiro/screens/fluxodecaixa/components/body/body.dart';
 import 'package:projeto_controle_financeiro/screens/fluxodecaixa/components/forms/forms.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
@@ -20,8 +21,8 @@ class _FluxodecaixaPageWidgetState extends State<FluxodecaixaPageWidget> {
   }
 
   final List<Widget> _widgetOptions = <Widget>[
-    const DateSelectWidget(),
-    const DateSelectWidget(),
+    const DespesasWidget(),
+    const FaturamentosWidget(),
   ];
 
   @override
@@ -39,6 +40,7 @@ class _FluxodecaixaPageWidgetState extends State<FluxodecaixaPageWidget> {
         ),
         backgroundColor: projectTheme.primaryColor,
         titleTextStyle: const TextStyle(
+          fontFamily: 'Lato',
           fontSize: 21,
           fontWeight: FontWeight.w500,
         ),
