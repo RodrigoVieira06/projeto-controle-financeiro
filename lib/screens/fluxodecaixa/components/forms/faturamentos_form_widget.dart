@@ -9,7 +9,7 @@ class FaturamentosFormWidget extends StatelessWidget {
   TextEditingController titulo = TextEditingController();
   TextEditingController valor = TextEditingController();
   TextEditingController data = TextEditingController();
-  TextEditingController tipoDespesa = TextEditingController();
+  TextEditingController categoriaDespesa = TextEditingController();
   TextEditingController formaPagamento = TextEditingController();
   TextEditingController observacoes = TextEditingController();
 
@@ -90,7 +90,7 @@ class FaturamentosFormWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: tipoDespesa,
+                  controller: categoriaDespesa,
                   keyboardType: TextInputType.number,
                   obscureText: true,
                   enableSuggestions: false,

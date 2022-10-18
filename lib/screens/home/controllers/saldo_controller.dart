@@ -1,27 +1,26 @@
 import 'package:flutter_triple/flutter_triple.dart';
-import 'package:projeto_controle_financeiro/models/models.dart';
+import 'package:projeto_controle_financeiro/models/despesa.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
-class DespesasController extends NotifierStore<Exception, List<DespesasModel>> {
+class SaldoController extends NotifierStore<Exception, num> {
   final DespesasService despesasService = DespesasService();
 
-  DespesasController() : super([]) {
-    getDespesas();
+  SaldoController() : super(-1) {
+    getSaldo();
   }
 
-  getDespesas() async {
+  getSaldo() async {
     try {
       setLoading(true);
+      num saldoAtual = 0;
       List<DespesasModel> despesas = await despesasService.getDespesas();
-      update(despesas);
+      for (var despesa in despesas) {
+        saldoAtual += despesa.valor;
+      }
+      update(saldoAtual);
       setLoading(false);
     } catch (error) {
       setError(Exception(error));
     }
-  }
-
-  setDespesa(Map<String, dynamic> despesa) async {
-    await despesasService.setDespesa(despesa);
-    getDespesas();
   }
 }

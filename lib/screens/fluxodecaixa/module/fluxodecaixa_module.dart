@@ -1,5 +1,4 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/fluxodecaixa/controllers/despesas_controller.dart';
 import 'package:projeto_controle_financeiro/screens/fluxodecaixa/page/fluxodecaixa_page_widget.dart';
 
 class FluxodecaixaModule extends Module {

@@ -1,32 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:projeto_controle_financeiro/screens/fluxodecaixa/controllers/controllers.dart';
-import 'package:projeto_controle_financeiro/services/services.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
-import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class DespesasFormWidget extends StatefulWidget {
+class DespesasFormWidget extends StatelessWidget {
   DespesasFormWidget({Key? key}) : super(key: key);
 
-  @override
-  State<DespesasFormWidget> createState() => _DespesasFormWidgetState();
-}
-
-class _DespesasFormWidgetState extends State<DespesasFormWidget> {
-  late DespesasController despesasController;
+  final despesasController = Modular.get<DespesasController>(
+    defaultValue: DespesasController(),
+  );
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
   TextEditingController valor = TextEditingController();
   TextEditingController data = TextEditingController();
-  TextEditingController tipoDespesa = TextEditingController();
+  TextEditingController categoriaDespesa = TextEditingController();
   TextEditingController formaPagamento = TextEditingController();
   TextEditingController observacoes = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    despesasController = Provider.of<DespesasController>(context);
-
     return SingleChildScrollView(
       child: AlertDialog(
         title: const Text(
@@ -99,7 +93,7 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: tipoDespesa,
+                  controller: categoriaDespesa,
                   keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -150,13 +144,13 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
                         "titulo": titulo.text,
                         "valor": num.parse(valor.text),
                         "data": data.text,
-                        "tipoDespesa": tipoDespesa.text,
+                        "categoriaDespesa": categoriaDespesa.text,
                         "formaPagamento": formaPagamento.text,
                         "observacoes": observacoes.text,
                       };
 
                       despesasController.setDespesa(despesa);
-                      Navigator.of(context).pop();
+                      Modular.to.popAndPushNamed('/fluxodecaixa/');
                       const SnackBar(
                         content: Text('Despesa cadastrada com sucesso.'),
                       );
