@@ -30,7 +30,6 @@ class AuthService {
       if (foto != null) {
         await _auth.currentUser!.updatePhotoURL(foto);
       }
-      return _auth;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'weak-password':
@@ -46,7 +45,6 @@ class AuthService {
   login(String email, String senha) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
-      return _auth;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':

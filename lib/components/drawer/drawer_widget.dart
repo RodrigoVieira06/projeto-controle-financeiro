@@ -96,7 +96,7 @@ class DrawerWidget extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           auth.logout();
-                          // Modular.to.navigate('/');
+                          Modular.to.navigate('/');
                         },
                         style: ElevatedButton.styleFrom(
                           primary: const Color.fromARGB(255, 218, 93, 84),

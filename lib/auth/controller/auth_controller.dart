@@ -1,19 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_triple/flutter_triple.dart';
-import 'package:projeto_controle_financeiro/services/auth_service.dart';
+import 'package:projeto_controle_financeiro/services/services.dart';
 
-class AuthController extends NotifierStore<Exception, FirebaseAuth> {
+class AuthController {
   final AuthService authService = AuthService();
 
-  AuthController() : super(FirebaseAuth.instance);
+  AuthController();
 
   login(BuildContext context, String email, String senha) async {
     try {
-      setLoading(true);
-      FirebaseAuth auth = await authService.login(email, senha);
-      update(auth);
-      setLoading(false);
+      await authService.login(email, senha);
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
@@ -29,11 +24,7 @@ class AuthController extends NotifierStore<Exception, FirebaseAuth> {
     String? foto,
   ) async {
     try {
-      setLoading(true);
-      FirebaseAuth auth =
-          await authService.register(email, senha, nome, sobrenome, foto);
-      update(auth);
-      setLoading(false);
+      await authService.register(email, senha, nome, sobrenome, foto);
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message)));
@@ -41,8 +32,6 @@ class AuthController extends NotifierStore<Exception, FirebaseAuth> {
   }
 
   logout() async {
-    setLoading(true);
     await authService.logout();
-    setLoading(false);
   }
 }

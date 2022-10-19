@@ -57,7 +57,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               width: 320,
-              height: 610,
+              height: 708,
               child: Card(
                 color: Colors.white,
                 child: Padding(
