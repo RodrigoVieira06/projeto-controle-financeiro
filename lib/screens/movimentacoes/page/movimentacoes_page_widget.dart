@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/components/body/body.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/components/forms/forms.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
-class TiposdespesasfaturamentosPageWidget extends StatefulWidget {
-  const TiposdespesasfaturamentosPageWidget({Key? key}) : super(key: key);
+class movimentacoesPageWidget extends StatefulWidget {
+  const movimentacoesPageWidget({Key? key}) : super(key: key);
 
   @override
-  State<TiposdespesasfaturamentosPageWidget> createState() =>
-      _TiposdespesasfaturamentosPageWidgetState();
+  State<movimentacoesPageWidget> createState() =>
+      _movimentacoesPageWidgetState();
 }
 
-class _TiposdespesasfaturamentosPageWidgetState
-    extends State<TiposdespesasfaturamentosPageWidget> {
+class _movimentacoesPageWidgetState extends State<movimentacoesPageWidget> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -21,12 +22,8 @@ class _TiposdespesasfaturamentosPageWidgetState
   }
 
   final List<Widget> _widgetOptions = <Widget>[
-    Container(
-      color: Colors.red,
-    ),
-    Container(
-      color: Colors.blue,
-    ),
+    const DespesasWidget(),
+    const FaturamentosWidget(),
   ];
 
   @override
@@ -36,24 +33,27 @@ class _TiposdespesasfaturamentosPageWidgetState
       drawer: DrawerWidget(),
       appBar: AppBar(
         title: const Text(
-          'TIPOS DE DESPESAS E FATURAMENTOS',
+          'MOVIMENTAÇÕES',
           style: TextStyle(
             fontFamily: 'Lato',
             fontWeight: FontWeight.bold,
-            fontSize: 16,
           ),
         ),
         backgroundColor: projectTheme.primaryColor,
         titleTextStyle: const TextStyle(
+          fontFamily: 'Lato',
           fontSize: 21,
           fontWeight: FontWeight.w500,
         ),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 0, 27, 67),
-        child: const Icon(Icons.add),
-        onPressed: () => {},
+      floatingActionButton: AddButtonWidget(
+        icon1: const Icon(Icons.attach_money),
+        iconcolor1: const Color.fromARGB(255, 36, 137, 232),
+        formdialog1: FaturamentosFormWidget(),
+        icon2: const Icon(Icons.money_off),
+        iconcolor2: const Color.fromARGB(255, 255, 67, 67),
+        formdialog2: DespesasFormWidget(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
@@ -61,12 +61,12 @@ class _TiposdespesasfaturamentosPageWidgetState
           BottomNavigationBarItem(
             icon: const Icon(Icons.money_off),
             backgroundColor: Colors.red[400],
-            label: 'Tipos de despesas',
+            label: 'Despesas',
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.attach_money_rounded),
             backgroundColor: Colors.blue[400],
-            label: 'Tipos de faturamentos',
+            label: 'Faturamentos',
           ),
         ],
         currentIndex: _selectedIndex,

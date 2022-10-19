@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/despesa.dart';
-import 'package:projeto_controle_financeiro/screens/fluxodecaixa/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/controllers/controllers.dart';
 
 class DespesasWidget extends StatelessWidget {
   const DespesasWidget({Key? key}) : super(key: key);

@@ -138,7 +138,7 @@ class DrawerWidget extends StatelessWidget {
             child: ListTile(
               leading: const Icon(Icons.swap_vertical_circle_sharp),
               title: Text(
-                'Fluxo de caixa',
+                'Movimentações',
                 style: TextStyle(
                   fontSize: 16,
                   color: projectTheme.primaryColor,
@@ -146,7 +146,7 @@ class DrawerWidget extends StatelessWidget {
                   fontFamily: 'Lato',
                 ),
               ),
-              onTap: () => Modular.to.navigate('/fluxodecaixa/'),
+              onTap: () => Modular.to.navigate('/movimentacoes/'),
             ),
           ),
           Padding(
@@ -162,7 +162,7 @@ class DrawerWidget extends StatelessWidget {
                   fontFamily: 'Lato',
                 ),
               ),
-              onTap: () => Modular.to.navigate('/tiposdespesasfaturamentos/'),
+              onTap: () => Modular.to.navigate('/categorias/'),
             ),
           ),
           Padding(

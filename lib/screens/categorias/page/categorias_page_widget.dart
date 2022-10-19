@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
-import 'package:projeto_controle_financeiro/screens/fluxodecaixa/components/body/body.dart';
-import 'package:projeto_controle_financeiro/screens/fluxodecaixa/components/forms/forms.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
-class FluxodecaixaPageWidget extends StatefulWidget {
-  const FluxodecaixaPageWidget({Key? key}) : super(key: key);
+class CategoriasPageWidget extends StatefulWidget {
+  const CategoriasPageWidget({Key? key}) : super(key: key);
 
   @override
-  State<FluxodecaixaPageWidget> createState() => _FluxodecaixaPageWidgetState();
+  State<CategoriasPageWidget> createState() => _CategoriasPageWidgetState();
 }
 
-class _FluxodecaixaPageWidgetState extends State<FluxodecaixaPageWidget> {
+class _CategoriasPageWidgetState extends State<CategoriasPageWidget> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -21,8 +19,12 @@ class _FluxodecaixaPageWidgetState extends State<FluxodecaixaPageWidget> {
   }
 
   final List<Widget> _widgetOptions = <Widget>[
-    const DespesasWidget(),
-    const FaturamentosWidget(),
+    Container(
+      color: Colors.red,
+    ),
+    Container(
+      color: Colors.blue,
+    ),
   ];
 
   @override
@@ -32,27 +34,24 @@ class _FluxodecaixaPageWidgetState extends State<FluxodecaixaPageWidget> {
       drawer: DrawerWidget(),
       appBar: AppBar(
         title: const Text(
-          'FLUXO DE CAIXA',
+          'CATEGORIAS',
           style: TextStyle(
             fontFamily: 'Lato',
             fontWeight: FontWeight.bold,
+            fontSize: 16,
           ),
         ),
         backgroundColor: projectTheme.primaryColor,
         titleTextStyle: const TextStyle(
-          fontFamily: 'Lato',
           fontSize: 21,
           fontWeight: FontWeight.w500,
         ),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
-      floatingActionButton: AddButtonWidget(
-        icon1: const Icon(Icons.attach_money),
-        iconcolor1: const Color.fromARGB(255, 36, 137, 232),
-        formdialog1: FaturamentosFormWidget(),
-        icon2: const Icon(Icons.money_off),
-        iconcolor2: const Color.fromARGB(255, 255, 67, 67),
-        formdialog2: DespesasFormWidget(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 0, 27, 67),
+        child: const Icon(Icons.add),
+        onPressed: () => {},
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
@@ -60,12 +59,12 @@ class _FluxodecaixaPageWidgetState extends State<FluxodecaixaPageWidget> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.money_off),
             backgroundColor: Colors.red[400],
-            label: 'Despesas',
+            label: 'Categorias de despesas',
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.attach_money_rounded),
             backgroundColor: Colors.blue[400],
-            label: 'Faturamentos',
+            label: 'Categorias de faturamentos',
           ),
         ],
         currentIndex: _selectedIndex,

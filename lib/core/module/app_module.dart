@@ -1,10 +1,10 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/module/cartoes_module.dart';
-import 'package:projeto_controle_financeiro/screens/fluxodecaixa/module/fluxodecaixa_module.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/module/movimentacoes_module.dart';
 import 'package:projeto_controle_financeiro/screens/graficos/module/graficos_module.dart';
 import 'package:projeto_controle_financeiro/screens/home/module/home_module.dart';
 import 'package:projeto_controle_financeiro/screens/login/module/login_module.dart';
-import 'package:projeto_controle_financeiro/screens/tiposdepesasfaturamentos/module/tiposdespesasfaturamentos_module.dart';
+import 'package:projeto_controle_financeiro/screens/categorias/module/categorias_module.dart';
 
 class AppModule extends Module {
   @override
@@ -21,12 +21,12 @@ class AppModule extends Module {
           module: HomeModule(),
         ),
         ModuleRoute(
-          '/fluxodecaixa',
-          module: FluxodecaixaModule(),
+          '/movimentacoes',
+          module: MovimentacoesModule(),
         ),
         ModuleRoute(
-          '/tiposdespesasfaturamentos',
-          module: TiposdespesasfaturamentosModule(),
+          '/categorias',
+          module: CategoriasModule(),
         ),
         ModuleRoute(
           '/cartoes',

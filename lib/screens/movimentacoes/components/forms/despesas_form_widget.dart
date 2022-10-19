@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/fluxodecaixa/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/controllers/controllers.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 // ignore: must_be_immutable
@@ -150,7 +150,7 @@ class DespesasFormWidget extends StatelessWidget {
                       };
 
                       despesasController.setDespesa(despesa);
-                      Modular.to.popAndPushNamed('/fluxodecaixa/');
+                      Modular.to.popAndPushNamed('/movimentacoes/');
                       const SnackBar(
                         content: Text('Despesa cadastrada com sucesso.'),
                       );
