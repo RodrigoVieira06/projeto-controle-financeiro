@@ -4,15 +4,15 @@ import 'package:projeto_controle_financeiro/screens/movimentacoes/components/bod
 import 'package:projeto_controle_financeiro/screens/movimentacoes/components/forms/forms.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
-class movimentacoesPageWidget extends StatefulWidget {
-  const movimentacoesPageWidget({Key? key}) : super(key: key);
+class MovimentacoesPageWidget extends StatefulWidget {
+  const MovimentacoesPageWidget({Key? key}) : super(key: key);
 
   @override
-  State<movimentacoesPageWidget> createState() =>
-      _movimentacoesPageWidgetState();
+  State<MovimentacoesPageWidget> createState() =>
+      _MovimentacoesPageWidgetState();
 }
 
-class _movimentacoesPageWidgetState extends State<movimentacoesPageWidget> {
+class _MovimentacoesPageWidgetState extends State<MovimentacoesPageWidget> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {

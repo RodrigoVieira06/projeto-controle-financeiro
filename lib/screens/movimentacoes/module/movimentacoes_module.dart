@@ -8,6 +8,6 @@ class MovimentacoesModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute('/',
-            child: (context, args) => const movimentacoesPageWidget()),
+            child: (context, args) => const MovimentacoesPageWidget()),
       ];
 }
