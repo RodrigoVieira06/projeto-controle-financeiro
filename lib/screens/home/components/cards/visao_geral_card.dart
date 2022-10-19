@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/screens/home/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/home/models/visaogeral.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class VisaoGeralCard extends StatelessWidget {
@@ -8,7 +9,7 @@ class VisaoGeralCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final saldoStore = SaldoController();
+    final saldoStore = VisaogeralController();
 
     return Padding(
       padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -20,18 +21,38 @@ class VisaoGeralCard extends StatelessWidget {
         child: Column(
           children: [
             Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.white,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: Colors.white,
+              ),
+              height: 250,
+              child: ScopedBuilder<VisaogeralController, Exception, Visaogeral>(
+                store: saldoStore,
+                onLoading: (context) => const Center(
+                  child: CircularProgressIndicator(),
                 ),
-                height: 250,
-                child: ScopedBuilder<SaldoController, Exception, num>(
-                  store: saldoStore,
-                  onLoading: (context) => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  onError: (context, error) => Text('$error'),
-                  onState: (context, num saldo) => Column(
+                onError: (context, error) => Text('$error'),
+                onState: (context, Visaogeral visaogeral) {
+                  final Color? colorSaldoAtual;
+                  final Color? colorMediaBalancoMensal;
+
+                  if (visaogeral.saldoAtual > 0) {
+                    colorSaldoAtual = Colors.blue[400];
+                  } else if (visaogeral.saldoAtual < 0) {
+                    colorSaldoAtual = Colors.red[400];
+                  } else {
+                    colorSaldoAtual = Colors.black;
+                  }
+
+                  if (visaogeral.mediaBalancoMensal > 0) {
+                    colorMediaBalancoMensal = Colors.blue[400];
+                  } else if (visaogeral.mediaBalancoMensal < 0) {
+                    colorMediaBalancoMensal = Colors.red[400];
+                  } else {
+                    colorMediaBalancoMensal = Colors.black;
+                  }
+
+                  return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -75,10 +96,11 @@ class VisaoGeralCard extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              'R\$${saldo.toStringAsFixed(2)}',
-                              style: const TextStyle(
+                              'R\$${visaogeral.saldoAtual.toStringAsFixed(2)}',
+                              style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Lato',
+                                color: colorSaldoAtual,
                               ),
                             ),
                           ],
@@ -110,9 +132,9 @@ class VisaoGeralCard extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const Text(
-                              'R\$0,00',
-                              style: TextStyle(
+                            Text(
+                              'R\$${visaogeral.mediaDespesasMensais.toStringAsFixed(2)}',
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Lato',
                               ),
@@ -146,19 +168,22 @@ class VisaoGeralCard extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const Text(
-                              'R\$0,00',
+                            Text(
+                              'R\$${visaogeral.mediaBalancoMensal.toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Lato',
+                                color: colorMediaBalancoMensal,
                               ),
                             ),
                           ],
                         ),
                       )
                     ],
-                  ),
-                )),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

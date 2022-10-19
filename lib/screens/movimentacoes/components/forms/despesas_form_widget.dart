@@ -97,11 +97,11 @@ class DespesasFormWidget extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Tipo de despesa',
+                    labelText: 'Categoria de despesa',
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Informe o tipo de despesa.';
+                      return 'Informe o categoria de despesa.';
                     }
                     return null;
                   },

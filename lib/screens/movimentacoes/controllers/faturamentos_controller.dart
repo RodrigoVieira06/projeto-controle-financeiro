@@ -1,19 +1,29 @@
-import 'package:flutter/material.dart';
-import 'package:projeto_controle_financeiro/services/faturamentos_service.dart';
+import 'package:flutter_triple/flutter_triple.dart';
+import 'package:projeto_controle_financeiro/models/models.dart';
+import 'package:projeto_controle_financeiro/services/services.dart';
 
-class FaturamentosController extends ChangeNotifier {
-  FaturamentosService faturamentosController = FaturamentosService();
-  List<Map<String, dynamic>> faturamentos = [];
-  bool isLoading = false;
+class FaturamentosController
+    extends NotifierStore<Exception, List<Faturamento>> {
+  final FaturamentosService faturamentosService = FaturamentosService();
 
-  FaturamentosController() {
-    _getFaturamentos();
+  FaturamentosController() : super([]) {
+    getFaturamentos();
   }
 
-  _getFaturamentos() async {
-    isLoading = true;
-    faturamentos = await faturamentosController.getFaturamentos();
-    isLoading = false;
-    notifyListeners();
+  getFaturamentos() async {
+    try {
+      setLoading(true);
+      List<Faturamento> faturamentos =
+          await faturamentosService.getFaturamentos();
+      update(faturamentos);
+      setLoading(false);
+    } catch (error) {
+      setError(Exception(error));
+    }
+  }
+
+  setFaturamento(Map<String, dynamic> faturamento) async {
+    await faturamentosService.setFaturamento(faturamento);
+    getFaturamentos();
   }
 }

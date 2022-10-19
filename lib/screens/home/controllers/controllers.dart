@@ -1,1 +1,1 @@
-export 'package:projeto_controle_financeiro/screens/home/controllers/saldo_controller.dart';
+export 'package:projeto_controle_financeiro/screens/home/controllers/visaogeral_controller.dart';
