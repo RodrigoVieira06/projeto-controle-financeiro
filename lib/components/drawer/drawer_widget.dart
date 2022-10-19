@@ -1,14 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:projeto_controle_financeiro/auth/controller/auth_controller.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
-import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({Key? key}) : super(key: key);
+  DrawerWidget({Key? key}) : super(key: key);
+
+  final User? user = AuthService().getUser();
+  final AuthController auth = AuthController();
+
   @override
   Widget build(BuildContext context) {
-    AuthService authService = Provider.of<AuthService>(context);
     return Drawer(
       backgroundColor: Colors.white,
       child: Column(
@@ -38,8 +42,7 @@ class DrawerWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: Text(
-                        '${authService.usuario?.displayName ?? ""} '
-                        '${authService.profile?['sobrenome'] ?? ""}',
+                        user!.displayName ?? "",
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w700,
@@ -56,7 +59,7 @@ class DrawerWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: Text(
-                        authService.usuario?.email ?? '',
+                        user!.email ?? '',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
@@ -92,7 +95,7 @@ class DrawerWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          authService.logout();
+                          auth.logout();
                           Modular.to.navigate('/');
                         },
                         style: ElevatedButton.styleFrom(
@@ -151,7 +154,7 @@ class DrawerWidget extends StatelessWidget {
             child: ListTile(
               leading: const Icon(Icons.monetization_on),
               title: Text(
-                'Tipos de faturamentos e despesas',
+                'Categorias',
                 style: TextStyle(
                   fontSize: 16,
                   color: projectTheme.primaryColor,

@@ -31,7 +31,7 @@ class _GraficosPageWidgetState extends State<GraficosPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: projectTheme.backgroundColor,
-      drawer: const DrawerWidget(),
+      drawer: DrawerWidget(),
       appBar: AppBar(
         title: const Text(
           'GRÁFICOS',

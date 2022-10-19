@@ -1,4 +1,4 @@
-class DespesasModel {
+class Despesa {
   late String titulo;
   late num valor;
   late String data;
@@ -6,7 +6,7 @@ class DespesasModel {
   late String formaPagamento;
   late String? observacoes;
 
-  DespesasModel({
+  Despesa({
     required this.titulo,
     required this.valor,
     required this.data,
@@ -15,8 +15,8 @@ class DespesasModel {
     this.observacoes,
   });
 
-  factory DespesasModel.fromJson(Map<String, dynamic> json) {
-    return DespesasModel(
+  factory Despesa.fromJson(Map<String, dynamic> json) {
+    return Despesa(
       titulo: json['titulo'],
       valor: json['valor'],
       data: json['data'],

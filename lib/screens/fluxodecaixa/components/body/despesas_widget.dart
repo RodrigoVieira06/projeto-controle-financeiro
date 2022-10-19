@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/despesa.dart';
@@ -24,11 +23,11 @@ class DespesasWidget extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 16.0),
             child: DateSelectWidget(),
           ),
-          ScopedBuilder<DespesasController, Exception, List<DespesasModel>>(
+          ScopedBuilder<DespesasController, Exception, List<Despesa>>(
               store: desepesasStore,
               onLoading: (context) => const LoadingWidget(),
               onError: (context, error) => Text('$error'),
-              onState: (context, List<DespesasModel> despesas) {
+              onState: (context, List<Despesa> despesas) {
                 if (despesas.isEmpty) {
                   return const ListaVaziaWidget();
                 } else {
