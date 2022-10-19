@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/screens/home/controllers/controllers.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';

@@ -4,9 +4,7 @@ import 'package:projeto_controle_financeiro/screens/home/page/home_page_widget.d
 
 class HomeModule extends Module {
   @override
-  List<Bind> get binds => [
-        Bind.factory((i) => SaldoController().getSaldo()),
-      ];
+  List<Bind> get binds => [];
 
   @override
   List<ModularRoute> get routes => [

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_controle_financeiro/services/services.dart';
+import 'package:projeto_controle_financeiro/auth/controller/auth_controller.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
-import 'package:provider/provider.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -11,6 +10,8 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
+  final AuthController auth = AuthController();
+
   final formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController senha = TextEditingController();
@@ -44,34 +45,6 @@ class _LoginWidgetState extends State<LoginWidget> {
         toggleButton = 'Voltar ao login';
       }
     });
-  }
-
-  login() async {
-    setState(() => loading = true);
-    try {
-      await context.read<AuthService>().logar(email.text, senha.text);
-    } on AuthException catch (e) {
-      setState(() => loading = false);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message)));
-    }
-  }
-
-  registrar() async {
-    setState(() => loading = true);
-    try {
-      await context.read<AuthService>().registrar(
-            email.text,
-            senha.text,
-            nome.text,
-            sobrenome.text,
-            foto.text,
-          );
-    } on AuthException catch (e) {
-      setState(() => loading = false);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message)));
-    }
   }
 
   @override
@@ -215,9 +188,20 @@ class _LoginWidgetState extends State<LoginWidget> {
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
                                   if (isLogin) {
-                                    login();
+                                    auth.login(
+                                      context,
+                                      email.text,
+                                      senha.text,
+                                    );
                                   } else {
-                                    registrar();
+                                    auth.register(
+                                      context,
+                                      email.text,
+                                      senha.text,
+                                      nome.text,
+                                      sobrenome.text,
+                                      foto.text,
+                                    );
                                   }
                                 }
                               },

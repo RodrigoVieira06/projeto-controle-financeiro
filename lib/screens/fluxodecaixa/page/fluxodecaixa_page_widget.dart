@@ -29,7 +29,7 @@ class _FluxodecaixaPageWidgetState extends State<FluxodecaixaPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: projectTheme.backgroundColor,
-      drawer: const DrawerWidget(),
+      drawer: DrawerWidget(),
       appBar: AppBar(
         title: const Text(
           'FLUXO DE CAIXA',

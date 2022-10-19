@@ -33,7 +33,7 @@ class _TiposdespesasfaturamentosPageWidgetState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: projectTheme.backgroundColor,
-      drawer: const DrawerWidget(),
+      drawer: DrawerWidget(),
       appBar: AppBar(
         title: const Text(
           'TIPOS DE DESPESAS E FATURAMENTOS',

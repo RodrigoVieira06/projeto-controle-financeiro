@@ -13,7 +13,7 @@ class SaldoController extends NotifierStore<Exception, num> {
     try {
       setLoading(true);
       num saldoAtual = 0;
-      List<DespesasModel> despesas = await despesasService.getDespesas();
+      List<Despesa> despesas = await despesasService.getDespesas();
       for (var despesa in despesas) {
         saldoAtual += despesa.valor;
       }
