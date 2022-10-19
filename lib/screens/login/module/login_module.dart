@@ -1,12 +1,12 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:projeto_controle_financeiro/auth/auth_check.dart';
+import 'package:projeto_controle_financeiro/auth/controller/auth_controller.dart';
 import 'package:projeto_controle_financeiro/screens/login/page/login_page.dart';
-import 'package:projeto_controle_financeiro/services/services.dart';
 
 class LoginModule extends Module {
   @override
   List<Bind> get binds => [
-        Bind.factory((i) => AuthService()),
+        Bind.factory((i) => AuthController()),
       ];
 
   @override

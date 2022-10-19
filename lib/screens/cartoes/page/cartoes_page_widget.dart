@@ -31,7 +31,7 @@ class _CartoesPageWidgetState extends State<CartoesPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: projectTheme.backgroundColor,
-      drawer: const DrawerWidget(),
+      drawer: DrawerWidget(),
       appBar: AppBar(
         title: const Text(
           'CARTÕES',

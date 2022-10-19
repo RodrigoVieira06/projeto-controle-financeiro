@@ -1,50 +1,46 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-
-import 'services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:projeto_controle_financeiro/models/models.dart';
+import 'package:projeto_controle_financeiro/services/services.dart';
 
 class FaturamentosService {
-  AuthService authService = AuthService();
-  final List<Map<String, dynamic>> faturamentos = [];
+  User? user = AuthService().getUser();
+
+  final List<Faturamento> faturamentos = [];
+  var dbProfiles = FirebaseFirestore.instance.collection('profiles');
 
   FaturamentosService();
 
   getFaturamentos() async {
-    var db = FirebaseFirestore.instance;
-
-    await db.collection("profiles").get().then((event) async {
-      for (var doc in event.docs) {
-        if (doc.data()['email'] == authService.usuario?.email) {
-          await db
-              .collection('profiles')
-              .doc(doc.id)
-              .collection('faturamentos')
-              .get()
-              .then((value) {
-            for (var doc in value.docs) {
-              faturamentos.add(doc.data());
-            }
-          });
+    try {
+      await dbProfiles.get().then((event) async {
+        for (var doc in event.docs) {
+          if (doc.data()['uid'] == user!.uid) {
+            await dbProfiles
+                .doc(doc.id)
+                .collection('faturamentos')
+                .get()
+                .then((value) {
+              for (var doc in value.docs) {
+                var dado = Faturamento.fromJson(doc.data());
+                faturamentos.add(dado);
+              }
+            });
+          }
         }
-      }
-    });
-    return faturamentos;
+      });
+      return faturamentos;
+    } catch (error) {
+      Exception(error);
+    }
+    return null;
   }
 
-  setDespesa(
-    BuildContext context, {
-    required Map<String, dynamic> despesa,
-  }) async {
-    var db = FirebaseFirestore.instance;
-
-    await db.collection("profiles").get().then((event) {
+  setFaturamento(Map<String, dynamic> faturamento) async {
+    await dbProfiles.get().then((event) {
       for (var doc in event.docs) {
-        if (doc.data()['email'] == authService.usuario?.email) {
-          db
-              .collection('profiles')
-              .doc(doc.id)
-              .collection('despesas')
-              .add(despesa);
+        if (doc.data()['uid'] == user!.uid) {
+          dbProfiles.doc(doc.id).collection('faturamentos').add(faturamento);
         }
       }
     });

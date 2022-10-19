@@ -1,27 +1,28 @@
 class Despesa {
-  final String titulo;
-  final double valor;
-  final String data;
+  late String titulo;
+  late num valor;
+  late String data;
+  late String categoriaDespesa;
+  late String formaPagamento;
+  late String? observacoes;
 
-  Despesa(
-    this.titulo,
-    this.valor,
-    this.data,
-  );
+  Despesa({
+    required this.titulo,
+    required this.valor,
+    required this.data,
+    required this.categoriaDespesa,
+    required this.formaPagamento,
+    this.observacoes,
+  });
 
-  // Despesa.fromJson(Map<String, dynamic> json)
-  //     : titulo = json['titulo'],
-  //       valor = json['valor'],
-  //       data = json['data'];
-
-  // Map<String, dynamic> toJson() => {
-  //       'titulo': titulo,
-  //       'valor': valor,
-  //       'data': data,
-  //     };
-
-  // @override
-  // String toString() {
-  //   return 'Transaction{valor: $valor}';
-  // }
+  factory Despesa.fromJson(Map<String, dynamic> json) {
+    return Despesa(
+      titulo: json['titulo'],
+      valor: json['valor'],
+      data: json['data'],
+      categoriaDespesa: json['categoriaDespesa'],
+      formaPagamento: json['formaPagamento'],
+      observacoes: json['observacoes'],
+    );
+  }
 }

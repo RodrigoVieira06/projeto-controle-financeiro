@@ -1,26 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:projeto_controle_financeiro/models/models.dart';
 
 class AuthException implements Exception {
   String message;
   AuthException(this.message);
 }
 
-class AuthService extends ChangeNotifier {
+class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final dbProfiles = FirebaseFirestore.instance.collection('profiles');
-  bool isLoading = false;
-  User? usuario;
-  Map<String, dynamic>? profile;
+  late User usuario;
+  Profile profile = Profile();
 
-  AuthService() {
-    _authCheck();
-    _getUser();
-    _getProfile();
-  }
+  AuthService();
 
-  registrar(
+  register(
     String email,
     String senha,
     String nome,
@@ -28,15 +23,13 @@ class AuthService extends ChangeNotifier {
     String? foto,
   ) async {
     try {
-      _setLoading(true);
       await _auth.createUserWithEmailAndPassword(email: email, password: senha);
       await _auth.currentUser!.updateDisplayName(nome);
-      usuario = _auth.currentUser;
+      await _setProfile(_auth.currentUser!.uid, _auth.currentUser!.displayName!,
+          _auth.currentUser!.email!);
       if (foto != null) {
-        await usuario?.updatePhotoURL(foto);
+        await _auth.currentUser!.updatePhotoURL(foto);
       }
-      _setProfile(nome: nome, sobrenome: sobrenome, email: email);
-      _setLoading(false);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'weak-password':
@@ -49,13 +42,9 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  logar(String email, String senha) async {
+  login(String email, String senha) async {
     try {
-      _setLoading(true);
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
-      _getUser();
-      await _getProfile();
-      _setLoading(false);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':
@@ -69,57 +58,33 @@ class AuthService extends ChangeNotifier {
   }
 
   logout() async {
-    _setLoading(true);
     await _auth.signOut();
-    profile = {};
-    _setLoading(false);
+    profile = Profile();
   }
 
-  _authCheck() {
-    _auth.authStateChanges().listen((User? user) {
-      usuario = (user == null) ? null : user;
-      notifyListeners();
-    });
+  User? getUser() {
+    return _auth.currentUser;
   }
 
-  _setLoading(bool valor) {
-    isLoading = valor;
-    notifyListeners();
-  }
-
-  _getUser() {
-    usuario = _auth.currentUser;
-    notifyListeners();
-  }
-
-  _getProfile() async {
+  getProfile() async {
     await dbProfiles.get().then((event) async {
       for (var doc in event.docs) {
-        if (doc.data()['uid'] == usuario?.uid) {
+        if (doc.data()['uid'] == _auth.currentUser!.uid) {
           await dbProfiles.doc(doc.id).get().then((response) {
-            profile = response.data();
+            var dado = Profile.fromJson(response.data()!);
+            profile = dado;
           });
-          notifyListeners();
         }
       }
     });
   }
 
-  _setProfile({
-    required String nome,
-    required String sobrenome,
-    required String email,
-  }) async {
-    var db = FirebaseFirestore.instance;
-
-    final newProfile = <String, dynamic>{
-      "uid": usuario!.uid,
+  _setProfile(String uid, String nome, String email) async {
+    profile = Profile(nome: nome, email: email, uid: uid);
+    await dbProfiles.add({
       "nome": nome,
-      "sobrenome": sobrenome,
       "email": email,
-    };
-
-    await db.collection("profiles").add(newProfile);
-    _getProfile();
+      "uid": uid,
+    });
   }
 }

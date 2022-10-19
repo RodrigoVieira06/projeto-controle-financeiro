@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_controle_financeiro/screens/fluxodecaixa/controllers/controllers.dart';
-import 'package:projeto_controle_financeiro/services/services.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/controllers/controllers.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
-import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class DespesasFormWidget extends StatefulWidget {
-  DespesasFormWidget({Key? key}) : super(key: key);
+class FaturamentosFormWidget extends StatelessWidget {
+  FaturamentosFormWidget({Key? key}) : super(key: key);
 
-  @override
-  State<DespesasFormWidget> createState() => _DespesasFormWidgetState();
-}
-
-class _DespesasFormWidgetState extends State<DespesasFormWidget> {
-  late DespesasController despesasController;
+  final faturamentosController = Modular.get<FaturamentosController>(
+    defaultValue: FaturamentosController(),
+  );
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
   TextEditingController valor = TextEditingController();
   TextEditingController data = TextEditingController();
-  TextEditingController tipoDespesa = TextEditingController();
-  TextEditingController formaPagamento = TextEditingController();
+  TextEditingController categoriaFaturamento = TextEditingController();
   TextEditingController observacoes = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    despesasController = Provider.of<DespesasController>(context);
-
     return SingleChildScrollView(
       child: AlertDialog(
         title: const Text(
-          'Cadastrar despesa',
+          'Cadastrar faturamento',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -99,32 +92,15 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: tipoDespesa,
+                  controller: categoriaFaturamento,
                   keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Tipo de despesa',
+                    labelText: 'Categoria de faturamento',
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Informe o tipo de despesa.';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: formaPagamento,
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Forma de pagamento',
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Informe a forma de pagamento.';
+                      return 'Informe o categoria de faturamento.';
                     }
                     return null;
                   },
@@ -146,17 +122,16 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      Map<String, dynamic> despesa = {
+                      Map<String, dynamic> faturamento = {
                         "titulo": titulo.text,
                         "valor": num.parse(valor.text),
                         "data": data.text,
-                        "tipoDespesa": tipoDespesa.text,
-                        "formaPagamento": formaPagamento.text,
+                        "categoriaDespesa": categoriaFaturamento.text,
                         "observacoes": observacoes.text,
                       };
 
-                      despesasController.setDespesa(despesa);
-                      Navigator.of(context).pop();
+                      faturamentosController.setFaturamento(faturamento);
+                      Modular.to.popAndPushNamed('/movimentacoes/');
                       const SnackBar(
                         content: Text('Despesa cadastrada com sucesso.'),
                       );
