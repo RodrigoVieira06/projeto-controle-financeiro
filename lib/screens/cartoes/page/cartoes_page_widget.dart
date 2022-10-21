@@ -48,9 +48,11 @@ class _CartoesPageWidgetState extends State<CartoesPageWidget> {
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       floatingActionButton: AddButtonWidget(
+        text1: 'AAA',
         icon1: const Icon(Icons.credit_card),
         iconcolor1: const Color.fromARGB(255, 49, 205, 244),
         formdialog1: Container(),
+        text2: 'AAA',
         icon2: const Icon(Icons.credit_card),
         iconcolor2: const Color.fromARGB(255, 177, 67, 255),
         formdialog2: Container(),

@@ -1,0 +1,2 @@
+export 'package:projeto_controle_financeiro/screens/categorias/controllers/categorias_despesas_controller.dart';
+export 'package:projeto_controle_financeiro/screens/categorias/controllers/categorias_faturamentos_controller.dart';

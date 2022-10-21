@@ -21,7 +21,7 @@ class DespesasWidget extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsets.only(bottom: 16.0),
-            child: DateSelectWidget(),
+            child: DateselectButtonsWidget(),
           ),
           ScopedBuilder<DespesasController, Exception, List<Despesa>>(
               store: desepesasStore,

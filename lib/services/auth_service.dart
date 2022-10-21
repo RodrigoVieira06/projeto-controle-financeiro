@@ -23,8 +23,9 @@ class AuthService {
     String? foto,
   ) async {
     try {
+      var nomeCompleto = '$nome $sobrenome';
       await _auth.createUserWithEmailAndPassword(email: email, password: senha);
-      await _auth.currentUser!.updateDisplayName(nome);
+      await _auth.currentUser!.updateDisplayName(nomeCompleto);
       await _setProfile(_auth.currentUser!.uid, _auth.currentUser!.displayName!,
           _auth.currentUser!.email!);
       if (foto != null) {

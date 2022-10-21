@@ -5,8 +5,7 @@ import 'package:projeto_controle_financeiro/screens/home/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
 class VisaogeralController extends NotifierStore<Exception, Visaogeral> {
-  final DespesasService despesasService = DespesasService();
-  final FaturamentosService faturamentosService = FaturamentosService();
+  final MovimentacoesService movimentacoesService = MovimentacoesService();
 
   VisaogeralController()
       : super(Visaogeral(
@@ -21,9 +20,9 @@ class VisaogeralController extends NotifierStore<Exception, Visaogeral> {
     try {
       setLoading(true);
 
-      List<Despesa> despesas = await despesasService.getDespesas();
+      List<Despesa> despesas = await movimentacoesService.getDespesas();
       List<Faturamento> faturamentos =
-          await faturamentosService.getFaturamentos();
+          await movimentacoesService.getFaturamentos();
 
       Visaogeral visaogeral = Visaogeral(
         saldoAtual: _getSaldoAtual(despesas, faturamentos),

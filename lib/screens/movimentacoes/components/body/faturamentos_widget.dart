@@ -21,7 +21,7 @@ class FaturamentosWidget extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsets.only(bottom: 16.0),
-            child: DateSelectWidget(),
+            child: DateselectButtonsWidget(),
           ),
           ScopedBuilder<FaturamentosController, Exception, List<Faturamento>>(
               store: faturamentosStore,

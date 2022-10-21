@@ -3,7 +3,7 @@ import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
 class DespesasController extends NotifierStore<Exception, List<Despesa>> {
-  final DespesasService despesasService = DespesasService();
+  final MovimentacoesService despesasService = MovimentacoesService();
 
   DespesasController() : super([]) {
     getDespesas();

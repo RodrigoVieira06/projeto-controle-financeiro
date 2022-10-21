@@ -4,7 +4,7 @@ import 'package:projeto_controle_financeiro/services/services.dart';
 
 class FaturamentosController
     extends NotifierStore<Exception, List<Faturamento>> {
-  final FaturamentosService faturamentosService = FaturamentosService();
+  final MovimentacoesService movimentacoesService = MovimentacoesService();
 
   FaturamentosController() : super([]) {
     getFaturamentos();
@@ -14,7 +14,7 @@ class FaturamentosController
     try {
       setLoading(true);
       List<Faturamento> faturamentos =
-          await faturamentosService.getFaturamentos();
+          await movimentacoesService.getFaturamentos();
       update(faturamentos);
       setLoading(false);
     } catch (error) {
@@ -23,7 +23,7 @@ class FaturamentosController
   }
 
   setFaturamento(Map<String, dynamic> faturamento) async {
-    await faturamentosService.setFaturamento(faturamento);
+    await movimentacoesService.setFaturamento(faturamento);
     getFaturamentos();
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
-import 'package:projeto_controle_financeiro/screens/movimentacoes/components/body/body.dart';
-import 'package:projeto_controle_financeiro/screens/movimentacoes/components/forms/forms.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/components/components.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class MovimentacoesPageWidget extends StatefulWidget {
@@ -48,12 +47,14 @@ class _MovimentacoesPageWidgetState extends State<MovimentacoesPageWidget> {
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       floatingActionButton: AddButtonWidget(
-        icon1: const Icon(Icons.attach_money),
-        iconcolor1: const Color.fromARGB(255, 36, 137, 232),
-        formdialog1: FaturamentosFormWidget(),
-        icon2: const Icon(Icons.money_off),
-        iconcolor2: const Color.fromARGB(255, 255, 67, 67),
-        formdialog2: DespesasFormWidget(),
+        text1: 'Despesas',
+        icon1: const Icon(Icons.money_off),
+        iconcolor1: const Color.fromARGB(255, 255, 67, 67),
+        formdialog1: DespesasFormWidget(),
+        text2: 'Faturamentos',
+        icon2: const Icon(Icons.attach_money),
+        iconcolor2: const Color.fromARGB(255, 36, 137, 232),
+        formdialog2: FaturamentosFormWidget(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
