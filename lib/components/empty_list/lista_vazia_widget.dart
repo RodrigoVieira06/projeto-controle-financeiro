@@ -35,7 +35,7 @@ class ListaVaziaWidget extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    'Por favor, cadastre no botão \'+\' abaixo',
+                    'Por favor, cadastre no menu de opções abaixo',
                     style: TextStyle(
                       fontFamily: 'Lato',
                       color: Colors.black54,
