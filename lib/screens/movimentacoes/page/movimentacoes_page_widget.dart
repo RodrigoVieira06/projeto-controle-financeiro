@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
-import 'package:projeto_controle_financeiro/screens/movimentacoes/components/body/body.dart';
-import 'package:projeto_controle_financeiro/screens/movimentacoes/components/forms/forms.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/components/components.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class MovimentacoesPageWidget extends StatefulWidget {

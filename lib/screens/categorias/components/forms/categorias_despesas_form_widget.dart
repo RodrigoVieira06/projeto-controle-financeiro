@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/movimentacoes/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/categorias/controllers/controllers.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 // ignore: must_be_immutable
-class FaturamentosFormWidget extends StatelessWidget {
-  FaturamentosFormWidget({Key? key}) : super(key: key);
+class CategoriasDespesasFormWidget extends StatelessWidget {
+  CategoriasDespesasFormWidget({Key? key}) : super(key: key);
 
-  final faturamentosController = Modular.get<FaturamentosController>(
-    defaultValue: FaturamentosController(),
+  final categoriasDespesasController =
+      Modular.get<CategoriasDespesasController>(
+    defaultValue: CategoriasDespesasController(),
   );
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
-  TextEditingController valor = TextEditingController();
-  TextEditingController data = TextEditingController();
-  TextEditingController categoriaFaturamento = TextEditingController();
-  TextEditingController observacoes = TextEditingController();
+  TextEditingController descricao = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: AlertDialog(
         title: const Text(
-          'Cadastrar faturamento',
+          'Cadastrar categoria de despesa',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -55,65 +53,11 @@ class FaturamentosFormWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: valor,
+                  controller: descricao,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Valor *',
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Informe o valor.';
-                    }
-                    if (num.tryParse(value) == null) {
-                      return '"$value" não é um número válido.';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: data,
-                  keyboardType: TextInputType.datetime,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Data *',
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Informe a data.';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: categoriaFaturamento,
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Categoria de faturamento',
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Informe o categoria de faturamento.';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: observacoes,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Observações',
+                    labelText: 'Descrição',
                   ),
                 ),
               ),
@@ -122,18 +66,16 @@ class FaturamentosFormWidget extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      Map<String, dynamic> faturamento = {
+                      Map<String, dynamic> despesa = {
                         "titulo": titulo.text,
-                        "valor": num.parse(valor.text),
-                        "data": data.text,
-                        "categoriaFaturamento": categoriaFaturamento.text,
-                        "observacoes": observacoes.text,
+                        "observacoes": descricao.text,
                       };
 
-                      faturamentosController.setFaturamento(faturamento);
-                      Modular.to.popAndPushNamed('/movimentacoes/');
+                      categoriasDespesasController.setCategoriaDespesa(despesa);
+                      Modular.to.popAndPushNamed('/categorias/');
                       const SnackBar(
-                        content: Text('Faturamento cadastrado com sucesso.'),
+                        content: Text(
+                            'Categoria de despesa cadastrada com sucesso.'),
                       );
                     }
                   },

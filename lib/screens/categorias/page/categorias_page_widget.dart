@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
+import 'package:projeto_controle_financeiro/screens/categorias/components/components.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class CategoriasPageWidget extends StatefulWidget {
@@ -19,12 +20,8 @@ class _CategoriasPageWidgetState extends State<CategoriasPageWidget> {
   }
 
   final List<Widget> _widgetOptions = <Widget>[
-    Container(
-      color: Colors.red,
-    ),
-    Container(
-      color: Colors.blue,
-    ),
+    const CategoriasDespesasWidget(),
+    const CategoriasFaturamentosWidget(),
   ];
 
   @override
@@ -38,20 +35,25 @@ class _CategoriasPageWidgetState extends State<CategoriasPageWidget> {
           style: TextStyle(
             fontFamily: 'Lato',
             fontWeight: FontWeight.bold,
-            fontSize: 16,
           ),
         ),
         backgroundColor: projectTheme.primaryColor,
         titleTextStyle: const TextStyle(
+          fontFamily: 'Lato',
           fontSize: 21,
           fontWeight: FontWeight.w500,
         ),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 0, 27, 67),
-        child: const Icon(Icons.add),
-        onPressed: () => {},
+      floatingActionButton: AddButtonWidget(
+        text1: 'Categorias de despesas',
+        icon1: const Icon(Icons.money_off),
+        iconcolor1: const Color.fromARGB(255, 255, 67, 67),
+        formdialog1: CategoriasDespesasFormWidget(),
+        text2: 'Categorias de daturamentos',
+        icon2: const Icon(Icons.attach_money),
+        iconcolor2: const Color.fromARGB(255, 36, 137, 232),
+        formdialog2: CategoriasFaturamentosFormWidget(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(

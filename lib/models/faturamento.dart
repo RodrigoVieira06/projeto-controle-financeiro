@@ -18,7 +18,7 @@ class Faturamento {
       titulo: json['titulo'],
       valor: json['valor'],
       data: json['data'],
-      categoriaFaturamento: json['categoriaDespesa'],
+      categoriaFaturamento: json['categoriaFaturamento'],
       observacoes: json['observacoes'],
     );
   }
