@@ -7,10 +7,8 @@ import 'package:projeto_controle_financeiro/utils/theme.dart';
 class CategoriasDespesasFormWidget extends StatelessWidget {
   CategoriasDespesasFormWidget({Key? key}) : super(key: key);
 
-  final categoriasDespesasController =
-      Modular.get<CategoriasDespesasController>(
-    defaultValue: CategoriasDespesasController(),
-  );
+  final CategoriasDespesasController categoriasDespesasController =
+      CategoriasDespesasController();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();

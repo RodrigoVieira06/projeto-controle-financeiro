@@ -7,9 +7,8 @@ import 'package:projeto_controle_financeiro/utils/theme.dart';
 class CartoesDebitoFormWidget extends StatelessWidget {
   CartoesDebitoFormWidget({Key? key}) : super(key: key);
 
-  final cartoesDebitoController = Modular.get<CartoesDebitoController>(
-    defaultValue: CartoesDebitoController(),
-  );
+  final CartoesDebitoController cartoesDebitoController =
+      CartoesDebitoController();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();

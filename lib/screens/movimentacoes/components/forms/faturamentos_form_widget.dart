@@ -7,9 +7,8 @@ import 'package:projeto_controle_financeiro/utils/theme.dart';
 class FaturamentosFormWidget extends StatelessWidget {
   FaturamentosFormWidget({Key? key}) : super(key: key);
 
-  final faturamentosController = Modular.get<FaturamentosController>(
-    defaultValue: FaturamentosController(),
-  );
+  final FaturamentosController faturamentosController =
+      FaturamentosController();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
@@ -110,7 +109,7 @@ class FaturamentosFormWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: observacoes,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Observações',

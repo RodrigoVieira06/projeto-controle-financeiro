@@ -7,9 +7,7 @@ import 'package:projeto_controle_financeiro/utils/theme.dart';
 class DespesasFormWidget extends StatelessWidget {
   DespesasFormWidget({Key? key}) : super(key: key);
 
-  final despesasController = Modular.get<DespesasController>(
-    defaultValue: DespesasController(),
-  );
+  final DespesasController despesasController = DespesasController();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
@@ -128,7 +126,7 @@ class DespesasFormWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: observacoes,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Observações',
