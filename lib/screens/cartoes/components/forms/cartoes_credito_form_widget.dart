@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/categorias/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/cartoes/controllers/controllers.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 // ignore: must_be_immutable
-class CategoriasDespesasFormWidget extends StatelessWidget {
-  CategoriasDespesasFormWidget({Key? key}) : super(key: key);
+class CartoesCreditoFormWidget extends StatelessWidget {
+  CartoesCreditoFormWidget({Key? key}) : super(key: key);
 
-  final categoriasDespesasController =
-      Modular.get<CategoriasDespesasController>(
-    defaultValue: CategoriasDespesasController(),
+  final cartoesCreditoController = Modular.get<CartoesCreditoController>(
+    defaultValue: CartoesCreditoController(),
   );
 
   final formKey = GlobalKey<FormState>();
@@ -21,7 +20,7 @@ class CategoriasDespesasFormWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: AlertDialog(
         title: const Text(
-          'Cadastrar categoria de despesa',
+          'Cadastrar cartão de crédito',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -71,11 +70,11 @@ class CategoriasDespesasFormWidget extends StatelessWidget {
                         "observacoes": descricao.text,
                       };
 
-                      categoriasDespesasController.setCategoriaDespesa(despesa);
-                      Modular.to.popAndPushNamed('/categorias/');
+                      cartoesCreditoController.setCartaoCredito(despesa);
+                      Modular.to.popAndPushNamed('/cartoes/');
                       const SnackBar(
-                        content: Text(
-                            'Categoria de despesa cadastrada com sucesso.'),
+                        content:
+                            Text('Cartao de crédito cadastrado com sucesso.'),
                       );
                     }
                   },

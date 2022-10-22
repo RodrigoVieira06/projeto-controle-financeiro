@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/categorias/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/cartoes/controllers/controllers.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 // ignore: must_be_immutable
-class CategoriasDespesasFormWidget extends StatelessWidget {
-  CategoriasDespesasFormWidget({Key? key}) : super(key: key);
+class CartoesDebitoFormWidget extends StatelessWidget {
+  CartoesDebitoFormWidget({Key? key}) : super(key: key);
 
-  final categoriasDespesasController =
-      Modular.get<CategoriasDespesasController>(
-    defaultValue: CategoriasDespesasController(),
+  final cartoesDebitoController = Modular.get<CartoesDebitoController>(
+    defaultValue: CartoesDebitoController(),
   );
 
   final formKey = GlobalKey<FormState>();
@@ -21,7 +20,7 @@ class CategoriasDespesasFormWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: AlertDialog(
         title: const Text(
-          'Cadastrar categoria de despesa',
+          'Cadastrar cartão de débito',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -66,16 +65,16 @@ class CategoriasDespesasFormWidget extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      Map<String, dynamic> despesa = {
+                      Map<String, dynamic> faturamento = {
                         "titulo": titulo.text,
                         "observacoes": descricao.text,
                       };
 
-                      categoriasDespesasController.setCategoriaDespesa(despesa);
+                      cartoesDebitoController.setCartaoDebito(faturamento);
                       Modular.to.popAndPushNamed('/categorias/');
                       const SnackBar(
-                        content: Text(
-                            'Categoria de despesa cadastrada com sucesso.'),
+                        content:
+                            Text('Cartão de débito cadastrado com sucesso.'),
                       );
                     }
                   },

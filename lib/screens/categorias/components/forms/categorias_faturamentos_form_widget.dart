@@ -54,7 +54,7 @@ class CategoriasFaturamentosFormWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: descricao,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Descrição',

@@ -26,7 +26,9 @@ class CategoriasFaturamentosWidget extends StatelessWidget {
           onState:
               (context, List<CategoriaFaturamento> categoriasFaturamentos) {
             if (categoriasFaturamentos.isEmpty) {
-              return const ListaVaziaWidget();
+              return const Center(
+                child: ListaVaziaWidget(),
+              );
             } else {
               return Column(
                 children: [

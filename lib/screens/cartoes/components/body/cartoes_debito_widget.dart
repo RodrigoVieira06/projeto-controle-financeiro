@@ -2,36 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
-import 'package:projeto_controle_financeiro/screens/categorias/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/cartoes/controllers/controllers.dart';
 
-class CategoriasDespesasWidget extends StatelessWidget {
-  const CategoriasDespesasWidget({Key? key}) : super(key: key);
+class CartoesDebitoWidget extends StatelessWidget {
+  const CartoesDebitoWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // definindo a lista através de um store
-    final CategoriasDespesasController categoriasDesepesasStore =
-        CategoriasDespesasController();
+    final CartoesDebitoController cartoesDebitoStore =
+        CartoesDebitoController();
 
     // definindo margens por porcentagem
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
-      child: ScopedBuilder<CategoriasDespesasController, Exception,
-              List<CategoriaDespesa>>(
-          store: categoriasDesepesasStore,
+      child: ScopedBuilder<CartoesDebitoController, Exception,
+              List<CartaoDebito>>(
+          store: cartoesDebitoStore,
           onLoading: (context) => const LoadingWidget(),
           onError: (context, error) => Text('$error'),
-          onState: (context, List<CategoriaDespesa> categoriasDespesas) {
-            if (categoriasDespesas.isEmpty) {
+          onState: (context, List<CartaoDebito> cartoesDebito) {
+            if (cartoesDebito.isEmpty) {
               return const Center(
                 child: ListaVaziaWidget(),
               );
             } else {
               return Column(
                 children: [
-                  for (final categoriaDespesa in categoriasDespesas)
+                  for (final cartaoDebito in cartoesDebito)
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Row(
@@ -52,14 +52,14 @@ class CategoriasDespesasWidget extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Icon(
-                                            Icons.money_off,
-                                            color: Colors.red[400],
+                                            Icons.attach_money,
+                                            color: Colors.blue[400],
                                           ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            categoriaDespesa.titulo,
+                                            cartaoDebito.titulo,
                                             style: const TextStyle(
                                               fontFamily: 'Lato',
                                               fontWeight: FontWeight.bold,
