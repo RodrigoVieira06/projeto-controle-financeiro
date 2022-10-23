@@ -50,7 +50,7 @@ class _MovimentacoesPageWidgetState extends State<MovimentacoesPageWidget> {
         text1: 'Despesas',
         icon1: const Icon(Icons.money_off),
         iconcolor1: const Color.fromARGB(255, 255, 67, 67),
-        formdialog1: DespesasFormWidget(),
+        formdialog1: const DespesasFormWidget(),
         text2: 'Faturamentos',
         icon2: const Icon(Icons.attach_money),
         iconcolor2: const Color.fromARGB(255, 36, 137, 232),
