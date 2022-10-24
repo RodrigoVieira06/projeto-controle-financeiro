@@ -152,7 +152,7 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 2.0, top: 8.0),
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           Map<String, dynamic> faturamento = {
                             "titulo": titulo.text,
@@ -162,7 +162,10 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                             "observacoes": observacoes.text,
                           };
 
-                          movimentacoesController.setFaturamento(faturamento);
+                          await movimentacoesController.setMovimento(
+                            entity: 'faturamentos',
+                            movimento: faturamento,
+                          );
                           Modular.to.popAndPushNamed('/movimentacoes/');
                           const SnackBar(
                             content:

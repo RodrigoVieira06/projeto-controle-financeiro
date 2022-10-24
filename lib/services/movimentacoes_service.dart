@@ -6,8 +6,8 @@ import 'package:projeto_controle_financeiro/services/services.dart';
 class MovimentacoesService {
   User? user = AuthService().getUser();
 
-  final List<Despesa> despesas = [];
-  final List<Faturamento> faturamentos = [];
+  late List<Despesa> despesas = [];
+  late List<Faturamento> faturamentos = [];
   var dbProfiles = FirebaseFirestore.instance.collection('profiles');
 
   MovimentacoesService();
@@ -30,21 +30,12 @@ class MovimentacoesService {
           }
         }
       });
+      despesas = [...despesas].reversed.toList();
       return despesas;
     } catch (error) {
       Exception(error);
     }
     return null;
-  }
-
-  setDespesa(Map<String, dynamic> despesa) async {
-    await dbProfiles.get().then((event) {
-      for (var doc in event.docs) {
-        if (doc.data()['uid'] == user!.uid) {
-          dbProfiles.doc(doc.id).collection('despesas').add(despesa);
-        }
-      }
-    });
   }
 
   getFaturamentos() async {
@@ -65,6 +56,7 @@ class MovimentacoesService {
           }
         }
       });
+      faturamentos = [...faturamentos].reversed.toList();
       return faturamentos;
     } catch (error) {
       Exception(error);
@@ -72,11 +64,21 @@ class MovimentacoesService {
     return null;
   }
 
-  setFaturamento(Map<String, dynamic> faturamento) async {
-    await dbProfiles.get().then((event) {
+  setMovimento(
+    String entity,
+    Map<String, dynamic> movimento,
+  ) async {
+    int total = 0;
+
+    await dbProfiles.get().then((event) async {
       for (var doc in event.docs) {
         if (doc.data()['uid'] == user!.uid) {
-          dbProfiles.doc(doc.id).collection('faturamentos').add(faturamento);
+          var collection = dbProfiles.doc(doc.id).collection(entity);
+
+          await collection.get().then((value) {
+            total = value.docs.length;
+            collection.doc('$entity$total').set(movimento);
+          });
         }
       }
     });

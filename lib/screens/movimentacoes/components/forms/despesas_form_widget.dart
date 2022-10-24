@@ -213,7 +213,7 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 2.0, top: 8.0),
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           Map<String, dynamic> despesa = {
                             "titulo": titulo.text,
@@ -223,7 +223,10 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
                             "formaPagamento": formaPagamentoValue,
                             "observacoes": observacoes.text,
                           };
-                          movimentacoesController.setDespesa(despesa);
+                          await movimentacoesController.setMovimento(
+                            entity: 'despesas',
+                            movimento: despesa,
+                          );
                           Modular.to.popAndPushNamed('/movimentacoes/');
                           const SnackBar(
                             content: Text('Despesa cadastrada com sucesso.'),

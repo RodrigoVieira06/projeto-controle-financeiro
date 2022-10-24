@@ -5,12 +5,11 @@ class MovimentacoesController {
 
   MovimentacoesController();
 
-  setFaturamento(Map<String, dynamic> faturamento) async {
-    await movimentacoesService.setFaturamento(faturamento);
-  }
-
-  setDespesa(Map<String, dynamic> despesa) async {
-    await movimentacoesService.setDespesa(despesa);
+  setMovimento({
+    required String entity,
+    required Map<String, dynamic> movimento,
+  }) async {
+    await movimentacoesService.setMovimento(entity, movimento);
   }
 
   List<String> getFormasPagamento() {
