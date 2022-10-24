@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/cartoes/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/cartoes/page/cartoes_controller.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 // ignore: must_be_immutable
 class CartoesDebitoFormWidget extends StatelessWidget {
   CartoesDebitoFormWidget({Key? key}) : super(key: key);
 
-  final CartoesDebitoController cartoesDebitoController =
-      CartoesDebitoController();
+  final CartoesController cartoesDebitoController = CartoesController();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();

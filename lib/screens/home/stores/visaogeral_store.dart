@@ -4,10 +4,10 @@ import 'package:projeto_controle_financeiro/models/faturamento.dart';
 import 'package:projeto_controle_financeiro/screens/home/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
-class VisaogeralController extends NotifierStore<Exception, Visaogeral> {
+class VisaogeralStore extends NotifierStore<Exception, Visaogeral> {
   final MovimentacoesService movimentacoesService = MovimentacoesService();
 
-  VisaogeralController()
+  VisaogeralStore()
       : super(Visaogeral(
           saldoAtual: -1,
           mediaDespesasMensais: -1,

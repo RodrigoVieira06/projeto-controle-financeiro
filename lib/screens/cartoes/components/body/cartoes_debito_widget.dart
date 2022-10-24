@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
-import 'package:projeto_controle_financeiro/screens/cartoes/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/cartoes/stores/stores.dart';
 
 class CartoesDebitoWidget extends StatelessWidget {
   const CartoesDebitoWidget({Key? key}) : super(key: key);
@@ -10,16 +10,14 @@ class CartoesDebitoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // definindo a lista através de um store
-    final CartoesDebitoController cartoesDebitoStore =
-        CartoesDebitoController();
+    final CartoesDebitoStore cartoesDebitoStore = CartoesDebitoStore();
 
     // definindo margens por porcentagem
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
-      child: ScopedBuilder<CartoesDebitoController, Exception,
-              List<CartaoDebito>>(
+      child: ScopedBuilder<CartoesDebitoStore, Exception, List<CartaoDebito>>(
           store: cartoesDebitoStore,
           onLoading: (context) => const LoadingWidget(),
           onError: (context, error) => Text('$error'),

@@ -44,7 +44,9 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
         content: ScopedBuilder<DespesasFormStore, Exception,
             Map<String, List<String>?>>(
           store: despesasFormStore,
-          onLoading: (context) => const FormLoadingWidget(),
+          onLoading: (context) => const CardLoadingWidget(
+            info: 'Carregando dados do formulário.',
+          ),
           onError: (context, error) => Text('$error'),
           onState: (context, Map<String, List<String>?> dadosForm) {
             List<String>? categoriasDespesas = dadosForm['categoriasDespesas'];

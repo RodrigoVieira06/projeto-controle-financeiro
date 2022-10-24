@@ -2,11 +2,10 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
-class CartoesDebitoController
-    extends NotifierStore<Exception, List<CartaoDebito>> {
+class CartoesDebitoStore extends NotifierStore<Exception, List<CartaoDebito>> {
   final CartoesService cartoesService = CartoesService();
 
-  CartoesDebitoController() : super([]) {
+  CartoesDebitoStore() : super([]) {
     getCartoesDebito();
   }
 
@@ -20,10 +19,5 @@ class CartoesDebitoController
     } catch (error) {
       setError(Exception(error));
     }
-  }
-
-  setCartaoDebito(Map<String, dynamic> cartaoDebito) async {
-    await cartoesService.setCartaoDebito(cartaoDebito);
-    getCartoesDebito();
   }
 }

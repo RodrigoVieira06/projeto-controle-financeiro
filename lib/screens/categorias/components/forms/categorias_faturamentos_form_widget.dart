@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/categorias/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/categorias/page/categorias_controller.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 // ignore: must_be_immutable
 class CategoriasFaturamentosFormWidget extends StatelessWidget {
   CategoriasFaturamentosFormWidget({Key? key}) : super(key: key);
 
-  final CategoriasFaturamentosController categoriasFaturamentosController =
-      CategoriasFaturamentosController();
+  final CategoriasController categoriasController = CategoriasController();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
@@ -19,7 +18,7 @@ class CategoriasFaturamentosFormWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: AlertDialog(
         title: const Text(
-          'Cadastrar categoria faturamento',
+          'Cadastrar categoria de faturamento',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -69,8 +68,7 @@ class CategoriasFaturamentosFormWidget extends StatelessWidget {
                         "observacoes": descricao.text,
                       };
 
-                      categoriasFaturamentosController
-                          .setCategoriaFaturamento(faturamento);
+                      categoriasController.setCategoriaFaturamento(faturamento);
                       Modular.to.popAndPushNamed('/categorias/');
                       const SnackBar(
                         content: Text(

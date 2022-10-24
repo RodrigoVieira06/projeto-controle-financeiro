@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/cartoes/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/cartoes/page/cartoes_controller.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 // ignore: must_be_immutable
 class CartoesCreditoFormWidget extends StatelessWidget {
   CartoesCreditoFormWidget({Key? key}) : super(key: key);
 
-  final CartoesCreditoController cartoesCreditoController =
-      CartoesCreditoController();
+  final CartoesController cartoesController = CartoesController();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
@@ -69,7 +68,7 @@ class CartoesCreditoFormWidget extends StatelessWidget {
                         "observacoes": descricao.text,
                       };
 
-                      cartoesCreditoController.setCartaoCredito(despesa);
+                      cartoesController.setCartaoCredito(despesa);
                       Modular.to.popAndPushNamed('/cartoes/');
                       const SnackBar(
                         content:

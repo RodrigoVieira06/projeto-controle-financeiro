@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
-import 'package:projeto_controle_financeiro/screens/categorias/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/categorias/stores/stores.dart';
 
 class CategoriasFaturamentosWidget extends StatelessWidget {
   const CategoriasFaturamentosWidget({Key? key}) : super(key: key);
@@ -10,15 +10,15 @@ class CategoriasFaturamentosWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // definindo a lista através de um store
-    final CategoriasFaturamentosController categoriasFaturamentosStore =
-        CategoriasFaturamentosController();
+    final CategoriasFaturamentosStore categoriasFaturamentosStore =
+        CategoriasFaturamentosStore();
 
     // definindo margens por porcentagem
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
-      child: ScopedBuilder<CategoriasFaturamentosController, Exception,
+      child: ScopedBuilder<CategoriasFaturamentosStore, Exception,
               List<CategoriaFaturamento>>(
           store: categoriasFaturamentosStore,
           onLoading: (context) => const LoadingWidget(),

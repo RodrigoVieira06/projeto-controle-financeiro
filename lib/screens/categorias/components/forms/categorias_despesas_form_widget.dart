@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/categorias/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/categorias/page/categorias_controller.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 // ignore: must_be_immutable
 class CategoriasDespesasFormWidget extends StatelessWidget {
   CategoriasDespesasFormWidget({Key? key}) : super(key: key);
 
-  final CategoriasDespesasController categoriasDespesasController =
-      CategoriasDespesasController();
+  final CategoriasController categoriasController = CategoriasController();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
@@ -69,7 +68,7 @@ class CategoriasDespesasFormWidget extends StatelessWidget {
                         "observacoes": descricao.text,
                       };
 
-                      categoriasDespesasController.setCategoriaDespesa(despesa);
+                      categoriasController.setCategoriaDespesa(despesa);
                       Modular.to.popAndPushNamed('/categorias/');
                       const SnackBar(
                         content: Text(

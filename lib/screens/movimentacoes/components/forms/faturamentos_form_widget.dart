@@ -41,7 +41,9 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
         content: ScopedBuilder<FaturamentosFormStore, Exception,
             Map<String, List<String>?>>(
           store: faturamentosFormStore,
-          onLoading: (context) => const FormLoadingWidget(),
+          onLoading: (context) => const CardLoadingWidget(
+            info: 'Carregando dados do formulário.',
+          ),
           onError: (context, error) => Text('$error'),
           onState: (context, Map<String, List<String>?> dadosForm) {
             List<String>? categoriasFaturamentos =
