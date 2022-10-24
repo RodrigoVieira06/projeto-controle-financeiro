@@ -1,10 +1,13 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+import 'package:intl/intl.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/page/movimentacoes_controller.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/stores/stores.dart';
-import 'package:projeto_controle_financeiro/utils/theme.dart';
+import 'package:projeto_controle_financeiro/utils/utils.dart';
 
 // ignore: must_be_immutable
 class FaturamentosFormWidget extends StatefulWidget {
@@ -76,6 +79,12 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       controller: valor,
+                      inputFormatters: <TextInputFormatter>[
+                        CurrencyTextInputFormatter(
+                          symbol: 'R\$ ',
+                        ),
+                        LengthLimitingTextInputFormatter(15),
+                      ],
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -85,7 +94,9 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                         if (value!.isEmpty) {
                           return 'Informe o valor.';
                         }
-                        if (num.tryParse(value) == null) {
+                        String number = value.replaceAll('R\$ ', '');
+                        number = number.replaceAll(',', '');
+                        if (num.tryParse(number) == null) {
                           return '"$value" não é um número válido.';
                         }
                         return null;
@@ -95,6 +106,7 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      inputFormatters: [Masks().dateMask],
                       controller: data,
                       keyboardType: TextInputType.datetime,
                       decoration: const InputDecoration(
@@ -104,6 +116,9 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Informe a data.';
+                        }
+                        if (value.length < 10) {
+                          return 'Preencha a data completa';
                         }
                         return null;
                       },
@@ -154,10 +169,13 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
+                          String valorTratado =
+                              valor.text.replaceAll('R\$ ', '');
+                          valorTratado = valorTratado.replaceAll(',', '');
                           Map<String, dynamic> faturamento = {
                             "titulo": titulo.text,
-                            "valor": num.parse(valor.text),
-                            "data": data.text,
+                            "valor": num.parse(valorTratado),
+                            "data": DateFormat('d/M/y').parse(data.text),
                             "categoriaFaturamento": categoriasFaturamentosValue,
                             "observacoes": observacoes.text,
                           };

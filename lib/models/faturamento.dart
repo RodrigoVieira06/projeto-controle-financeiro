@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Faturamento {
   late String titulo;
   late num valor;
-  late String data;
+  late Timestamp data;
   late String categoriaFaturamento;
   late String? observacoes;
 

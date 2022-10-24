@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Despesa {
   late String titulo;
   late num valor;
-  late String data;
+  late Timestamp data;
   late String categoriaDespesa;
   late String formaPagamento;
   late String? observacoes;

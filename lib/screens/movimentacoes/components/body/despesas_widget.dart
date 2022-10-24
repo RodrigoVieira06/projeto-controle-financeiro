@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+import 'package:intl/intl.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/despesa.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/stores/stores.dart';
@@ -95,7 +96,12 @@ class DespesasWidget extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            despesa.data,
+                                            DateFormat('dd/MM/yyyy').format(
+                                                DateTime
+                                                    .fromMillisecondsSinceEpoch(
+                                              despesa
+                                                  .data.millisecondsSinceEpoch,
+                                            )),
                                             style: const TextStyle(
                                               fontFamily: 'Lato',
                                               fontSize: 14,
