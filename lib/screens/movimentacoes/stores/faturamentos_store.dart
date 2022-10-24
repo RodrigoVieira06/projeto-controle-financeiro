@@ -2,11 +2,10 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
-class FaturamentosController
-    extends NotifierStore<Exception, List<Faturamento>> {
+class FaturamentosStore extends NotifierStore<Exception, List<Faturamento>> {
   final MovimentacoesService movimentacoesService = MovimentacoesService();
 
-  FaturamentosController() : super([]) {
+  FaturamentosStore() : super([]) {
     getFaturamentos();
   }
 
@@ -20,10 +19,5 @@ class FaturamentosController
     } catch (error) {
       setError(Exception(error));
     }
-  }
-
-  setFaturamento(Map<String, dynamic> faturamento) async {
-    await movimentacoesService.setFaturamento(faturamento);
-    getFaturamentos();
   }
 }

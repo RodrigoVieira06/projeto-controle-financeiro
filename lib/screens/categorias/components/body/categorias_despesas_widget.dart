@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
-import 'package:projeto_controle_financeiro/screens/categorias/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/categorias/stores/stores.dart';
 
 class CategoriasDespesasWidget extends StatelessWidget {
   const CategoriasDespesasWidget({Key? key}) : super(key: key);
@@ -10,22 +10,24 @@ class CategoriasDespesasWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // definindo a lista através de um store
-    final CategoriasDespesasController categoriasDesepesasStore =
-        CategoriasDespesasController();
+    final CategoriasDespesasStore categoriasDesepesasStore =
+        CategoriasDespesasStore();
 
     // definindo margens por porcentagem
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
-      child: ScopedBuilder<CategoriasDespesasController, Exception,
+      child: ScopedBuilder<CategoriasDespesasStore, Exception,
               List<CategoriaDespesa>>(
           store: categoriasDesepesasStore,
           onLoading: (context) => const LoadingWidget(),
           onError: (context, error) => Text('$error'),
           onState: (context, List<CategoriaDespesa> categoriasDespesas) {
             if (categoriasDespesas.isEmpty) {
-              return const ListaVaziaWidget();
+              return const Center(
+                child: ListaVaziaWidget(),
+              );
             } else {
               return Column(
                 children: [

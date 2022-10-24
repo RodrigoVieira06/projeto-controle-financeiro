@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/despesa.dart';
-import 'package:projeto_controle_financeiro/screens/movimentacoes/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/stores/stores.dart';
 
 class DespesasWidget extends StatelessWidget {
   const DespesasWidget({Key? key}) : super(key: key);
@@ -10,7 +10,7 @@ class DespesasWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // definindo a lista através de um store
-    final desepesasStore = DespesasController();
+    final DespesasStore despesasStore = DespesasStore();
 
     // definindo margens por porcentagem
     double height = MediaQuery.of(context).size.height;
@@ -23,8 +23,8 @@ class DespesasWidget extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 16.0),
             child: DateselectButtonsWidget(),
           ),
-          ScopedBuilder<DespesasController, Exception, List<Despesa>>(
-              store: desepesasStore,
+          ScopedBuilder<DespesasStore, Exception, List<Despesa>>(
+              store: despesasStore,
               onLoading: (context) => const LoadingWidget(),
               onError: (context, error) => Text('$error'),
               onState: (context, List<Despesa> despesas) {

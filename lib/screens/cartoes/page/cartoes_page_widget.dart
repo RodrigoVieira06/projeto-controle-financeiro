@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
+import 'package:projeto_controle_financeiro/screens/cartoes/components/components.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class CartoesPageWidget extends StatefulWidget {
@@ -19,12 +20,8 @@ class _CartoesPageWidgetState extends State<CartoesPageWidget> {
   }
 
   final List<Widget> _widgetOptions = <Widget>[
-    Container(
-      color: Colors.red,
-    ),
-    Container(
-      color: Colors.blue,
-    ),
+    const CartoesCreditoWidget(),
+    const CartoesDebitoWidget(),
   ];
 
   @override
@@ -42,33 +39,34 @@ class _CartoesPageWidgetState extends State<CartoesPageWidget> {
         ),
         backgroundColor: projectTheme.primaryColor,
         titleTextStyle: const TextStyle(
+          fontFamily: 'Lato',
           fontSize: 21,
           fontWeight: FontWeight.w500,
         ),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       floatingActionButton: AddButtonWidget(
-        text1: 'AAA',
-        icon1: const Icon(Icons.credit_card),
-        iconcolor1: const Color.fromARGB(255, 49, 205, 244),
-        formdialog1: Container(),
-        text2: 'AAA',
-        icon2: const Icon(Icons.credit_card),
-        iconcolor2: const Color.fromARGB(255, 177, 67, 255),
-        formdialog2: Container(),
+        text1: 'Cartão de crédito',
+        icon1: const Icon(Icons.money_off),
+        iconcolor1: const Color.fromARGB(255, 255, 67, 67),
+        formdialog1: CartoesCreditoFormWidget(),
+        text2: 'Cartão de débito',
+        icon2: const Icon(Icons.attach_money),
+        iconcolor2: const Color.fromARGB(255, 36, 137, 232),
+        formdialog2: CartoesDebitoFormWidget(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.credit_card),
-            backgroundColor: Color.fromARGB(255, 0, 27, 67),
-            label: 'Crédito',
+            icon: const Icon(Icons.credit_card),
+            backgroundColor: Colors.red[400],
+            label: 'Cartões de crédito',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.credit_card),
-            backgroundColor: Color.fromARGB(255, 0, 27, 67),
-            label: 'Débito',
+            icon: const Icon(Icons.credit_card),
+            backgroundColor: Colors.blue[400],
+            label: 'Cartões de débito',
           ),
         ],
         currentIndex: _selectedIndex,

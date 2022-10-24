@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/categorias/page/categorias_controller.dart';
+import 'package:projeto_controle_financeiro/screens/cartoes/page/cartoes_controller.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 // ignore: must_be_immutable
-class CategoriasDespesasFormWidget extends StatelessWidget {
-  CategoriasDespesasFormWidget({Key? key}) : super(key: key);
+class CartoesCreditoFormWidget extends StatelessWidget {
+  CartoesCreditoFormWidget({Key? key}) : super(key: key);
 
-  final CategoriasController categoriasController = CategoriasController();
+  final CartoesController cartoesController = CartoesController();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController titulo = TextEditingController();
@@ -18,7 +18,7 @@ class CategoriasDespesasFormWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: AlertDialog(
         title: const Text(
-          'Cadastrar categoria de despesa',
+          'Cadastrar cartão de crédito',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -68,11 +68,11 @@ class CategoriasDespesasFormWidget extends StatelessWidget {
                         "observacoes": descricao.text,
                       };
 
-                      categoriasController.setCategoriaDespesa(despesa);
-                      Modular.to.popAndPushNamed('/categorias/');
+                      cartoesController.setCartaoCredito(despesa);
+                      Modular.to.popAndPushNamed('/cartoes/');
                       const SnackBar(
-                        content: Text(
-                            'Categoria de despesa cadastrada com sucesso.'),
+                        content:
+                            Text('Cartao de crédito cadastrado com sucesso.'),
                       );
                     }
                   },

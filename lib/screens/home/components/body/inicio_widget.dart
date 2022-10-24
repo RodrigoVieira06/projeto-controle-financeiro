@@ -8,7 +8,7 @@ class InicioWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(children: const [
-        VisaoGeralCard(),
+        VisaogeralCard(),
         // GraficoGeralCard(),
       ]),
     );

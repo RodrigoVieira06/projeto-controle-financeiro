@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({Key? key}) : super(key: key);
@@ -11,7 +10,7 @@ class LoadingWidget extends StatelessWidget {
         height: 250,
         width: 250,
         child: Dialog(
-          backgroundColor: projectTheme.backgroundColor,
+          backgroundColor: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [

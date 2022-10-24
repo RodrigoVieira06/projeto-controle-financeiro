@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
-import 'package:projeto_controle_financeiro/screens/home/controllers/controllers.dart';
+import 'package:projeto_controle_financeiro/components/components.dart';
+import 'package:projeto_controle_financeiro/screens/home/stores/stores.dart';
 import 'package:projeto_controle_financeiro/screens/home/models/visaogeral.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
-class VisaoGeralCard extends StatelessWidget {
-  const VisaoGeralCard({Key? key}) : super(key: key);
+class VisaogeralCard extends StatelessWidget {
+  const VisaogeralCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final saldoStore = VisaogeralController();
+    final visaogeralStore = VisaogeralStore();
 
     return Padding(
       padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -26,11 +27,10 @@ class VisaoGeralCard extends StatelessWidget {
                 color: Colors.white,
               ),
               height: 250,
-              child: ScopedBuilder<VisaogeralController, Exception, Visaogeral>(
-                store: saldoStore,
-                onLoading: (context) => const Center(
-                  child: CircularProgressIndicator(),
-                ),
+              child: ScopedBuilder<VisaogeralStore, Exception, Visaogeral>(
+                store: visaogeralStore,
+                onLoading: (context) =>
+                    const CardLoadingWidget(info: 'Carregando dados gerais.'),
                 onError: (context, error) => Text('$error'),
                 onState: (context, Visaogeral visaogeral) {
                   final Color? colorSaldoAtual;
