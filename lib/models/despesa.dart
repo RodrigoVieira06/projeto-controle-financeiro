@@ -6,6 +6,7 @@ class Despesa {
   late Timestamp data;
   late String categoriaDespesa;
   late String formaPagamento;
+  late String? cartao;
   late String? observacoes;
 
   Despesa({
@@ -14,6 +15,7 @@ class Despesa {
     required this.data,
     required this.categoriaDespesa,
     required this.formaPagamento,
+    this.cartao,
     this.observacoes,
   });
 
@@ -24,6 +26,7 @@ class Despesa {
       data: json['data'],
       categoriaDespesa: json['categoriaDespesa'],
       formaPagamento: json['formaPagamento'],
+      cartao: json['cartao'],
       observacoes: json['observacoes'],
     );
   }
