@@ -1,20 +1,23 @@
 class CategoriaDespesa {
+  late String uid;
   late String titulo;
-  late num? id;
+  late num valorTotal;
   late String? descricao;
   late bool? bloqueado;
 
   CategoriaDespesa({
+    required this.uid,
     required this.titulo,
-    this.id,
+    required this.valorTotal,
     this.descricao,
     this.bloqueado,
   });
 
   factory CategoriaDespesa.fromJson(Map<String, dynamic> json) {
     return CategoriaDespesa(
+      uid: json['uid'],
       titulo: json['titulo'],
-      id: json['id'],
+      valorTotal: json['valorTotal'],
       descricao: json['descricao'],
       bloqueado: json['bloqueado'],
     );

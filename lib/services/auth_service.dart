@@ -101,12 +101,14 @@ class AuthService {
 
     for (Map<String, dynamic> categoriaDespesa
         in configuracoesIniciais.categoriasDespesas) {
-      await categoraisService.setCategoriaDespesa(categoriaDespesa);
+      await categoraisService.setCategoriaDespesa(
+          'categoriasDespesas', categoriaDespesa);
     }
 
     for (Map<String, dynamic> categoriaFaturamento
         in configuracoesIniciais.categoriasFaturamentos) {
-      await categoraisService.setCategoriaFaturamento(categoriaFaturamento);
+      await categoraisService.setCategoriaDespesa(
+          'categoriasFaturamentos', categoriaFaturamento);
     }
   }
 }

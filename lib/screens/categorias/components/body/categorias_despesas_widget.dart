@@ -74,12 +74,12 @@ class CategoriasDespesasWidget extends StatelessWidget {
                                 Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
-                                  children: const [
+                                  children: [
                                     Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Média mensal: R\$ 0.00',
-                                        style: TextStyle(
+                                        'Média mensal: R\$ ${categoriaDespesa.valorTotal.toStringAsFixed(2)}',
+                                        style: const TextStyle(
                                           fontFamily: 'Lato',
                                           fontSize: 14,
                                         ),

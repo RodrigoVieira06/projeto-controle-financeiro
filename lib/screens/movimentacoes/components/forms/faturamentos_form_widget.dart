@@ -29,6 +29,8 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
   TextEditingController data = TextEditingController();
   TextEditingController observacoes = TextEditingController();
 
+  String? categoriasFaturamentosValue;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -51,7 +53,6 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
           onState: (context, Map<String, List<String>?> dadosForm) {
             List<String>? categoriasFaturamentos =
                 dadosForm['categoriasFaturamentos'];
-            String categoriasFaturamentosValue = categoriasFaturamentos!.first;
 
             return Form(
               key: formKey,
@@ -114,13 +115,28 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                         labelText: 'Data *',
                       ),
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value == null) {
                           return 'Informe a data.';
                         }
-                        if (value.length < 10) {
-                          return 'Preencha a data completa';
+                        final components = value.split("/");
+                        if (components.length == 3) {
+                          final int? day = int.tryParse(components[0]);
+                          final int? month = int.tryParse(components[1]);
+                          final int? year = int.tryParse(components[2]);
+                          if (day == null ||
+                              month == null ||
+                              year == null ||
+                              day < 1 ||
+                              day > 31 ||
+                              month < 1 ||
+                              month > 12 ||
+                              year < 1900) {
+                            return "Data inválida";
+                          } else {
+                            return null;
+                          }
                         }
-                        return null;
+                        return "Preencha a data corretamente";
                       },
                     ),
                   ),
@@ -145,12 +161,18 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                         });
                       },
                       items: categoriasFaturamentos
-                          .map<DropdownMenuItem<String>>((String value) {
+                          ?.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
                         );
                       }).toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Informe a categoria.';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   Padding(

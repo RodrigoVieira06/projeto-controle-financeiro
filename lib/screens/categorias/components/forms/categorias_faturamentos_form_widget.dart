@@ -66,8 +66,6 @@ class CategoriasFaturamentosFormWidget extends StatelessWidget {
                       Map<String, dynamic> faturamento = {
                         "titulo": titulo.text,
                         "observacoes": descricao.text,
-                        'bloqueado': false,
-                        'valorTotal': 0
                       };
 
                       categoriasController.setCategoriaFaturamento(faturamento);

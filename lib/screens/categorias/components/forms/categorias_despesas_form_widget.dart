@@ -66,8 +66,6 @@ class CategoriasDespesasFormWidget extends StatelessWidget {
                       Map<String, dynamic> despesa = {
                         'titulo': titulo.text,
                         'observacoes': descricao.text,
-                        'bloqueado': false,
-                        'valorTotal': 0
                       };
                       categoriasController.setCategoriaDespesa(despesa);
                       Modular.to.popAndPushNamed('/categorias/');

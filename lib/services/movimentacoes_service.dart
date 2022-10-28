@@ -81,6 +81,44 @@ class MovimentacoesService {
             var collection = dbProfiles.doc(doc.id).collection(entity);
             await collection.get().then((value) {
               collection.doc(uid).set(movimento);
+              final String tipoCategoria;
+              final String categoria;
+              if (entity == 'despesas') {
+                categoria = 'categoriaDespesa';
+                tipoCategoria = 'categoriasDespesas';
+              } else {
+                categoria = 'categoriaFaturamento';
+                tipoCategoria = 'categoriasFaturamentos';
+              }
+              _updateCategoria(
+                movimento[categoria],
+                movimento['valor'],
+                tipoCategoria,
+              );
+            });
+          }
+        }
+      });
+    } catch (error) {
+      Exception(error);
+    }
+  }
+
+  _updateCategoria(String categoria, num valor, String tipoCategoria) async {
+    try {
+      await dbProfiles.get().then((event) async {
+        for (var doc in event.docs) {
+          if (doc.data()['uid'] == user!.uid) {
+            var collection = dbProfiles.doc(doc.id).collection(tipoCategoria);
+            await collection.get().then((value) {
+              for (var doc in value.docs) {
+                if (doc.data()['titulo'] == categoria) {
+                  var document = collection.doc(doc.id);
+                  final num novoValor = valor + doc.data()['valorTotal'];
+                  document.update({'valorTotal': novoValor});
+                  break;
+                }
+              }
             });
           }
         }

@@ -6,10 +6,12 @@ class CategoriasController {
   CategoriasController();
 
   setCategoriaDespesa(Map<String, dynamic> categoriaDespesa) async {
-    await categoriasService.setCategoriaDespesa(categoriaDespesa);
+    await categoriasService.setCategoriaDespesa(
+        'categoriasDespesas', categoriaDespesa);
   }
 
   setCategoriaFaturamento(Map<String, dynamic> categoriaFaturamento) async {
-    await categoriasService.setCategoriaFaturamento(categoriaFaturamento);
+    await categoriasService.setCategoriaDespesa(
+        'categoriasFaturamentos', categoriaFaturamento);
   }
 }

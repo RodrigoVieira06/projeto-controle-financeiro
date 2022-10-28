@@ -62,16 +62,6 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
             List<String> formasPagamento =
                 movimentacoesController.getFormasPagamento();
 
-            // if (categoriasDespesas!.isNotEmpty) {
-            //   categoriasDespesasValue = categoriasDespesas.first;
-            // }
-            // if (cartoesCredito!.isNotEmpty) {
-            //   cartoesCreditoValue = cartoesCredito.first;
-            // }
-            // if (cartoesDebito!.isNotEmpty) {
-            //   cartoesDebitoValue = cartoesDebito.first;
-            // }
-
             return Form(
               key: formKey,
               child: Column(
