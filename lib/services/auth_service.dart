@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
+import 'package:projeto_controle_financeiro/services/services.dart';
+import 'package:projeto_controle_financeiro/utils/utils.dart';
 
 class AuthException implements Exception {
   String message;
@@ -26,8 +28,12 @@ class AuthService {
       var nomeCompleto = '$nome $sobrenome';
       await _auth.createUserWithEmailAndPassword(email: email, password: senha);
       await _auth.currentUser!.updateDisplayName(nomeCompleto);
-      await _setProfile(_auth.currentUser!.uid, _auth.currentUser!.displayName!,
-          _auth.currentUser!.email!);
+      await _setProfile(
+        _auth.currentUser!.uid,
+        _auth.currentUser!.displayName!,
+        _auth.currentUser!.email!,
+      );
+      await _setDadosIniciais();
       if (foto != null) {
         await _auth.currentUser!.updatePhotoURL(foto);
       }
@@ -87,5 +93,20 @@ class AuthService {
       "email": email,
       "uid": uid,
     });
+  }
+
+  _setDadosIniciais() async {
+    ConfiguracoesIniciais configuracoesIniciais = ConfiguracoesIniciais();
+    CategoriasService categoraisService = CategoriasService();
+
+    for (Map<String, dynamic> categoriaDespesa
+        in configuracoesIniciais.categoriasDespesas) {
+      await categoraisService.setCategoriaDespesa(categoriaDespesa);
+    }
+
+    for (Map<String, dynamic> categoriaFaturamento
+        in configuracoesIniciais.categoriasFaturamentos) {
+      await categoraisService.setCategoriaFaturamento(categoriaFaturamento);
+    }
   }
 }

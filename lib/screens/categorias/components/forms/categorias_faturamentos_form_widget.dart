@@ -66,13 +66,16 @@ class CategoriasFaturamentosFormWidget extends StatelessWidget {
                       Map<String, dynamic> faturamento = {
                         "titulo": titulo.text,
                         "observacoes": descricao.text,
+                        'bloqueado': false,
+                        'valorTotal': 0
                       };
 
                       categoriasController.setCategoriaFaturamento(faturamento);
                       Modular.to.popAndPushNamed('/categorias/');
                       const SnackBar(
                         content: Text(
-                            'Categoria de faturamento cadastrada com sucesso.'),
+                          'Categoria de faturamento cadastrada com sucesso.',
+                        ),
                       );
                     }
                   },

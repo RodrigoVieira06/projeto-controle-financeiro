@@ -64,15 +64,17 @@ class CategoriasDespesasFormWidget extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       Map<String, dynamic> despesa = {
-                        "titulo": titulo.text,
-                        "observacoes": descricao.text,
+                        'titulo': titulo.text,
+                        'observacoes': descricao.text,
+                        'bloqueado': false,
+                        'valorTotal': 0
                       };
-
                       categoriasController.setCategoriaDespesa(despesa);
                       Modular.to.popAndPushNamed('/categorias/');
                       const SnackBar(
                         content: Text(
-                            'Categoria de despesa cadastrada com sucesso.'),
+                          'Categoria de despesa cadastrada com sucesso.',
+                        ),
                       );
                     }
                   },

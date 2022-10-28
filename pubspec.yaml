@@ -20,6 +20,7 @@ dependencies:
   currency_text_input_formatter: ^2.1.7
   intl: ^0.17.0
   fl_chart: ^0.55.1
+  uuid: ^3.0.6
 
 dev_dependencies:
   flutter_test:

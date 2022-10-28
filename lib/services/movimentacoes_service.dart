@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
+import 'package:uuid/uuid.dart';
 
 class MovimentacoesService {
   User? user = AuthService().getUser();
@@ -9,6 +10,7 @@ class MovimentacoesService {
   late List<Despesa> despesas = [];
   late List<Faturamento> faturamentos = [];
   var dbProfiles = FirebaseFirestore.instance.collection('profiles');
+  var uuid = const Uuid();
 
   MovimentacoesService();
 
@@ -30,7 +32,7 @@ class MovimentacoesService {
           }
         }
       });
-      despesas = [...despesas].reversed.toList();
+      despesas.sort((a, b) => b.data.compareTo(a.data));
       return despesas;
     } catch (error) {
       Exception(error);
@@ -56,7 +58,7 @@ class MovimentacoesService {
           }
         }
       });
-      faturamentos = [...faturamentos].reversed.toList();
+      faturamentos.sort((a, b) => b.data.compareTo(a.data));
       return faturamentos;
     } catch (error) {
       Exception(error);
@@ -68,19 +70,23 @@ class MovimentacoesService {
     String entity,
     Map<String, dynamic> movimento,
   ) async {
-    int total = 0;
-
-    await dbProfiles.get().then((event) async {
-      for (var doc in event.docs) {
-        if (doc.data()['uid'] == user!.uid) {
-          var collection = dbProfiles.doc(doc.id).collection(entity);
-
-          await collection.get().then((value) {
-            total = value.docs.length;
-            collection.doc('$entity$total').set(movimento);
-          });
+    try {
+      // atribuindo um identificador único ao cadastro
+      final String uid = uuid.v4();
+      movimento['uid'] = uid;
+      await dbProfiles.get().then((event) async {
+        for (var doc in event.docs) {
+          if (doc.data()['uid'] == user!.uid) {
+            // obtendo a coleção referente ao entity solicitado (despesas ou faturamentos)
+            var collection = dbProfiles.doc(doc.id).collection(entity);
+            await collection.get().then((value) {
+              collection.doc(uid).set(movimento);
+            });
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      Exception(error);
+    }
   }
 }
