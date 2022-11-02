@@ -74,9 +74,9 @@ class DespesasFormWidget extends StatelessWidget {
                       .format(DateTime.fromMillisecondsSinceEpoch(
                 despesa.data.millisecondsSinceEpoch,
               )));
-              observacoes = TextEditingController(text: despesa.observacoes);
-              formaPagamentoValue = despesa.formaPagamento;
               categoriasDespesasValue = despesa.categoriaDespesa;
+              formaPagamentoValue = despesa.formaPagamento;
+              observacoes = TextEditingController(text: despesa.observacoes);
               if (despesa.formaPagamento == 'Crédito') {
                 cartoesCreditoValue = despesa.cartao;
               } else if (despesa.formaPagamento == 'Débito') {

@@ -6,6 +6,7 @@ class Faturamento {
   late Timestamp data;
   late String categoriaFaturamento;
   late String? observacoes;
+  late String? uid;
 
   Faturamento({
     required this.titulo,
@@ -13,6 +14,7 @@ class Faturamento {
     required this.data,
     required this.categoriaFaturamento,
     this.observacoes,
+    this.uid,
   });
 
   factory Faturamento.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class Faturamento {
       data: json['data'],
       categoriaFaturamento: json['categoriaFaturamento'],
       observacoes: json['observacoes'],
+      uid: json['uid'],
     );
   }
 }

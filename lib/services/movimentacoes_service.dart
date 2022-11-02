@@ -93,6 +93,31 @@ class MovimentacoesService {
     return null;
   }
 
+  getFaturamento(String faturamentoId) async {
+    try {
+      await dbProfiles.get().then((response) async {
+        for (var doc in response.docs) {
+          if (doc.data()['uid'] == user!.uid) {
+            await dbProfiles
+                .doc(doc.id)
+                .collection('faturamentos')
+                .get()
+                .then((value) {
+              for (var doc in value.docs) {
+                if (doc.id == faturamentoId) {
+                  faturamento = Faturamento.fromJson(doc.data());
+                }
+              }
+            });
+          }
+        }
+      });
+      return faturamento;
+    } catch (error) {
+      Exception(error);
+    }
+  }
+
   setMovimento(
     String entity,
     Map<String, dynamic> movimento,

@@ -3,6 +3,7 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:intl/intl.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/stores/stores.dart';
 
 class FaturamentosWidget extends StatelessWidget {
@@ -40,79 +41,91 @@ class FaturamentosWidget extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                height: height * 0.1,
-                                width: width * 0.98,
-                                color: Colors.white,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Icon(
-                                                Icons.attach_money,
+                              InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return FaturamentosFormWidget(
+                                        faturamentoId: faturamento.uid,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  height: height * 0.1,
+                                  width: width * 0.98,
+                                  color: Colors.white,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Icon(
+                                                  Icons.attach_money,
+                                                  color: Colors.blue[400],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  faturamento.titulo,
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Lato',
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'R\$ ${faturamento.valor.toStringAsFixed(2)}',
+                                              style: TextStyle(
+                                                fontFamily: 'Lato',
+                                                fontSize: 14,
                                                 color: Colors.blue[400],
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                faturamento.titulo,
-                                                style: const TextStyle(
-                                                  fontFamily: 'Lato',
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              DateFormat('dd/MM/yyyy').format(
+                                                DateTime
+                                                    .fromMillisecondsSinceEpoch(
+                                                  faturamento.data
+                                                      .millisecondsSinceEpoch,
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'R\$ ${faturamento.valor.toStringAsFixed(2)}',
-                                            style: TextStyle(
-                                              fontFamily: 'Lato',
-                                              fontSize: 14,
-                                              color: Colors.blue[400],
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            DateFormat('dd/MM/yyyy').format(
-                                              DateTime
-                                                  .fromMillisecondsSinceEpoch(
-                                                faturamento.data
-                                                    .millisecondsSinceEpoch,
+                                              style: const TextStyle(
+                                                fontFamily: 'Lato',
+                                                fontSize: 14,
+                                                color: Colors.black38,
                                               ),
                                             ),
-                                            style: const TextStyle(
-                                              fontFamily: 'Lato',
-                                              fontSize: 14,
-                                              color: Colors.black38,
-                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               )
                             ],
