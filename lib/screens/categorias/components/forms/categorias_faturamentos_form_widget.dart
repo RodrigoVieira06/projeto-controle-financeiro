@@ -72,7 +72,8 @@ class CategoriasFaturamentosFormWidget extends StatelessWidget {
                       Modular.to.popAndPushNamed('/categorias/');
                       const SnackBar(
                         content: Text(
-                            'Categoria de faturamento cadastrada com sucesso.'),
+                          'Categoria de faturamento cadastrada com sucesso.',
+                        ),
                       );
                     }
                   },

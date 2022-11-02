@@ -3,20 +3,25 @@ import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
 class FaturamentosFormStore
-    extends NotifierStore<Exception, Map<String, List<String>?>> {
+    extends NotifierStore<Exception, Map<String, dynamic>> {
+  final MovimentacoesService movimentacoesService = MovimentacoesService();
   final CategoriasService categoriasService = CategoriasService();
   final CartoesService cartoesService = CartoesService();
 
-  FaturamentosFormStore() : super({}) {
-    getDados();
+  FaturamentosFormStore({String? uid}) : super({}) {
+    getDados(faturamentoId: uid);
   }
 
-  getDados() async {
+  getDados({String? faturamentoId}) async {
     try {
       setLoading(true);
 
-      List<CategoriaFaturamento> categoriasFaturamentos =
+      List<Categoria> categoriasFaturamentos =
           await categoriasService.getCategoriasFaturamentos();
+      Faturamento? faturamento;
+      if (faturamentoId != null) {
+        faturamento = await movimentacoesService.getFaturamento(faturamentoId);
+      }
 
       List<String> categoriasFaturamentosValues = [];
 
@@ -24,8 +29,9 @@ class FaturamentosFormStore
         categoriasFaturamentosValues.add(categoriaFaturamento.titulo);
       }
 
-      Map<String, List<String>?> dadosForm = {
+      Map<String, dynamic> dadosForm = {
         'categoriasFaturamentos': categoriasFaturamentosValues,
+        'faturamento': faturamento,
       };
 
       update(dadosForm);
@@ -33,5 +39,21 @@ class FaturamentosFormStore
     } catch (error) {
       setError(Exception(error));
     }
+  }
+
+  setFaturamento({
+    required Map<String, dynamic> faturamento,
+  }) async {
+    setLoading(true);
+    await movimentacoesService.setMovimento('faturamentos', faturamento);
+    setLoading(false);
+  }
+
+  updateFaturamento({
+    required Map<String, dynamic> faturamento,
+  }) async {
+    setLoading(true);
+    await movimentacoesService.updateMovimento('faturamentos', faturamento);
+    setLoading(false);
   }
 }

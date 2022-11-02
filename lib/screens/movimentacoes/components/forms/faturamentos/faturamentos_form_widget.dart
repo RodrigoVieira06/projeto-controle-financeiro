@@ -1,33 +1,27 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+import 'package:intl/intl.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
-import 'package:projeto_controle_financeiro/screens/movimentacoes/page/movimentacoes_controller.dart';
+import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/stores/stores.dart';
-import 'package:projeto_controle_financeiro/utils/theme.dart';
+import 'package:projeto_controle_financeiro/utils/utils.dart';
 
 // ignore: must_be_immutable
-class FaturamentosFormWidget extends StatefulWidget {
-  const FaturamentosFormWidget({Key? key}) : super(key: key);
-
-  @override
-  State<FaturamentosFormWidget> createState() => _FaturamentosFormWidgetState();
-}
-
-class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
-  final FaturamentosFormStore faturamentosFormStore = FaturamentosFormStore();
-  final MovimentacoesController movimentacoesController =
-      MovimentacoesController();
-
-  final formKey = GlobalKey<FormState>();
-
-  TextEditingController titulo = TextEditingController();
-  TextEditingController valor = TextEditingController();
-  TextEditingController data = TextEditingController();
-  TextEditingController observacoes = TextEditingController();
+class FaturamentosFormWidget extends StatelessWidget {
+  final String? faturamentoId;
+  const FaturamentosFormWidget({
+    Key? key,
+    this.faturamentoId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final FaturamentosFormStore faturamentosFormStore =
+        FaturamentosFormStore(uid: faturamentoId);
+
     return SingleChildScrollView(
       child: AlertDialog(
         title: const Text(
@@ -39,16 +33,38 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
           ),
         ),
         content: ScopedBuilder<FaturamentosFormStore, Exception,
-            Map<String, List<String>?>>(
+            Map<String, dynamic>>(
           store: faturamentosFormStore,
           onLoading: (context) => const CardLoadingWidget(
             info: 'Carregando dados do formulário.',
           ),
           onError: (context, error) => Text('$error'),
-          onState: (context, Map<String, List<String>?> dadosForm) {
+          onState: (context, Map<String, dynamic> dadosForm) {
+            final formKey = GlobalKey<FormState>();
+
+            TextEditingController titulo = TextEditingController();
+            TextEditingController valor = TextEditingController();
+            TextEditingController data = TextEditingController();
+            TextEditingController observacoes = TextEditingController();
+
+            String? categoriasFaturamentosValue;
+
             List<String>? categoriasFaturamentos =
                 dadosForm['categoriasFaturamentos'];
-            String categoriasFaturamentosValue = categoriasFaturamentos!.first;
+            Faturamento? faturamento = dadosForm['faturamento'];
+
+            if (faturamento != null) {
+              titulo = TextEditingController(text: faturamento.titulo);
+              valor = TextEditingController(text: faturamento.valor.toString());
+              data = TextEditingController(
+                  text: DateFormat('dd/MM/yyyy')
+                      .format(DateTime.fromMillisecondsSinceEpoch(
+                faturamento.data.millisecondsSinceEpoch,
+              )));
+              observacoes =
+                  TextEditingController(text: faturamento.observacoes);
+              categoriasFaturamentosValue = faturamento.categoria;
+            }
 
             return Form(
               key: formKey,
@@ -76,6 +92,12 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       controller: valor,
+                      inputFormatters: <TextInputFormatter>[
+                        CurrencyTextInputFormatter(
+                          symbol: 'R\$ ',
+                        ),
+                        LengthLimitingTextInputFormatter(15),
+                      ],
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -85,7 +107,9 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                         if (value!.isEmpty) {
                           return 'Informe o valor.';
                         }
-                        if (num.tryParse(value) == null) {
+                        String number = value.replaceAll('R\$ ', '');
+                        number = number.replaceAll(',', '');
+                        if (num.tryParse(number) == null) {
                           return '"$value" não é um número válido.';
                         }
                         return null;
@@ -95,6 +119,7 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      inputFormatters: [Masks().dateMask],
                       controller: data,
                       keyboardType: TextInputType.datetime,
                       decoration: const InputDecoration(
@@ -102,10 +127,28 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                         labelText: 'Data *',
                       ),
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value == null) {
                           return 'Informe a data.';
                         }
-                        return null;
+                        final components = value.split("/");
+                        if (components.length == 3) {
+                          final int? day = int.tryParse(components[0]);
+                          final int? month = int.tryParse(components[1]);
+                          final int? year = int.tryParse(components[2]);
+                          if (day == null ||
+                              month == null ||
+                              year == null ||
+                              day < 1 ||
+                              day > 31 ||
+                              month < 1 ||
+                              month > 12 ||
+                              year < 1900) {
+                            return "Data inválida";
+                          } else {
+                            return null;
+                          }
+                        }
+                        return "Preencha a data corretamente";
                       },
                     ),
                   ),
@@ -121,21 +164,24 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                       ),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Categoria de despesa',
+                        labelText: 'Categoria',
                       ),
                       onChanged: (String? value) {
-                        // This is called when the user selects an item.
-                        setState(() {
-                          categoriasFaturamentosValue = value!;
-                        });
+                        categoriasFaturamentosValue = value!;
                       },
                       items: categoriasFaturamentos
-                          .map<DropdownMenuItem<String>>((String value) {
+                          ?.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
                         );
                       }).toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Informe a categoria.';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   Padding(
@@ -154,18 +200,27 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
+                          String valorTratado =
+                              valor.text.replaceAll('R\$ ', '');
+                          valorTratado = valorTratado.replaceAll(',', '');
                           Map<String, dynamic> faturamento = {
                             "titulo": titulo.text,
-                            "valor": num.parse(valor.text),
-                            "data": data.text,
-                            "categoriaFaturamento": categoriasFaturamentosValue,
+                            "valor": num.parse(valorTratado),
+                            "data": DateFormat('d/M/y').parse(data.text),
+                            "categoria": categoriasFaturamentosValue,
                             "observacoes": observacoes.text,
                           };
 
-                          await movimentacoesController.setMovimento(
-                            entity: 'faturamentos',
-                            movimento: faturamento,
-                          );
+                          if (faturamentoId != null) {
+                            faturamento['uid'] = faturamentoId;
+                            await faturamentosFormStore.updateFaturamento(
+                              faturamento: faturamento,
+                            );
+                          } else {
+                            await faturamentosFormStore.setFaturamento(
+                              faturamento: faturamento,
+                            );
+                          }
                           Modular.to.popAndPushNamed('/movimentacoes/');
                           const SnackBar(
                             content:
@@ -178,7 +233,7 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                         minimumSize: const Size(100, 40),
                       ),
                       child: const Text(
-                        'Cadastrar',
+                        'Salvar',
                         style: TextStyle(
                           fontFamily: 'Lato',
                           color: Colors.white,
@@ -204,7 +259,27 @@ class _FaturamentosFormWidgetState extends State<FaturamentosFormWidget> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  if (faturamentoId != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red[400],
+                          minimumSize: const Size(100, 40),
+                        ),
+                        child: const Text(
+                          'Excluir',
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
                 ],
               ),
             );

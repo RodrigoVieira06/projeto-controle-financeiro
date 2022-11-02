@@ -19,12 +19,11 @@ class CategoriasFaturamentosWidget extends StatelessWidget {
 
     return SingleChildScrollView(
       child: ScopedBuilder<CategoriasFaturamentosStore, Exception,
-              List<CategoriaFaturamento>>(
+              List<Categoria>>(
           store: categoriasFaturamentosStore,
           onLoading: (context) => const LoadingWidget(),
           onError: (context, error) => Text('$error'),
-          onState:
-              (context, List<CategoriaFaturamento> categoriasFaturamentos) {
+          onState: (context, List<Categoria> categoriasFaturamentos) {
             if (categoriasFaturamentos.isEmpty) {
               return const Center(
                 child: ListaVaziaWidget(),
@@ -75,12 +74,12 @@ class CategoriasFaturamentosWidget extends StatelessWidget {
                                 Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
-                                  children: const [
+                                  children: [
                                     Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Média mensal: R\$ 0.00',
-                                        style: TextStyle(
+                                        'Média mensal: R\$ ${categoriasFaturamento.valorTotal.toStringAsFixed(2)}',
+                                        style: const TextStyle(
                                           fontFamily: 'Lato',
                                           fontSize: 14,
                                         ),

@@ -69,7 +69,7 @@ class CartoesDebitoFormWidget extends StatelessWidget {
                       };
 
                       cartoesDebitoController.setCartaoDebito(faturamento);
-                      Modular.to.popAndPushNamed('/categorias/');
+                      Modular.to.popAndPushNamed('/cartoes/');
                       const SnackBar(
                         content:
                             Text('Cartão de débito cadastrado com sucesso.'),

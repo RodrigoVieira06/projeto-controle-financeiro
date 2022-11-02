@@ -18,12 +18,11 @@ class CategoriasDespesasWidget extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
-      child: ScopedBuilder<CategoriasDespesasStore, Exception,
-              List<CategoriaDespesa>>(
+      child: ScopedBuilder<CategoriasDespesasStore, Exception, List<Categoria>>(
           store: categoriasDesepesasStore,
           onLoading: (context) => const LoadingWidget(),
           onError: (context, error) => Text('$error'),
-          onState: (context, List<CategoriaDespesa> categoriasDespesas) {
+          onState: (context, List<Categoria> categoriasDespesas) {
             if (categoriasDespesas.isEmpty) {
               return const Center(
                 child: ListaVaziaWidget(),
@@ -74,12 +73,12 @@ class CategoriasDespesasWidget extends StatelessWidget {
                                 Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
-                                  children: const [
+                                  children: [
                                     Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Média mensal: R\$ 0.00',
-                                        style: TextStyle(
+                                        'Média mensal: R\$ ${categoriaDespesa.valorTotal.toStringAsFixed(2)}',
+                                        style: const TextStyle(
                                           fontFamily: 'Lato',
                                           fontSize: 14,
                                         ),

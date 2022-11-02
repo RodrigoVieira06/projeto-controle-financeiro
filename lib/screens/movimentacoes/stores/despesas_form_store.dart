@@ -2,25 +2,29 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
-class DespesasFormStore
-    extends NotifierStore<Exception, Map<String, List<String>?>> {
+class DespesasFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
+  final MovimentacoesService movimentacoesService = MovimentacoesService();
   final CategoriasService categoriasService = CategoriasService();
   final CartoesService cartoesService = CartoesService();
 
-  DespesasFormStore() : super({}) {
-    getDados();
+  DespesasFormStore({String? uid}) : super({}) {
+    getDados(despesaId: uid);
   }
 
-  getDados() async {
+  getDados({String? despesaId}) async {
     try {
       setLoading(true);
 
-      List<CategoriaDespesa> categoriasDespesas =
+      List<Categoria> categoriasDespesas =
           await categoriasService.getCategoriasDespesas();
       List<CartaoCredito> cartoesCredito =
           await cartoesService.getCartoesCredito();
       List<CartaoDebito> cartoesDebito =
           await cartoesService.getCartoesDebito();
+      Despesa? despesa;
+      if (despesaId != null) {
+        despesa = await movimentacoesService.getDespesa(despesaId);
+      }
 
       List<String> categoriasDespesasValues = [];
       List<String> cartoesCreditoValues = [];
@@ -38,10 +42,11 @@ class DespesasFormStore
         cartoesDebitoValues.add(cartaoDebito.titulo);
       }
 
-      Map<String, List<String>?> dadosForm = {
+      Map<String, dynamic> dadosForm = {
         'categoriasDespesas': categoriasDespesasValues,
         'cartoesCredito': cartoesCreditoValues,
         'cartoesDebito': cartoesDebitoValues,
+        'despesa': despesa
       };
 
       update(dadosForm);
@@ -49,5 +54,21 @@ class DespesasFormStore
     } catch (error) {
       setError(Exception(error));
     }
+  }
+
+  setDespesa({
+    required Map<String, dynamic> despesa,
+  }) async {
+    setLoading(true);
+    await movimentacoesService.setMovimento('despesas', despesa);
+    setLoading(false);
+  }
+
+  updateDespesa({
+    required Map<String, dynamic> despesa,
+  }) async {
+    setLoading(true);
+    await movimentacoesService.updateMovimento('despesas', despesa);
+    setLoading(false);
   }
 }
