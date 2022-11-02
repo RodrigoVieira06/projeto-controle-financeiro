@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 
 class MovimentacoesService {
   User? user = AuthService().getUser();
+  CategoriasService categoriasService = CategoriasService();
 
   late Despesa despesa;
   late Faturamento faturamento;
@@ -31,6 +32,7 @@ class MovimentacoesService {
                 despesas.add(dado);
               }
             });
+            break;
           }
         }
       });
@@ -58,6 +60,7 @@ class MovimentacoesService {
                 }
               }
             });
+            break;
           }
         }
       });
@@ -69,19 +72,20 @@ class MovimentacoesService {
 
   getFaturamentos() async {
     try {
-      await dbProfiles.get().then((response) async {
-        for (var doc in response.docs) {
+      await dbProfiles.get().then((profileResponse) async {
+        for (var doc in profileResponse.docs) {
           if (doc.data()['uid'] == user!.uid) {
             await dbProfiles
                 .doc(doc.id)
                 .collection('faturamentos')
                 .get()
-                .then((value) {
-              for (var doc in value.docs) {
+                .then((faturamentosResponse) {
+              for (var doc in faturamentosResponse.docs) {
                 var dado = Faturamento.fromJson(doc.data());
                 faturamentos.add(dado);
               }
             });
+            break;
           }
         }
       });
@@ -90,25 +94,26 @@ class MovimentacoesService {
     } catch (error) {
       Exception(error);
     }
-    return null;
   }
 
   getFaturamento(String faturamentoId) async {
     try {
-      await dbProfiles.get().then((response) async {
-        for (var doc in response.docs) {
+      await dbProfiles.get().then((profileResponse) async {
+        for (var doc in profileResponse.docs) {
           if (doc.data()['uid'] == user!.uid) {
             await dbProfiles
                 .doc(doc.id)
                 .collection('faturamentos')
                 .get()
-                .then((value) {
-              for (var doc in value.docs) {
+                .then((faturamentosResponse) {
+              for (var doc in faturamentosResponse.docs) {
                 if (doc.id == faturamentoId) {
                   faturamento = Faturamento.fromJson(doc.data());
+                  break;
                 }
               }
             });
+            break;
           }
         }
       });
@@ -119,21 +124,25 @@ class MovimentacoesService {
   }
 
   setMovimento(
-    String entity,
-    Map<String, dynamic> movimento,
+    String entityName,
+    Map<String, dynamic> entity,
   ) async {
     try {
       // atribuindo um identificador único ao cadastro
       final String uid = uuid.v4();
-      movimento['uid'] = uid;
-      await dbProfiles.get().then((response) async {
-        for (var doc in response.docs) {
+      entity['uid'] = uid;
+      await dbProfiles.get().then((profileResponse) async {
+        for (var doc in profileResponse.docs) {
           if (doc.data()['uid'] == user!.uid) {
-            // obtendo a coleção referente ao entity solicitado (despesas ou faturamentos)
-            var collection = dbProfiles.doc(doc.id).collection(entity);
-            await collection.get().then((value) {
-              collection.doc(uid).set(movimento);
-            });
+            // registrando o documento da coleção referente
+            // ao entity solicitado (despesas ou faturamentos)
+            await dbProfiles
+                .doc(doc.id)
+                .collection(entityName)
+                .doc(uid)
+                .set(entity);
+            await _updateValorTotalCategorias(entityName, entity['categoria']);
+            break;
           }
         }
       });
@@ -143,18 +152,72 @@ class MovimentacoesService {
   }
 
   updateMovimento(
-    String entity,
-    Map<String, dynamic> movimento,
+    String entityName,
+    Map<String, dynamic> entity,
   ) async {
     try {
       // atribuindo um identificador único ao cadastro
       await dbProfiles.get().then((response) async {
         for (var doc in response.docs) {
           if (doc.data()['uid'] == user!.uid) {
-            // obtendo a coleção referente ao entity solicitado (despesas ou faturamentos)
-            var collection = dbProfiles.doc(doc.id).collection(entity);
-            await collection.get().then((value) {
-              collection.doc(movimento['uid']).update(movimento);
+            // alterando o documento da coleção referente
+            // ao entity solicitado (despesas ou faturamentos)
+            await dbProfiles
+                .doc(doc.id)
+                .collection(entityName)
+                .doc(entity['uid'])
+                .update(entity);
+            await _updateValorTotalCategorias(entityName, entity['categoria']);
+            break;
+          }
+        }
+      });
+    } catch (error) {
+      Exception(error);
+    }
+  }
+
+  _updateValorTotalCategorias(
+    String entityName,
+    String categoria,
+  ) async {
+    try {
+      String tipoCategoria;
+      // definindo tipo de categoria a ser alterada
+      entityName == 'despesas'
+          ? tipoCategoria = 'categoriasDespesas'
+          : tipoCategoria = 'categoriasFaturamentos';
+
+      // consultando tipos de categorias do profile do usuário
+      await dbProfiles.get().then((profileResponse) async {
+        for (var profileDoc in profileResponse.docs) {
+          if (profileDoc.data()['uid'] == user!.uid) {
+            var categoriaCollection =
+                dbProfiles.doc(profileDoc.id).collection(tipoCategoria);
+            // atualizando todas as categorias após adicionar o movimento
+            await categoriaCollection.get().then((categoriasResponse) async {
+              for (var categoriaDoc in categoriasResponse.docs) {
+                // redefine valor total da categoria
+                num valorTotal = 0;
+                await dbProfiles
+                    .doc(profileDoc.id)
+                    .collection(entityName)
+                    .get()
+                    .then((entityResponse) {
+                  // buscando os movimentos que utilizam a categoria desejada
+                  for (var entityDoc in entityResponse.docs) {
+                    // contabliza todos os valores encontrados
+                    if (entityDoc.data()['categoria'] ==
+                        categoriaDoc.data()['titulo']) {
+                      valorTotal += entityDoc.data()['valor'];
+                    }
+                  }
+                  // atualiza o valor total da categoria
+                  categoriaCollection
+                      .doc(categoriaDoc.id)
+                      .update({'valorTotal': valorTotal});
+                });
+              }
             });
           }
         }

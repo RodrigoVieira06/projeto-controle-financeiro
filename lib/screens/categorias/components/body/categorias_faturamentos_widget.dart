@@ -19,12 +19,11 @@ class CategoriasFaturamentosWidget extends StatelessWidget {
 
     return SingleChildScrollView(
       child: ScopedBuilder<CategoriasFaturamentosStore, Exception,
-              List<CategoriaFaturamento>>(
+              List<Categoria>>(
           store: categoriasFaturamentosStore,
           onLoading: (context) => const LoadingWidget(),
           onError: (context, error) => Text('$error'),
-          onState:
-              (context, List<CategoriaFaturamento> categoriasFaturamentos) {
+          onState: (context, List<Categoria> categoriasFaturamentos) {
             if (categoriasFaturamentos.isEmpty) {
               return const Center(
                 child: ListaVaziaWidget(),

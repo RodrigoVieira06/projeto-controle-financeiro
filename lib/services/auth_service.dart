@@ -97,17 +97,17 @@ class AuthService {
 
   _setDadosIniciais() async {
     ConfiguracoesIniciais configuracoesIniciais = ConfiguracoesIniciais();
-    CategoriasService categoraisService = CategoriasService();
+    CategoriasService categoriasService = CategoriasService();
 
     for (Map<String, dynamic> categoriaDespesa
         in configuracoesIniciais.categoriasDespesas) {
-      await categoraisService.setCategoriaDespesa(
+      await categoriasService.setCategoriaDespesa(
           'categoriasDespesas', categoriaDespesa);
     }
 
     for (Map<String, dynamic> categoriaFaturamento
         in configuracoesIniciais.categoriasFaturamentos) {
-      await categoraisService.setCategoriaDespesa(
+      await categoriasService.setCategoriaDespesa(
           'categoriasFaturamentos', categoriaFaturamento);
     }
   }

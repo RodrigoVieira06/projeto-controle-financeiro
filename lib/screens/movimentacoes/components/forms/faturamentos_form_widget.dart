@@ -67,7 +67,7 @@ class FaturamentosFormWidget extends StatelessWidget {
               )));
               observacoes =
                   TextEditingController(text: faturamento.observacoes);
-              categoriasFaturamentosValue = faturamento.categoriaFaturamento;
+              categoriasFaturamentosValue = faturamento.categoria;
             }
 
             return Form(
@@ -211,7 +211,7 @@ class FaturamentosFormWidget extends StatelessWidget {
                             "titulo": titulo.text,
                             "valor": num.parse(valorTratado),
                             "data": DateFormat('d/M/y').parse(data.text),
-                            "categoriaFaturamento": categoriasFaturamentosValue,
+                            "categoria": categoriasFaturamentosValue,
                             "observacoes": observacoes.text,
                           };
 

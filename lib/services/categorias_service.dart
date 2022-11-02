@@ -7,8 +7,8 @@ import 'package:uuid/uuid.dart';
 class CategoriasService {
   User? user = AuthService().getUser();
 
-  final List<CategoriaDespesa> categoriasDespesas = [];
-  final List<CategoriaFaturamento> categoriasFaturamentos = [];
+  final List<Categoria> categoriasDespesas = [];
+  final List<Categoria> categoriasFaturamentos = [];
   var dbProfiles = FirebaseFirestore.instance.collection('profiles');
   var uuid = const Uuid();
 
@@ -25,7 +25,7 @@ class CategoriasService {
                 .get()
                 .then((value) {
               for (var doc in value.docs) {
-                var dado = CategoriaDespesa.fromJson(doc.data());
+                var dado = Categoria.fromJson(doc.data());
                 categoriasDespesas.add(dado);
               }
             });
@@ -50,7 +50,7 @@ class CategoriasService {
                 .get()
                 .then((value) {
               for (var doc in value.docs) {
-                var dado = CategoriaFaturamento.fromJson(doc.data());
+                var dado = Categoria.fromJson(doc.data());
                 categoriasFaturamentos.add(dado);
               }
             });
@@ -72,8 +72,6 @@ class CategoriasService {
       // atribuindo um identificador único ao cadastro
       final String uid = uuid.v4();
       categoria['uid'] = uid;
-      categoria['bloqueado'] = false;
-      categoria['valorTotal'] = 0;
       await dbProfiles.get().then((event) async {
         for (var doc in event.docs) {
           if (doc.data()['uid'] == user!.uid) {

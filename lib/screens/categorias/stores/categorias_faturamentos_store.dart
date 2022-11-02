@@ -3,7 +3,7 @@ import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
 class CategoriasFaturamentosStore
-    extends NotifierStore<Exception, List<CategoriaFaturamento>> {
+    extends NotifierStore<Exception, List<Categoria>> {
   final CategoriasService categoriasService = CategoriasService();
 
   CategoriasFaturamentosStore() : super([]) {
@@ -13,7 +13,7 @@ class CategoriasFaturamentosStore
   getCategoriasFaturamentos() async {
     try {
       setLoading(true);
-      List<CategoriaFaturamento> categoriasFaturamentos =
+      List<Categoria> categoriasFaturamentos =
           await categoriasService.getCategoriasFaturamentos();
       update(categoriasFaturamentos);
       setLoading(false);

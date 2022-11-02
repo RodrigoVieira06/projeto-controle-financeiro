@@ -18,12 +18,11 @@ class CategoriasDespesasWidget extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
-      child: ScopedBuilder<CategoriasDespesasStore, Exception,
-              List<CategoriaDespesa>>(
+      child: ScopedBuilder<CategoriasDespesasStore, Exception, List<Categoria>>(
           store: categoriasDesepesasStore,
           onLoading: (context) => const LoadingWidget(),
           onError: (context, error) => Text('$error'),
-          onState: (context, List<CategoriaDespesa> categoriasDespesas) {
+          onState: (context, List<Categoria> categoriasDespesas) {
             if (categoriasDespesas.isEmpty) {
               return const Center(
                 child: ListaVaziaWidget(),

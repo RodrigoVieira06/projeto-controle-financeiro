@@ -4,7 +4,7 @@ class Faturamento {
   late String titulo;
   late num valor;
   late Timestamp data;
-  late String categoriaFaturamento;
+  late String categoria;
   late String? observacoes;
   late String? uid;
 
@@ -12,7 +12,7 @@ class Faturamento {
     required this.titulo,
     required this.valor,
     required this.data,
-    required this.categoriaFaturamento,
+    required this.categoria,
     this.observacoes,
     this.uid,
   });
@@ -22,7 +22,7 @@ class Faturamento {
       titulo: json['titulo'],
       valor: json['valor'],
       data: json['data'],
-      categoriaFaturamento: json['categoriaFaturamento'],
+      categoria: json['categoria'],
       observacoes: json['observacoes'],
       uid: json['uid'],
     );

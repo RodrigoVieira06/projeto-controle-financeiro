@@ -16,7 +16,7 @@ class FaturamentosFormStore
     try {
       setLoading(true);
 
-      List<CategoriaFaturamento> categoriasFaturamentos =
+      List<Categoria> categoriasFaturamentos =
           await categoriasService.getCategoriasFaturamentos();
       Faturamento? faturamento;
       if (faturamentoId != null) {

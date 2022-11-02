@@ -4,7 +4,7 @@ class Despesa {
   late String titulo;
   late num valor;
   late Timestamp data;
-  late String categoriaDespesa;
+  late String categoria;
   late String formaPagamento;
   late String? cartao;
   late String? observacoes;
@@ -14,7 +14,7 @@ class Despesa {
     required this.titulo,
     required this.valor,
     required this.data,
-    required this.categoriaDespesa,
+    required this.categoria,
     required this.formaPagamento,
     this.cartao,
     this.observacoes,
@@ -26,7 +26,7 @@ class Despesa {
       titulo: json['titulo'],
       valor: json['valor'],
       data: json['data'],
-      categoriaDespesa: json['categoriaDespesa'],
+      categoria: json['categoria'],
       formaPagamento: json['formaPagamento'],
       cartao: json['cartao'],
       observacoes: json['observacoes'],
