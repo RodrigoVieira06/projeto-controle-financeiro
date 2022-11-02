@@ -7,6 +7,8 @@ import 'package:uuid/uuid.dart';
 class MovimentacoesService {
   User? user = AuthService().getUser();
 
+  late Despesa despesa;
+  late Faturamento faturamento;
   late List<Despesa> despesas = [];
   late List<Faturamento> faturamentos = [];
   var dbProfiles = FirebaseFirestore.instance.collection('profiles');
@@ -40,10 +42,35 @@ class MovimentacoesService {
     return null;
   }
 
+  getDespesa(String despesaId) async {
+    try {
+      await dbProfiles.get().then((response) async {
+        for (var doc in response.docs) {
+          if (doc.data()['uid'] == user!.uid) {
+            await dbProfiles
+                .doc(doc.id)
+                .collection('despesas')
+                .get()
+                .then((value) {
+              for (var doc in value.docs) {
+                if (doc.id == despesaId) {
+                  despesa = Despesa.fromJson(doc.data());
+                }
+              }
+            });
+          }
+        }
+      });
+      return despesa;
+    } catch (error) {
+      Exception(error);
+    }
+  }
+
   getFaturamentos() async {
     try {
-      await dbProfiles.get().then((event) async {
-        for (var doc in event.docs) {
+      await dbProfiles.get().then((response) async {
+        for (var doc in response.docs) {
           if (doc.data()['uid'] == user!.uid) {
             await dbProfiles
                 .doc(doc.id)
@@ -74,27 +101,13 @@ class MovimentacoesService {
       // atribuindo um identificador único ao cadastro
       final String uid = uuid.v4();
       movimento['uid'] = uid;
-      await dbProfiles.get().then((event) async {
-        for (var doc in event.docs) {
+      await dbProfiles.get().then((response) async {
+        for (var doc in response.docs) {
           if (doc.data()['uid'] == user!.uid) {
             // obtendo a coleção referente ao entity solicitado (despesas ou faturamentos)
             var collection = dbProfiles.doc(doc.id).collection(entity);
             await collection.get().then((value) {
               collection.doc(uid).set(movimento);
-              final String tipoCategoria;
-              final String categoria;
-              if (entity == 'despesas') {
-                categoria = 'categoriaDespesa';
-                tipoCategoria = 'categoriasDespesas';
-              } else {
-                categoria = 'categoriaFaturamento';
-                tipoCategoria = 'categoriasFaturamentos';
-              }
-              _updateCategoria(
-                movimento[categoria],
-                movimento['valor'],
-                tipoCategoria,
-              );
             });
           }
         }
@@ -104,21 +117,19 @@ class MovimentacoesService {
     }
   }
 
-  _updateCategoria(String categoria, num valor, String tipoCategoria) async {
+  updateMovimento(
+    String entity,
+    Map<String, dynamic> movimento,
+  ) async {
     try {
-      await dbProfiles.get().then((event) async {
-        for (var doc in event.docs) {
+      // atribuindo um identificador único ao cadastro
+      await dbProfiles.get().then((response) async {
+        for (var doc in response.docs) {
           if (doc.data()['uid'] == user!.uid) {
-            var collection = dbProfiles.doc(doc.id).collection(tipoCategoria);
+            // obtendo a coleção referente ao entity solicitado (despesas ou faturamentos)
+            var collection = dbProfiles.doc(doc.id).collection(entity);
             await collection.get().then((value) {
-              for (var doc in value.docs) {
-                if (doc.data()['titulo'] == categoria) {
-                  var document = collection.doc(doc.id);
-                  final num novoValor = valor + doc.data()['valorTotal'];
-                  document.update({'valorTotal': novoValor});
-                  break;
-                }
-              }
+              collection.doc(movimento['uid']).update(movimento);
             });
           }
         }

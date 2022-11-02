@@ -88,7 +88,7 @@ class AuthService {
 
   _setProfile(String uid, String nome, String email) async {
     profile = Profile(nome: nome, email: email, uid: uid);
-    await dbProfiles.add({
+    await dbProfiles.doc(uid).set({
       "nome": nome,
       "email": email,
       "uid": uid,

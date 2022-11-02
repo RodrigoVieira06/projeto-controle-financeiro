@@ -12,6 +12,13 @@ class MovimentacoesController {
     await movimentacoesService.setMovimento(entity, movimento);
   }
 
+  updateMovimento({
+    required String entity,
+    required Map<String, dynamic> movimento,
+  }) async {
+    await movimentacoesService.updateMovimento(entity, movimento);
+  }
+
   List<String> getFormasPagamento() {
     return [
       'Dinheiro',

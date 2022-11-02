@@ -2,16 +2,16 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
-class DespesasFormStore
-    extends NotifierStore<Exception, Map<String, List<String>?>> {
+class DespesasFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
+  final MovimentacoesService movimentacoesService = MovimentacoesService();
   final CategoriasService categoriasService = CategoriasService();
   final CartoesService cartoesService = CartoesService();
 
-  DespesasFormStore() : super({}) {
-    getDados();
+  DespesasFormStore({String? uid}) : super({}) {
+    getDados(despesaId: uid);
   }
 
-  getDados() async {
+  getDados({String? despesaId}) async {
     try {
       setLoading(true);
 
@@ -21,6 +21,10 @@ class DespesasFormStore
           await cartoesService.getCartoesCredito();
       List<CartaoDebito> cartoesDebito =
           await cartoesService.getCartoesDebito();
+      Despesa? despesa;
+      if (despesaId != null) {
+        despesa = await movimentacoesService.getDespesa(despesaId);
+      }
 
       List<String> categoriasDespesasValues = [];
       List<String> cartoesCreditoValues = [];
@@ -38,10 +42,11 @@ class DespesasFormStore
         cartoesDebitoValues.add(cartaoDebito.titulo);
       }
 
-      Map<String, List<String>?> dadosForm = {
+      Map<String, dynamic> dadosForm = {
         'categoriasDespesas': categoriasDespesasValues,
         'cartoesCredito': cartoesCreditoValues,
         'cartoesDebito': cartoesDebitoValues,
+        'despesa': despesa
       };
 
       update(dadosForm);

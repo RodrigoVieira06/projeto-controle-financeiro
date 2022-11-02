@@ -5,39 +5,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
+import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/page/movimentacoes_controller.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/stores/stores.dart';
 import 'package:projeto_controle_financeiro/utils/utils.dart';
 
-class DespesasFormWidget extends StatefulWidget {
-  const DespesasFormWidget({Key? key}) : super(key: key);
-
-  @override
-  State<DespesasFormWidget> createState() => _DespesasFormWidgetState();
-}
-
-class _DespesasFormWidgetState extends State<DespesasFormWidget> {
-  final DespesasFormStore despesasFormStore = DespesasFormStore();
-  final MovimentacoesController movimentacoesController =
-      MovimentacoesController();
-
-  final formKey = GlobalKey<FormState>();
-
-  TextEditingController titulo = TextEditingController();
-  TextEditingController valor = TextEditingController();
-  TextEditingController data = TextEditingController();
-  TextEditingController observacoes = TextEditingController();
-
-  String? formaPagamentoValue;
-  String? categoriasDespesasValue;
-  String? cartoesCreditoValue;
-  String? cartoesDebitoValue;
-
-  bool isCredit = false;
-  bool isDebit = false;
+class DespesasFormWidget extends StatelessWidget {
+  final String? despesaId;
+  const DespesasFormWidget({
+    Key? key,
+    this.despesaId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final DespesasFormStore despesasFormStore =
+        DespesasFormStore(uid: despesaId);
+
     return SingleChildScrollView(
       child: AlertDialog(
         title: const Text(
@@ -48,19 +32,57 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
             fontFamily: 'Lato',
           ),
         ),
-        content: ScopedBuilder<DespesasFormStore, Exception,
-            Map<String, List<String>?>>(
+        content:
+            ScopedBuilder<DespesasFormStore, Exception, Map<String, dynamic>>(
           store: despesasFormStore,
           onLoading: (context) => const CardLoadingWidget(
             info: 'Carregando dados do formulário.',
           ),
           onError: (context, error) => Text('$error'),
-          onState: (context, Map<String, List<String>?> dadosForm) {
+          onState: (context, Map<String, dynamic> dadosForm) {
+            final MovimentacoesController movimentacoesController =
+                MovimentacoesController();
+
+            final formKey = GlobalKey<FormState>();
+
+            TextEditingController titulo = TextEditingController();
+            TextEditingController valor = TextEditingController();
+            TextEditingController data = TextEditingController();
+            TextEditingController observacoes = TextEditingController();
+
+            String? formaPagamentoValue;
+            String? categoriasDespesasValue;
+            String? cartoesCreditoValue;
+            String? cartoesDebitoValue;
+
+            bool isCredit = false;
+            bool isDebit = false;
+
             List<String>? categoriasDespesas = dadosForm['categoriasDespesas'];
             List<String>? cartoesCredito = dadosForm['cartoesCredito'];
             List<String>? cartoesDebito = dadosForm['cartoesDebito'];
+            Despesa? despesa = dadosForm['despesa'];
+
             List<String> formasPagamento =
                 movimentacoesController.getFormasPagamento();
+
+            if (despesa != null) {
+              titulo = TextEditingController(text: despesa.titulo);
+              valor = TextEditingController(text: despesa.valor.toString());
+              data = TextEditingController(
+                  text: DateFormat('dd/MM/yyyy')
+                      .format(DateTime.fromMillisecondsSinceEpoch(
+                despesa.data.millisecondsSinceEpoch,
+              )));
+              observacoes = TextEditingController(text: despesa.observacoes);
+              formaPagamentoValue = despesa.formaPagamento;
+              categoriasDespesasValue = despesa.categoriaDespesa;
+              if (despesa.formaPagamento == 'Crédito') {
+                cartoesCreditoValue = despesa.cartao;
+              } else if (despesa.formaPagamento == 'Débito') {
+                cartoesDebitoValue = despesa.cartao;
+              }
+            }
 
             return Form(
               key: formKey,
@@ -71,6 +93,7 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       controller: titulo,
+                      // initialValue: despesa?.titulo ?? '',
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(22),
                       ],
@@ -181,9 +204,7 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
                         labelText: 'Categoria de despesa',
                       ),
                       onChanged: (String? value) {
-                        setState(() {
-                          categoriasDespesasValue = value!;
-                        });
+                        categoriasDespesasValue = value!;
                       },
                       items: categoriasDespesas
                           ?.map<DropdownMenuItem<String>>((String value) {
@@ -215,19 +236,17 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
                         labelText: 'Forma de pagamento',
                       ),
                       onChanged: (String? value) {
-                        setState(() {
-                          formaPagamentoValue = value!;
-                          if (value == 'Crédito') {
-                            isCredit = true;
-                            isDebit = false;
-                          } else if (value == 'Débito') {
-                            isDebit = true;
-                            isCredit = false;
-                          } else {
-                            isCredit = false;
-                            isDebit = false;
-                          }
-                        });
+                        formaPagamentoValue = value!;
+                        if (value == 'Crédito') {
+                          isCredit = true;
+                          isDebit = false;
+                        } else if (value == 'Débito') {
+                          isDebit = true;
+                          isCredit = false;
+                        } else {
+                          isCredit = false;
+                          isDebit = false;
+                        }
                       },
                       items: formasPagamento
                           .map<DropdownMenuItem<String>>((String value) {
@@ -260,9 +279,7 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
                           labelText: 'Cartão de crédito',
                         ),
                         onChanged: (String? value) {
-                          setState(() {
-                            cartoesCreditoValue = value!;
-                          });
+                          cartoesCreditoValue = value!;
                         },
                         items: cartoesCredito
                             ?.map<DropdownMenuItem<String>>((String value) {
@@ -295,9 +312,7 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
                           labelText: 'Cartão de débito',
                         ),
                         onChanged: (String? value) {
-                          setState(() {
-                            cartoesDebitoValue = value!;
-                          });
+                          cartoesDebitoValue = value!;
                         },
                         items: cartoesDebito
                             ?.map<DropdownMenuItem<String>>((String value) {
@@ -353,10 +368,19 @@ class _DespesasFormWidgetState extends State<DespesasFormWidget> {
                             "cartao": cartao,
                             "observacoes": observacoes.text,
                           };
-                          await movimentacoesController.setMovimento(
-                            entity: 'despesas',
-                            movimento: despesa,
-                          );
+
+                          if (despesaId != null) {
+                            despesa['uid'] = despesaId;
+                            await movimentacoesController.updateMovimento(
+                              entity: 'despesas',
+                              movimento: despesa,
+                            );
+                          } else {
+                            await movimentacoesController.setMovimento(
+                              entity: 'despesas',
+                              movimento: despesa,
+                            );
+                          }
                           Modular.to.popAndPushNamed('/movimentacoes/');
                           const SnackBar(
                             content: Text('Despesa cadastrada com sucesso.'),
