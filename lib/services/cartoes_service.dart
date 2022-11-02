@@ -5,15 +5,13 @@ import 'package:projeto_controle_financeiro/services/services.dart';
 
 class CartoesService {
   User? user = AuthService().getUser();
-
-  final List<CartaoCredito> cartoesCredito = [];
-  final List<CartaoDebito> cartoesDebito = [];
   var dbProfiles = FirebaseFirestore.instance.collection('profiles');
 
   CartoesService();
 
   getCartoesCredito() async {
     try {
+      final List<CartaoCredito> cartoesCredito = [];
       await dbProfiles.get().then((event) async {
         for (var doc in event.docs) {
           if (doc.data()['uid'] == user!.uid) {
@@ -52,6 +50,7 @@ class CartoesService {
 
   getCartoesDebito() async {
     try {
+      final List<CartaoDebito> cartoesDebito = [];
       await dbProfiles.get().then((event) async {
         for (var doc in event.docs) {
           if (doc.data()['uid'] == user!.uid) {

@@ -55,4 +55,20 @@ class DespesasFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
       setError(Exception(error));
     }
   }
+
+  setDespesa({
+    required Map<String, dynamic> despesa,
+  }) async {
+    setLoading(true);
+    await movimentacoesService.setMovimento('despesas', despesa);
+    setLoading(false);
+  }
+
+  updateDespesa({
+    required Map<String, dynamic> despesa,
+  }) async {
+    setLoading(true);
+    await movimentacoesService.updateMovimento('despesas', despesa);
+    setLoading(false);
+  }
 }

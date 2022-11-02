@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
-import 'package:projeto_controle_financeiro/models/models.dart';
-import 'package:projeto_controle_financeiro/screens/movimentacoes/page/movimentacoes_controller.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/components/forms/despesas/despesas_form_controller.dart';
+import 'package:projeto_controle_financeiro/screens/movimentacoes/components/forms/despesas/tipo_pagamento_store.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/stores/stores.dart';
 import 'package:projeto_controle_financeiro/utils/utils.dart';
 
@@ -21,6 +21,7 @@ class DespesasFormWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final DespesasFormStore despesasFormStore =
         DespesasFormStore(uid: despesaId);
+    final TipoPagamentoStore tipoPagamentoStore = TipoPagamentoStore();
 
     return SingleChildScrollView(
       child: AlertDialog(
@@ -40,59 +41,18 @@ class DespesasFormWidget extends StatelessWidget {
           ),
           onError: (context, error) => Text('$error'),
           onState: (context, Map<String, dynamic> dadosForm) {
-            final MovimentacoesController movimentacoesController =
-                MovimentacoesController();
-
-            final formKey = GlobalKey<FormState>();
-
-            TextEditingController titulo = TextEditingController();
-            TextEditingController valor = TextEditingController();
-            TextEditingController data = TextEditingController();
-            TextEditingController observacoes = TextEditingController();
-
-            String? formaPagamentoValue;
-            String? categoriasDespesasValue;
-            String? cartoesCreditoValue;
-            String? cartoesDebitoValue;
-
-            bool isCredit = false;
-            bool isDebit = false;
-
-            List<String>? categoriasDespesas = dadosForm['categoriasDespesas'];
-            List<String>? cartoesCredito = dadosForm['cartoesCredito'];
-            List<String>? cartoesDebito = dadosForm['cartoesDebito'];
-            Despesa? despesa = dadosForm['despesa'];
-
-            List<String> formasPagamento =
-                movimentacoesController.getFormasPagamento();
-
-            if (despesa != null) {
-              titulo = TextEditingController(text: despesa.titulo);
-              valor = TextEditingController(text: despesa.valor.toString());
-              data = TextEditingController(
-                  text: DateFormat('dd/MM/yyyy')
-                      .format(DateTime.fromMillisecondsSinceEpoch(
-                despesa.data.millisecondsSinceEpoch,
-              )));
-              categoriasDespesasValue = despesa.categoria;
-              formaPagamentoValue = despesa.formaPagamento;
-              observacoes = TextEditingController(text: despesa.observacoes);
-              if (despesa.formaPagamento == 'Crédito') {
-                cartoesCreditoValue = despesa.cartao;
-              } else if (despesa.formaPagamento == 'Débito') {
-                cartoesDebitoValue = despesa.cartao;
-              }
-            }
+            final DespesasFormController despesasFormController =
+                DespesasFormController(dadosForm);
 
             return Form(
-              key: formKey,
+              key: despesasFormController.formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
-                      controller: titulo,
+                      controller: despesasFormController.titulo,
                       // initialValue: despesa?.titulo ?? '',
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(22),
@@ -118,7 +78,7 @@ class DespesasFormWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
-                      controller: valor,
+                      controller: despesasFormController.valor,
                       inputFormatters: <TextInputFormatter>[
                         CurrencyTextInputFormatter(
                           symbol: 'R\$ ',
@@ -151,7 +111,7 @@ class DespesasFormWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
-                      controller: data,
+                      controller: despesasFormController.data,
                       inputFormatters: [Masks().dateMask],
                       keyboardType: TextInputType.datetime,
                       decoration: const InputDecoration(
@@ -192,7 +152,7 @@ class DespesasFormWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: DropdownButtonFormField<String>(
-                      value: categoriasDespesasValue,
+                      value: despesasFormController.categoriasDespesasValue,
                       icon: const Icon(Icons.arrow_drop_down),
                       style: const TextStyle(
                         fontFamily: 'Lato',
@@ -201,12 +161,12 @@ class DespesasFormWidget extends StatelessWidget {
                       ),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Categoria de despesa',
+                        labelText: 'Categoria',
                       ),
                       onChanged: (String? value) {
-                        categoriasDespesasValue = value!;
+                        despesasFormController.categoriasDespesasValue = value!;
                       },
-                      items: categoriasDespesas
+                      items: despesasFormController.categoriasDespesas
                           ?.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -224,7 +184,7 @@ class DespesasFormWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: DropdownButtonFormField<String>(
-                      value: formaPagamentoValue,
+                      value: despesasFormController.formaPagamentoValue,
                       icon: const Icon(Icons.arrow_drop_down),
                       style: const TextStyle(
                         fontFamily: 'Lato',
@@ -236,19 +196,16 @@ class DespesasFormWidget extends StatelessWidget {
                         labelText: 'Forma de pagamento',
                       ),
                       onChanged: (String? value) {
-                        formaPagamentoValue = value!;
+                        despesasFormController.formaPagamentoValue = value!;
                         if (value == 'Crédito') {
-                          isCredit = true;
-                          isDebit = false;
+                          tipoPagamentoStore.setTipoPagamento(true, false);
                         } else if (value == 'Débito') {
-                          isDebit = true;
-                          isCredit = false;
+                          tipoPagamentoStore.setTipoPagamento(false, true);
                         } else {
-                          isCredit = false;
-                          isDebit = false;
+                          tipoPagamentoStore.setTipoPagamento(false, false);
                         }
                       },
-                      items: formasPagamento
+                      items: despesasFormController.formasPagamento
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -263,76 +220,95 @@ class DespesasFormWidget extends StatelessWidget {
                       },
                     ),
                   ),
-                  if (isCredit)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DropdownButtonFormField<String>(
-                        value: cartoesCreditoValue,
-                        icon: const Icon(Icons.arrow_drop_down),
-                        style: const TextStyle(
-                          fontFamily: 'Lato',
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Cartão de crédito',
-                        ),
-                        onChanged: (String? value) {
-                          cartoesCreditoValue = value!;
-                        },
-                        items: cartoesCredito
-                            ?.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
+                  ScopedBuilder<TipoPagamentoStore, Exception,
+                          Map<String, dynamic>>(
+                      store: tipoPagamentoStore,
+                      onLoading: (context) => const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                      onError: (context, error) => Text('$error'),
+                      onState:
+                          (context, Map<String, dynamic> tipoPagamentoStore) {
+                        if (tipoPagamentoStore['isCredit']) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownButtonFormField<String>(
+                              value: despesasFormController.cartoesCreditoValue,
+                              icon: const Icon(Icons.arrow_drop_down),
+                              style: const TextStyle(
+                                fontFamily: 'Lato',
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Cartão de crédito',
+                              ),
+                              onChanged: (String? value) {
+                                despesasFormController.cartoesCreditoValue =
+                                    value!;
+                              },
+                              items: tipoPagamentoStore['cartoes']
+                                  ?.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              validator: (value) {
+                                if (value == null &&
+                                    tipoPagamentoStore['isCredit']) {
+                                  return 'Informe o cartão.';
+                                }
+                                return null;
+                              },
+                            ),
                           );
-                        }).toList(),
-                        validator: (value) {
-                          if (value == null && isCredit) {
-                            return 'Informe o cartão.';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  if (isDebit)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DropdownButtonFormField<String>(
-                        value: cartoesDebitoValue,
-                        icon: const Icon(Icons.arrow_drop_down),
-                        style: const TextStyle(
-                          fontFamily: 'Lato',
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Cartão de débito',
-                        ),
-                        onChanged: (String? value) {
-                          cartoesDebitoValue = value!;
-                        },
-                        items: cartoesDebito
-                            ?.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
+                        } else if (tipoPagamentoStore['isDebit']) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownButtonFormField<String>(
+                              value: despesasFormController.cartoesDebitoValue,
+                              icon: const Icon(Icons.arrow_drop_down),
+                              style: const TextStyle(
+                                fontFamily: 'Lato',
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Cartão de débito',
+                              ),
+                              onChanged: (String? value) {
+                                despesasFormController.cartoesDebitoValue =
+                                    value!;
+                              },
+                              items: tipoPagamentoStore['cartoes']
+                                  ?.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              validator: (value) {
+                                if (value == null &&
+                                    tipoPagamentoStore['isDebit']) {
+                                  return 'Informe o cartão.';
+                                }
+                                return null;
+                              },
+                            ),
                           );
-                        }).toList(),
-                        validator: (value) {
-                          if (value == null && isDebit) {
-                            return 'Informe o cartão.';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
+                        }
+                        return Container();
+                      }),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
-                      controller: observacoes,
+                      controller: despesasFormController.observacoes,
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -349,36 +325,41 @@ class DespesasFormWidget extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 2.0, top: 8.0),
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          String valorTratado =
-                              valor.text.replaceAll('R\$ ', '');
+                        if (despesasFormController.formKey.currentState!
+                            .validate()) {
+                          String valorTratado = despesasFormController
+                              .valor.text
+                              .replaceAll('R\$ ', '');
                           valorTratado = valorTratado.replaceAll(',', '');
                           String? cartao;
-                          if (isCredit) {
-                            cartao = cartoesCreditoValue;
-                          } else if (isDebit) {
-                            cartao = cartoesDebitoValue;
-                          }
+                          despesasFormController.cartoesCreditoValue != null
+                              ? cartao =
+                                  despesasFormController.cartoesCreditoValue
+                              : cartao =
+                                  despesasFormController.cartoesDebitoValue;
+
                           Map<String, dynamic> despesa = {
-                            "titulo": titulo.text,
+                            "titulo": despesasFormController.titulo.text,
                             "valor": num.parse(valorTratado),
-                            "data": DateFormat('d/M/y').parse(data.text),
-                            "categoria": categoriasDespesasValue,
-                            "formaPagamento": formaPagamentoValue,
+                            "data": DateFormat('d/M/y')
+                                .parse(despesasFormController.data.text),
+                            "categoria":
+                                despesasFormController.categoriasDespesasValue,
+                            "formaPagamento":
+                                despesasFormController.formaPagamentoValue,
                             "cartao": cartao,
-                            "observacoes": observacoes.text,
+                            "observacoes":
+                                despesasFormController.observacoes.text,
                           };
 
                           if (despesaId != null) {
                             despesa['uid'] = despesaId;
-                            await movimentacoesController.updateMovimento(
-                              entity: 'despesas',
-                              movimento: despesa,
+                            await despesasFormStore.updateDespesa(
+                              despesa: despesa,
                             );
                           } else {
-                            await movimentacoesController.setMovimento(
-                              entity: 'despesas',
-                              movimento: despesa,
+                            await despesasFormStore.setDespesa(
+                              despesa: despesa,
                             );
                           }
                           Modular.to.popAndPushNamed('/movimentacoes/');
@@ -388,11 +369,11 @@ class DespesasFormWidget extends StatelessWidget {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: projectTheme.primaryColor,
+                        primary: const Color.fromARGB(255, 0, 27, 67),
                         minimumSize: const Size(100, 40),
                       ),
                       child: const Text(
-                        'Cadastrar',
+                        'Salvar',
                         style: TextStyle(
                           fontFamily: 'Lato',
                           color: Colors.white,
@@ -407,7 +388,7 @@ class DespesasFormWidget extends StatelessWidget {
                         Navigator.of(context).pop();
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red[400],
+                        primary: Colors.black26,
                         minimumSize: const Size(100, 40),
                       ),
                       child: const Text(
@@ -418,7 +399,27 @@ class DespesasFormWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  if (despesaId != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red[400],
+                          minimumSize: const Size(100, 40),
+                        ),
+                        child: const Text(
+                          'Excluir',
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
                 ],
               ),
             );

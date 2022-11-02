@@ -40,4 +40,20 @@ class FaturamentosFormStore
       setError(Exception(error));
     }
   }
+
+  setFaturamento({
+    required Map<String, dynamic> faturamento,
+  }) async {
+    setLoading(true);
+    await movimentacoesService.setMovimento('faturamentos', faturamento);
+    setLoading(false);
+  }
+
+  updateFaturamento({
+    required Map<String, dynamic> faturamento,
+  }) async {
+    setLoading(true);
+    await movimentacoesService.updateMovimento('faturamentos', faturamento);
+    setLoading(false);
+  }
 }

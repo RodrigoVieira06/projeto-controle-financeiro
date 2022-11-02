@@ -6,7 +6,6 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:intl/intl.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
-import 'package:projeto_controle_financeiro/screens/movimentacoes/page/movimentacoes_controller.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/stores/stores.dart';
 import 'package:projeto_controle_financeiro/utils/utils.dart';
 
@@ -41,9 +40,6 @@ class FaturamentosFormWidget extends StatelessWidget {
           ),
           onError: (context, error) => Text('$error'),
           onState: (context, Map<String, dynamic> dadosForm) {
-            final MovimentacoesController movimentacoesController =
-                MovimentacoesController();
-
             final formKey = GlobalKey<FormState>();
 
             TextEditingController titulo = TextEditingController();
@@ -168,7 +164,7 @@ class FaturamentosFormWidget extends StatelessWidget {
                       ),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Categoria de despesa',
+                        labelText: 'Categoria',
                       ),
                       onChanged: (String? value) {
                         categoriasFaturamentosValue = value!;
@@ -217,14 +213,12 @@ class FaturamentosFormWidget extends StatelessWidget {
 
                           if (faturamentoId != null) {
                             faturamento['uid'] = faturamentoId;
-                            await movimentacoesController.updateMovimento(
-                              entity: 'faturamentos',
-                              movimento: faturamento,
+                            await faturamentosFormStore.updateFaturamento(
+                              faturamento: faturamento,
                             );
                           } else {
-                            await movimentacoesController.setMovimento(
-                              entity: 'faturamentos',
-                              movimento: faturamento,
+                            await faturamentosFormStore.setFaturamento(
+                              faturamento: faturamento,
                             );
                           }
                           Modular.to.popAndPushNamed('/movimentacoes/');
@@ -239,7 +233,7 @@ class FaturamentosFormWidget extends StatelessWidget {
                         minimumSize: const Size(100, 40),
                       ),
                       child: const Text(
-                        'Cadastrar',
+                        'Salvar',
                         style: TextStyle(
                           fontFamily: 'Lato',
                           color: Colors.white,
@@ -265,7 +259,27 @@ class FaturamentosFormWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  if (faturamentoId != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red[400],
+                          minimumSize: const Size(100, 40),
+                        ),
+                        child: const Text(
+                          'Excluir',
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
                 ],
               ),
             );
