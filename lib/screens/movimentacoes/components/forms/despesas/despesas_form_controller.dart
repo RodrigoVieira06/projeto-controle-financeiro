@@ -11,24 +11,27 @@ class DespesasFormController {
   TextEditingController observacoes = TextEditingController();
   // fim - definição de configurações dos campos do formulário
 
-  // inicio - definição dos valores dos campos do formulário
+  // inicio - declaração dos valores dos campos do formulário
   String? formaPagamentoValue;
-  String? categoriasDespesasValue;
+  String? categoriaValue;
   String? cartoesCreditoValue;
   String? cartoesDebitoValue;
-  // fim - definição dos valores dos campos do formulário
+  // fim - declaração dos valores dos campos do formulário
 
+  // inicio - declaração de listas que serão utilizadas nos selects do formulário
   late final List<String> formasPagamento;
-  late final List<String>? categoriasDespesas;
-  late final List<String>? cartoesCredito;
-  late final List<String>? cartoesDebito;
+  late final List<String>? categoria;
+  // fim - declaração de listas que serão utilizadas nos selects do formulário
+
   late final Despesa? despesa;
 
   DespesasFormController(Map<String, dynamic> dadosForm) {
+    _getInitialData(dadosForm);
+  }
+
+  _getInitialData(Map<String, dynamic> dadosForm) {
     formasPagamento = getFormasPagamento();
-    categoriasDespesas = dadosForm['categoriasDespesas'];
-    cartoesCredito = dadosForm['cartoesCredito'];
-    cartoesDebito = dadosForm['cartoesDebito'];
+    categoria = dadosForm['categoriasDespesas'];
     despesa = dadosForm['despesa'];
 
     if (despesa != null) {
@@ -39,7 +42,7 @@ class DespesasFormController {
               .format(DateTime.fromMillisecondsSinceEpoch(
         despesa!.data.millisecondsSinceEpoch,
       )));
-      categoriasDespesasValue = despesa!.categoria;
+      categoriaValue = despesa!.categoria;
       formaPagamentoValue = despesa!.formaPagamento;
       observacoes = TextEditingController(text: despesa!.observacoes);
       if (despesa!.formaPagamento == 'Crédito') {

@@ -123,7 +123,7 @@ class MovimentacoesService {
     }
   }
 
-  setMovimento(
+  setMovimentacao(
     String entityName,
     Map<String, dynamic> entity,
   ) async {
@@ -151,7 +151,7 @@ class MovimentacoesService {
     }
   }
 
-  updateMovimento(
+  updateMovimentacao(
     String entityName,
     Map<String, dynamic> entity,
   ) async {
@@ -167,6 +167,32 @@ class MovimentacoesService {
                 .collection(entityName)
                 .doc(entity['uid'])
                 .update(entity);
+            await _updateValorTotalCategorias(entityName, entity['categoria']);
+            break;
+          }
+        }
+      });
+    } catch (error) {
+      Exception(error);
+    }
+  }
+
+  deleteMovimentacao(
+    String entityName,
+    Map<String, dynamic> entity,
+  ) async {
+    try {
+      // atribuindo um identificador único ao cadastro
+      await dbProfiles.get().then((response) async {
+        for (var doc in response.docs) {
+          if (doc.data()['uid'] == user!.uid) {
+            // alterando o documento da coleção referente
+            // ao entity solicitado (despesas ou faturamentos)
+            await dbProfiles
+                .doc(doc.id)
+                .collection(entityName)
+                .doc(entity['uid'])
+                .delete();
             await _updateValorTotalCategorias(entityName, entity['categoria']);
             break;
           }

@@ -17,35 +17,19 @@ class DespesasFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
 
       List<Categoria> categoriasDespesas =
           await categoriasService.getCategoriasDespesas();
-      List<CartaoCredito> cartoesCredito =
-          await cartoesService.getCartoesCredito();
-      List<CartaoDebito> cartoesDebito =
-          await cartoesService.getCartoesDebito();
       Despesa? despesa;
       if (despesaId != null) {
         despesa = await movimentacoesService.getDespesa(despesaId);
       }
 
       List<String> categoriasDespesasValues = [];
-      List<String> cartoesCreditoValues = [];
-      List<String> cartoesDebitoValues = [];
 
       for (var categoriaDespesa in categoriasDespesas) {
         categoriasDespesasValues.add(categoriaDespesa.titulo);
       }
 
-      for (var cartaoCredito in cartoesCredito) {
-        cartoesCreditoValues.add(cartaoCredito.titulo);
-      }
-
-      for (var cartaoDebito in cartoesDebito) {
-        cartoesDebitoValues.add(cartaoDebito.titulo);
-      }
-
       Map<String, dynamic> dadosForm = {
         'categoriasDespesas': categoriasDespesasValues,
-        'cartoesCredito': cartoesCreditoValues,
-        'cartoesDebito': cartoesDebitoValues,
         'despesa': despesa
       };
 
@@ -60,7 +44,7 @@ class DespesasFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
     required Map<String, dynamic> despesa,
   }) async {
     setLoading(true);
-    await movimentacoesService.setMovimento('despesas', despesa);
+    await movimentacoesService.setMovimentacao('despesas', despesa);
     setLoading(false);
   }
 
@@ -68,7 +52,15 @@ class DespesasFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
     required Map<String, dynamic> despesa,
   }) async {
     setLoading(true);
-    await movimentacoesService.updateMovimento('despesas', despesa);
+    await movimentacoesService.updateMovimentacao('despesas', despesa);
+    setLoading(false);
+  }
+
+  deleteDespesa(
+    Map<String, dynamic> despesa,
+  ) async {
+    setLoading(true);
+    await movimentacoesService.deleteMovimentacao('despesas', despesa);
     setLoading(false);
   }
 }

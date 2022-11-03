@@ -45,7 +45,7 @@ class FaturamentosFormStore
     required Map<String, dynamic> faturamento,
   }) async {
     setLoading(true);
-    await movimentacoesService.setMovimento('faturamentos', faturamento);
+    await movimentacoesService.setMovimentacao('faturamentos', faturamento);
     setLoading(false);
   }
 
@@ -53,7 +53,15 @@ class FaturamentosFormStore
     required Map<String, dynamic> faturamento,
   }) async {
     setLoading(true);
-    await movimentacoesService.updateMovimento('faturamentos', faturamento);
+    await movimentacoesService.updateMovimentacao('faturamentos', faturamento);
+    setLoading(false);
+  }
+
+  deleteFaturamento(
+    Map<String, dynamic> faturamento,
+  ) async {
+    setLoading(true);
+    await movimentacoesService.deleteMovimentacao('faturamentos', faturamento);
     setLoading(false);
   }
 }
