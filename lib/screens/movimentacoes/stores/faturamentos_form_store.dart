@@ -17,7 +17,7 @@ class FaturamentosFormStore
       setLoading(true);
 
       List<Categoria> categoriasFaturamentos =
-          await categoriasService.getCategoriasFaturamentos();
+          await categoriasService.getCategorias('categoriasFaturamentos');
       Faturamento? faturamento;
       if (faturamentoId != null) {
         faturamento = await movimentacoesService.getFaturamento(faturamentoId);

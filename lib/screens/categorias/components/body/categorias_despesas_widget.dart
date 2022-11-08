@@ -2,91 +2,109 @@ import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
+import 'package:projeto_controle_financeiro/screens/categorias/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/categorias/stores/stores.dart';
 
 class CategoriasDespesasWidget extends StatelessWidget {
-  const CategoriasDespesasWidget({Key? key}) : super(key: key);
+  final String entityName;
+  const CategoriasDespesasWidget({
+    Key? key,
+    required this.entityName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // definindo a lista através de um store
-    final CategoriasDespesasStore categoriasDesepesasStore =
-        CategoriasDespesasStore();
+    final CategoriasStore categoriasStore = CategoriasStore(entityName);
 
     // definindo margens por porcentagem
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
-      child: ScopedBuilder<CategoriasDespesasStore, Exception, List<Categoria>>(
-          store: categoriasDesepesasStore,
+      child: ScopedBuilder<CategoriasStore, Exception, List<Categoria>>(
+          store: categoriasStore,
           onLoading: (context) => const LoadingWidget(),
           onError: (context, error) => Text('$error'),
-          onState: (context, List<Categoria> categoriasDespesas) {
-            if (categoriasDespesas.isEmpty) {
+          onState: (context, List<Categoria> categorias) {
+            if (categorias.isEmpty) {
               return const Center(
                 child: ListaVaziaWidget(),
               );
             } else {
               return Column(
                 children: [
-                  for (final categoriaDespesa in categoriasDespesas)
+                  for (final categoria in categorias)
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            height: height * 0.1,
-                            width: width * 0.98,
-                            color: Colors.white,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Icons.money_off,
-                                            color: Colors.red[400],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            categoriaDespesa.titulo,
-                                            style: const TextStyle(
-                                              fontFamily: 'Lato',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CategoriasFormWidget(
+                                    entityName: entityName,
+                                    categoriaId: categoria.uid,
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              height: height * 0.1,
+                              width: width * 0.98,
+                              color: Colors.white,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Icons.money_off,
+                                              color: Colors.red[400],
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Média mensal: R\$ ${categoriaDespesa.valorTotal.toStringAsFixed(2)}',
-                                        style: const TextStyle(
-                                          fontFamily: 'Lato',
-                                          fontSize: 14,
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              categoria.titulo,
+                                              style: const TextStyle(
+                                                fontFamily: 'Lato',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Média mensal: R\$ ${categoria.valorTotal.toStringAsFixed(2)}',
+                                          style: const TextStyle(
+                                            fontFamily: 'Lato',
+                                            fontSize: 14,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           )
                         ],

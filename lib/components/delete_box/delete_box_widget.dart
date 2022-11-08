@@ -5,12 +5,14 @@ class DeleteBoxWidget extends StatelessWidget {
   final dynamic funcaoExclusao;
   final Map<String, dynamic> entity;
   final String path;
+  final String? entityName;
 
   const DeleteBoxWidget({
     Key? key,
     required this.funcaoExclusao,
     required this.entity,
     required this.path,
+    this.entityName,
   }) : super(key: key);
 
   @override
@@ -47,7 +49,9 @@ class DeleteBoxWidget extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      await funcaoExclusao(entity);
+                      entityName == null
+                          ? await funcaoExclusao(entity)
+                          : await funcaoExclusao(entityName, entity);
                       Modular.to.popAndPushNamed(path);
                     },
                     style: ElevatedButton.styleFrom(

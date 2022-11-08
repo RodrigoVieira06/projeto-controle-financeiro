@@ -8,10 +8,6 @@ class MovimentacoesService {
   User? user = AuthService().getUser();
   CategoriasService categoriasService = CategoriasService();
 
-  late Despesa despesa;
-  late Faturamento faturamento;
-  late List<Despesa> despesas = [];
-  late List<Faturamento> faturamentos = [];
   var dbProfiles = FirebaseFirestore.instance.collection('profiles');
   var uuid = const Uuid();
 
@@ -19,6 +15,8 @@ class MovimentacoesService {
 
   getDespesas() async {
     try {
+      late List<Despesa> despesas = [];
+
       await dbProfiles.get().then((event) async {
         for (var doc in event.docs) {
           if (doc.data()['uid'] == user!.uid) {
@@ -46,6 +44,8 @@ class MovimentacoesService {
 
   getDespesa(String despesaId) async {
     try {
+      late Despesa despesa;
+
       await dbProfiles.get().then((response) async {
         for (var doc in response.docs) {
           if (doc.data()['uid'] == user!.uid) {
@@ -72,6 +72,8 @@ class MovimentacoesService {
 
   getFaturamentos() async {
     try {
+      late List<Faturamento> faturamentos = [];
+
       await dbProfiles.get().then((profileResponse) async {
         for (var doc in profileResponse.docs) {
           if (doc.data()['uid'] == user!.uid) {
@@ -98,6 +100,8 @@ class MovimentacoesService {
 
   getFaturamento(String faturamentoId) async {
     try {
+      late Faturamento faturamento;
+
       await dbProfiles.get().then((profileResponse) async {
         for (var doc in profileResponse.docs) {
           if (doc.data()['uid'] == user!.uid) {

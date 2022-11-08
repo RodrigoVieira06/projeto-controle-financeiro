@@ -16,7 +16,7 @@ class DespesasFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
       setLoading(true);
 
       List<Categoria> categoriasDespesas =
-          await categoriasService.getCategoriasDespesas();
+          await categoriasService.getCategorias('categoriasDespesas');
       Despesa? despesa;
       if (despesaId != null) {
         despesa = await movimentacoesService.getDespesa(despesaId);
