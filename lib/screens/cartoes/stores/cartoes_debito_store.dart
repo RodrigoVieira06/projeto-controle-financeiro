@@ -13,7 +13,7 @@ class CartoesDebitoStore extends NotifierStore<Exception, List<CartaoDebito>> {
     try {
       setLoading(true);
       List<CartaoDebito> cartoesDebito =
-          await cartoesService.getCartoesDebito();
+          await cartoesService.getCartoes('cartoesDebito');
       update(cartoesDebito);
       setLoading(false);
     } catch (error) {

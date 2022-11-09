@@ -42,6 +42,7 @@ class CategoriasFormWidget extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   fontFamily: 'Lato',
+                  color: Colors.black26,
                 ),
               ),
             ),

@@ -126,7 +126,9 @@ class DespesasFormWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         controller: despesasFormController.data,
-                        inputFormatters: [Masks().dateMask],
+                        inputFormatters: [
+                          Masks().dateMask,
+                        ],
                         keyboardType: TextInputType.datetime,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),

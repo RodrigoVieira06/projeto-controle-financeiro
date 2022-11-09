@@ -35,9 +35,8 @@ class CategoriasService {
       categorias.sort((a, b) => b.data.compareTo(a.data));
       return categorias;
     } catch (error) {
-      Exception(error);
+      throw Exception(error);
     }
-    return null;
   }
 
   getCategoria(String uid, String entityName) async {
@@ -63,7 +62,7 @@ class CategoriasService {
       });
       return categoria;
     } catch (error) {
-      Exception(error);
+      throw Exception(error);
     }
   }
 
@@ -75,6 +74,7 @@ class CategoriasService {
       // atribuindo um identificador único ao cadastro
       final String uid = uuid.v4();
       entity['uid'] = uid;
+
       await dbProfiles.get().then((profileResponse) async {
         for (var doc in profileResponse.docs) {
           if (doc.data()['uid'] == user!.uid) {
@@ -89,7 +89,7 @@ class CategoriasService {
         }
       });
     } catch (error) {
-      Exception(error);
+      throw Exception(error);
     }
   }
 
@@ -99,8 +99,8 @@ class CategoriasService {
   ) async {
     try {
       // atribuindo um identificador único ao cadastro
-      await dbProfiles.get().then((response) async {
-        for (var doc in response.docs) {
+      await dbProfiles.get().then((profileResponse) async {
+        for (var doc in profileResponse.docs) {
           if (doc.data()['uid'] == user!.uid) {
             // alterando o documento da coleção referente
             // ao entity solicitado (despesas ou faturamentos)
@@ -114,7 +114,7 @@ class CategoriasService {
         }
       });
     } catch (error) {
-      Exception(error);
+      throw Exception(error);
     }
   }
 
@@ -123,7 +123,6 @@ class CategoriasService {
     Map<String, dynamic> entity,
   ) async {
     try {
-      // atribuindo um identificador único ao cadastro
       await dbProfiles.get().then((response) async {
         for (var doc in response.docs) {
           if (doc.data()['uid'] == user!.uid) {
@@ -139,7 +138,7 @@ class CategoriasService {
         }
       });
     } catch (error) {
-      Exception(error);
+      throw Exception(error);
     }
   }
 }
