@@ -8,8 +8,8 @@ class Masks {
     filter: {"#": RegExp(r'[0-9]')},
   );
 
-  final moneyMask = MaskTextInputFormatter(
-    mask: 'R\$ #,##',
+  final diaVencimento = MaskTextInputFormatter(
+    mask: '##',
     filter: {"#": RegExp(r'[0-9]')},
   );
 }

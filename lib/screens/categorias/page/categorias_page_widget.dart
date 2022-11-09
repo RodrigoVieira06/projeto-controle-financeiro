@@ -20,8 +20,8 @@ class _CategoriasPageWidgetState extends State<CategoriasPageWidget> {
   }
 
   final List<Widget> _widgetOptions = <Widget>[
-    const CategoriasDespesasWidget(),
-    const CategoriasFaturamentosWidget(),
+    const CategoriasDespesasWidget(entityName: 'categoriasDespesas'),
+    const CategoriasFaturamentosWidget(entityName: 'categoriasFaturamentos'),
   ];
 
   @override
@@ -45,15 +45,19 @@ class _CategoriasPageWidgetState extends State<CategoriasPageWidget> {
         ),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
-      floatingActionButton: AddButtonWidget(
-        text1: 'Categorias de despesas',
-        icon1: const Icon(Icons.money_off),
-        iconcolor1: const Color.fromARGB(255, 255, 67, 67),
-        formdialog1: CategoriasDespesasFormWidget(),
-        text2: 'Categorias de daturamentos',
-        icon2: const Icon(Icons.attach_money),
-        iconcolor2: const Color.fromARGB(255, 36, 137, 232),
-        formdialog2: CategoriasFaturamentosFormWidget(),
+      floatingActionButton: const AddButtonWidget(
+        text1: 'Categoria de despesa',
+        icon1: Icon(Icons.money_off),
+        iconcolor1: Color.fromARGB(255, 255, 67, 67),
+        formdialog1: CategoriasFormWidget(
+          entityName: 'categoriasDespesas',
+        ),
+        text2: 'Categoria de faturamento',
+        icon2: Icon(Icons.attach_money),
+        iconcolor2: Color.fromARGB(255, 36, 137, 232),
+        formdialog2: CategoriasFormWidget(
+          entityName: 'categoriasFaturamentos',
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(

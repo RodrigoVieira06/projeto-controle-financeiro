@@ -14,7 +14,7 @@ class CartoesCreditoStore
     try {
       setLoading(true);
       List<CartaoCredito> cartoesCredito =
-          await cartoesService.getCartoesCredito();
+          await cartoesService.getCartoes('cartoesCredito');
       update(cartoesCredito);
       setLoading(false);
     } catch (error) {

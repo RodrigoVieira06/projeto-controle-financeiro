@@ -23,7 +23,7 @@ class TipoPagamentoStore
       };
       if (isCredit) {
         List<CartaoCredito> cartoesCredito = [];
-        cartoesCredito = await cartoesService.getCartoesCredito();
+        cartoesCredito = await cartoesService.getCartoes('cartoesCredito');
 
         List<String> cartoesCreditoValues = [];
 
@@ -38,7 +38,7 @@ class TipoPagamentoStore
         };
       } else if (isDebit) {
         List<CartaoDebito> cartoesDebito = [];
-        cartoesDebito = await cartoesService.getCartoesDebito();
+        cartoesDebito = await cartoesService.getCartoes('cartoesDebito');
 
         List<String> cartoesDebitoValues = [];
 

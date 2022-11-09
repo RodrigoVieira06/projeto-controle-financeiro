@@ -2,85 +2,183 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
+import 'package:uuid/uuid.dart';
 
 class CartoesService {
   User? user = AuthService().getUser();
+
   var dbProfiles = FirebaseFirestore.instance.collection('profiles');
+  var uuid = const Uuid();
 
   CartoesService();
 
-  getCartoesCredito() async {
+  getCartoes(String entityName) async {
     try {
-      final List<CartaoCredito> cartoesCredito = [];
-      await dbProfiles.get().then((event) async {
-        for (var doc in event.docs) {
-          if (doc.data()['uid'] == user!.uid) {
-            await dbProfiles
-                .doc(doc.id)
-                .collection('cartoesCredito')
-                .get()
-                .then((value) {
-              for (var doc in value.docs) {
-                var dado = CartaoCredito.fromJson(doc.data());
-                cartoesCredito.add(dado);
-              }
-            });
+      if (entityName == 'cartoesCredito') {
+        List<CartaoCredito> cartoes = [];
+        await dbProfiles.get().then((event) async {
+          for (var doc in event.docs) {
+            if (doc.data()['uid'] == user!.uid) {
+              await dbProfiles
+                  .doc(doc.id)
+                  .collection(entityName)
+                  .get()
+                  .then((value) {
+                for (var doc in value.docs) {
+                  var dado = CartaoCredito.fromJson(doc.data());
+                  cartoes.add(dado);
+                }
+              });
+            }
           }
-        }
-      });
-      return cartoesCredito;
+        });
+        cartoes.sort((a, b) => b.data.compareTo(a.data));
+        return cartoes;
+      } else {
+        List<CartaoDebito> cartoes = [];
+        await dbProfiles.get().then((event) async {
+          for (var doc in event.docs) {
+            if (doc.data()['uid'] == user!.uid) {
+              await dbProfiles
+                  .doc(doc.id)
+                  .collection(entityName)
+                  .get()
+                  .then((value) {
+                for (var doc in value.docs) {
+                  var dado = CartaoDebito.fromJson(doc.data());
+                  cartoes.add(dado);
+                }
+              });
+            }
+          }
+        });
+        cartoes.sort((a, b) => b.data.compareTo(a.data));
+        return cartoes;
+      }
     } catch (error) {
-      Exception(error);
+      throw Exception(error);
     }
-    return null;
   }
 
-  setCartaoCredito(Map<String, dynamic> cartaoCredito) async {
-    await dbProfiles.get().then((event) {
-      for (var doc in event.docs) {
+  getCartao(String uid, String entityName) async {
+    try {
+      if (entityName == 'cartoesCredito') {
+        late CartaoCredito cartao;
+        await dbProfiles.get().then((response) async {
+          for (var doc in response.docs) {
+            if (doc.data()['uid'] == user!.uid) {
+              await dbProfiles
+                  .doc(doc.id)
+                  .collection(entityName)
+                  .get()
+                  .then((value) {
+                for (var doc in value.docs) {
+                  if (doc.id == uid) {
+                    cartao = CartaoCredito.fromJson(doc.data());
+                  }
+                }
+              });
+              break;
+            }
+          }
+        });
+        return cartao;
+      } else {
+        late CartaoDebito cartao;
+        await dbProfiles.get().then((response) async {
+          for (var doc in response.docs) {
+            if (doc.data()['uid'] == user!.uid) {
+              await dbProfiles
+                  .doc(doc.id)
+                  .collection(entityName)
+                  .get()
+                  .then((value) {
+                for (var doc in value.docs) {
+                  if (doc.id == uid) {
+                    cartao = CartaoDebito.fromJson(doc.data());
+                  }
+                }
+              });
+              break;
+            }
+          }
+        });
+        return cartao;
+      }
+    } catch (error) {
+      throw Exception(error);
+    }
+  }
+
+  setCartao(
+    String entityName,
+    Map<String, dynamic> entity,
+  ) async {
+    // atribuindo um identificador único ao cadastro
+    final String uid = uuid.v4();
+    entity['uid'] = uid;
+
+    await dbProfiles.get().then((profileResponse) async {
+      for (var doc in profileResponse.docs) {
         if (doc.data()['uid'] == user!.uid) {
-          dbProfiles
+          // registrando o documento da coleção referente
+          // ao entity solicitado (Categorias de despesas ou faturamentos)
+          await dbProfiles
               .doc(doc.id)
-              .collection('cartoesCredito')
-              .add(cartaoCredito);
+              .collection(entityName)
+              .doc(uid)
+              .set(entity);
         }
       }
     });
   }
 
-  getCartoesDebito() async {
+  updateCartao(
+    String entityName,
+    Map<String, dynamic> entity,
+  ) async {
     try {
-      final List<CartaoDebito> cartoesDebito = [];
-      await dbProfiles.get().then((event) async {
-        for (var doc in event.docs) {
+      // atribuindo um identificador único ao cadastro
+      await dbProfiles.get().then((profileResponse) async {
+        for (var doc in profileResponse.docs) {
           if (doc.data()['uid'] == user!.uid) {
+            // alterando o documento da coleção referente
+            // ao entity solicitado (crédito ou débito)
             await dbProfiles
                 .doc(doc.id)
-                .collection('cartoesDebito')
-                .get()
-                .then((value) {
-              for (var doc in value.docs) {
-                var dado = CartaoDebito.fromJson(doc.data());
-                cartoesDebito.add(dado);
-              }
-            });
+                .collection(entityName)
+                .doc(entity['uid'])
+                .update(entity);
+            break;
           }
         }
       });
-      return cartoesDebito;
     } catch (error) {
-      Exception(error);
+      throw Exception(error);
     }
-    return null;
   }
 
-  setCartaoDebito(Map<String, dynamic> cartaoDebito) async {
-    await dbProfiles.get().then((event) {
-      for (var doc in event.docs) {
-        if (doc.data()['uid'] == user!.uid) {
-          dbProfiles.doc(doc.id).collection('cartoesDebito').add(cartaoDebito);
+  deleteCartao(
+    String entityName,
+    Map<String, dynamic> entity,
+  ) async {
+    try {
+      await dbProfiles.get().then((response) async {
+        for (var doc in response.docs) {
+          if (doc.data()['uid'] == user!.uid) {
+            // alterando o documento da coleção referente
+            // ao entity solicitado (crédito ou débito)
+            await dbProfiles
+                .doc(doc.id)
+                .collection(entityName)
+                .doc(entity['uid'])
+                .delete();
+            break;
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      throw Exception(error);
+    }
   }
 }
