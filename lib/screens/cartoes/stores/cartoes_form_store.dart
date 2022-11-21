@@ -4,13 +4,14 @@ import 'package:projeto_controle_financeiro/services/services.dart';
 
 class CartoesFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
   final CartoesService cartoesService = CartoesService();
+  final MovimentacoesService movimentacoesService = MovimentacoesService();
 
   CartoesFormStore({
-    String? uid,
+    String? id,
     required String entityName,
   }) : super({}) {
     getCartao(
-      cartaoId: uid,
+      cartaoId: id,
       entityName: entityName,
     );
   }

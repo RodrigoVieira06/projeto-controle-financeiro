@@ -39,7 +39,6 @@ class MovimentacoesService {
     } catch (error) {
       Exception(error);
     }
-    return null;
   }
 
   getDespesa(String despesaId) async {

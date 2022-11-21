@@ -5,7 +5,6 @@ class CartaoCredito {
   late String titulo;
   late int diaVencimento;
   late Timestamp data;
-  late bool bloqueado;
   late String? descricao;
 
   CartaoCredito({
@@ -13,7 +12,6 @@ class CartaoCredito {
     required this.titulo,
     required this.diaVencimento,
     required this.data,
-    required this.bloqueado,
     this.descricao,
   });
 
@@ -23,7 +21,6 @@ class CartaoCredito {
       titulo: json['titulo'],
       diaVencimento: json['diaVencimento'],
       data: json['data'],
-      bloqueado: json['bloqueado'],
       descricao: json['descricao'],
     );
   }

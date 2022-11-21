@@ -31,7 +31,7 @@ class CategoriasFormWidget extends StatelessWidget {
               padding: EdgeInsets.only(right: 2.0),
               child: Icon(
                 Icons.bookmarks_rounded,
-                color: Colors.black26,
+                color: Colors.black87,
               ),
             ),
             Padding(
@@ -42,7 +42,7 @@ class CategoriasFormWidget extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   fontFamily: 'Lato',
-                  color: Colors.black26,
+                  color: Colors.black87,
                 ),
               ),
             ),

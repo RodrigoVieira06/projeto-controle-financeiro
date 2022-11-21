@@ -54,7 +54,7 @@ class FaturamentosWidget extends StatelessWidget {
                                 },
                                 child: Container(
                                   height: height * 0.1,
-                                  width: width * 0.98,
+                                  width: width * 0.95,
                                   color: Colors.white,
                                   child: Row(
                                     mainAxisAlignment:

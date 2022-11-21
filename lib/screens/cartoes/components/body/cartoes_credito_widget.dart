@@ -11,7 +11,7 @@ class CartoesCreditoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // definindo a lista através de um store
-    final CartoesCreditoStore cartoesDesepesasStore = CartoesCreditoStore();
+    final CartoesCreditoStore cartoesCreditoStore = CartoesCreditoStore();
 
     // definindo margens por porcentagem
     double height = MediaQuery.of(context).size.height;
@@ -19,7 +19,7 @@ class CartoesCreditoWidget extends StatelessWidget {
 
     return SingleChildScrollView(
       child: ScopedBuilder<CartoesCreditoStore, Exception, List<CartaoCredito>>(
-          store: cartoesDesepesasStore,
+          store: cartoesCreditoStore,
           onLoading: (context) => const LoadingWidget(),
           onError: (context, error) => Text('$error'),
           onState: (context, List<CartaoCredito> cartoesCredito) {
@@ -50,7 +50,7 @@ class CartoesCreditoWidget extends StatelessWidget {
                             },
                             child: Container(
                               height: height * 0.1,
-                              width: width * 0.98,
+                              width: width * 0.95,
                               color: Colors.white,
                               child: Row(
                                 mainAxisAlignment:
@@ -86,16 +86,31 @@ class CartoesCreditoWidget extends StatelessWidget {
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
-                                    children: const [
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          'Média mensal: R\$ 0.00',
-                                          style: TextStyle(
-                                            fontFamily: 'Lato',
-                                            fontSize: 14,
-                                          ),
+                                    children: [
+                                      ScopedBuilder<MediamensalStore, Exception,
+                                          num>(
+                                        store: MediamensalStore(
+                                          cartaoCredito.titulo,
+                                          'Crédito',
                                         ),
+                                        onLoading: (context) => const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                        onError: (context, error) =>
+                                            Text('$error'),
+                                        onState: (context, num mediamensal) {
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Média mensal: R\$ ${mediamensal.toStringAsFixed(2)}',
+                                              style: const TextStyle(
+                                                fontFamily: 'Lato',
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),

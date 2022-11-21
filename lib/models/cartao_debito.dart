@@ -4,14 +4,12 @@ class CartaoDebito {
   late String uid;
   late String titulo;
   late Timestamp data;
-  late bool bloqueado;
   late String? descricao;
 
   CartaoDebito({
     required this.uid,
     required this.titulo,
     required this.data,
-    required this.bloqueado,
     this.descricao,
   });
 
@@ -20,7 +18,6 @@ class CartaoDebito {
       uid: json['uid'],
       titulo: json['titulo'],
       data: json['data'],
-      bloqueado: json['bloqueado'],
       descricao: json['descricao'],
     );
   }

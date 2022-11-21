@@ -9,8 +9,6 @@ class CartoesFormController {
   TextEditingController descricao = TextEditingController();
   // fim - definição de configurações dos campos do formulário
 
-  bool bloqueado = false;
-
   CartoesFormController(
     String entityName,
     Map<String, dynamic> dadosForm,
@@ -30,7 +28,6 @@ class CartoesFormController {
         diaVencimento =
             TextEditingController(text: cartao.diaVencimento.toString());
         descricao = TextEditingController(text: cartao.descricao);
-        bloqueado = cartao.bloqueado;
       }
     } else {
       CartaoDebito? cartao = dadosForm['cartao'];
@@ -38,7 +35,6 @@ class CartoesFormController {
       if (cartao != null) {
         titulo = TextEditingController(text: cartao.titulo);
         descricao = TextEditingController(text: cartao.descricao);
-        bloqueado = cartao.bloqueado;
       }
     }
   }
