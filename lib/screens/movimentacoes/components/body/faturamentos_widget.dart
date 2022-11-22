@@ -47,7 +47,7 @@ class FaturamentosWidget extends StatelessWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return FaturamentosFormWidget(
-                                        faturamentoId: faturamento.uid,
+                                        faturamentoId: faturamento.id,
                                       );
                                     },
                                   );

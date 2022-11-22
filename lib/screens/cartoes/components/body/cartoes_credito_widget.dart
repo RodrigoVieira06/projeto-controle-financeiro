@@ -4,6 +4,7 @@ import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/stores/stores.dart';
+import 'package:projeto_controle_financeiro/stores/stores.dart';
 
 class CartoesCreditoWidget extends StatelessWidget {
   const CartoesCreditoWidget({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class CartoesCreditoWidget extends StatelessWidget {
                                 builder: (BuildContext context) {
                                   return CartoesFormWidget(
                                     entityName: 'cartoesCredito',
-                                    cartaoId: cartaoCredito.uid,
+                                    cartaoId: cartaoCredito.id,
                                   );
                                 },
                               );

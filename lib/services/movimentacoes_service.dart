@@ -132,8 +132,8 @@ class MovimentacoesService {
   ) async {
     try {
       // atribuindo um identificador único ao cadastro
-      final String uid = uuid.v4();
-      entity['uid'] = uid;
+      final String id = uuid.v4();
+      entity['id'] = id;
       await dbProfiles.get().then((profileResponse) async {
         for (var doc in profileResponse.docs) {
           if (doc.data()['uid'] == user!.uid) {
@@ -142,9 +142,8 @@ class MovimentacoesService {
             await dbProfiles
                 .doc(doc.id)
                 .collection(entityName)
-                .doc(uid)
+                .doc(id)
                 .set(entity);
-            await _updateValorTotalCategorias(entityName, entity['categoria']);
             break;
           }
         }
@@ -168,9 +167,8 @@ class MovimentacoesService {
             await dbProfiles
                 .doc(doc.id)
                 .collection(entityName)
-                .doc(entity['uid'])
+                .doc(entity['id'])
                 .update(entity);
-            await _updateValorTotalCategorias(entityName, entity['categoria']);
             break;
           }
         }
@@ -194,60 +192,9 @@ class MovimentacoesService {
             await dbProfiles
                 .doc(doc.id)
                 .collection(entityName)
-                .doc(entity['uid'])
+                .doc(entity['id'])
                 .delete();
-            await _updateValorTotalCategorias(entityName, entity['categoria']);
             break;
-          }
-        }
-      });
-    } catch (error) {
-      Exception(error);
-    }
-  }
-
-  _updateValorTotalCategorias(
-    String entityName,
-    String categoria,
-  ) async {
-    try {
-      String tipoCategoria;
-      // definindo tipo de categoria a ser alterada
-      entityName == 'despesas'
-          ? tipoCategoria = 'categoriasDespesas'
-          : tipoCategoria = 'categoriasFaturamentos';
-
-      // consultando tipos de categorias do profile do usuário
-      await dbProfiles.get().then((profileResponse) async {
-        for (var profileDoc in profileResponse.docs) {
-          if (profileDoc.data()['uid'] == user!.uid) {
-            var categoriaCollection =
-                dbProfiles.doc(profileDoc.id).collection(tipoCategoria);
-            // atualizando todas as categorias após adicionar o movimento
-            await categoriaCollection.get().then((categoriasResponse) async {
-              for (var categoriaDoc in categoriasResponse.docs) {
-                // redefine valor total da categoria
-                num valorTotal = 0;
-                await dbProfiles
-                    .doc(profileDoc.id)
-                    .collection(entityName)
-                    .get()
-                    .then((entityResponse) {
-                  // buscando os movimentos que utilizam a categoria desejada
-                  for (var entityDoc in entityResponse.docs) {
-                    // contabliza todos os valores encontrados
-                    if (entityDoc.data()['categoria'] ==
-                        categoriaDoc.data()['titulo']) {
-                      valorTotal += entityDoc.data()['valor'];
-                    }
-                  }
-                  // atualiza o valor total da categoria
-                  categoriaCollection
-                      .doc(categoriaDoc.id)
-                      .update({'valorTotal': valorTotal});
-                });
-              }
-            });
           }
         }
       });

@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CartaoCredito {
-  late String uid;
+  late String id;
   late String titulo;
   late int diaVencimento;
   late Timestamp data;
   late String? descricao;
 
   CartaoCredito({
-    required this.uid,
+    required this.id,
     required this.titulo,
     required this.diaVencimento,
     required this.data,
@@ -17,7 +17,7 @@ class CartaoCredito {
 
   factory CartaoCredito.fromJson(Map<String, dynamic> json) {
     return CartaoCredito(
-      uid: json['uid'],
+      id: json['id'],
       titulo: json['titulo'],
       diaVencimento: json['diaVencimento'],
       data: json['data'],

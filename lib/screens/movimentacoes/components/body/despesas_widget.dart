@@ -47,7 +47,7 @@ class DespesasWidget extends StatelessWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return DespesasFormWidget(
-                                        despesaId: despesa.uid,
+                                        despesaId: despesa.id,
                                       );
                                     },
                                   );

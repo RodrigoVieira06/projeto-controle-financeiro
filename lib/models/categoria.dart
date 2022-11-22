@@ -1,29 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Categoria {
-  late String uid;
+  late String id;
   late String titulo;
   late Timestamp data;
-  late bool bloqueado;
-  late num valorTotal;
   late String? descricao;
 
   Categoria({
-    required this.uid,
+    required this.id,
     required this.titulo,
     required this.data,
-    required this.bloqueado,
-    required this.valorTotal,
     this.descricao,
   });
 
   factory Categoria.fromJson(Map<String, dynamic> json) {
     return Categoria(
-      uid: json['uid'],
+      id: json['id'],
       titulo: json['titulo'],
       data: json['data'],
-      bloqueado: json['bloqueado'],
-      valorTotal: json['valorTotal'],
       descricao: json['descricao'],
     );
   }

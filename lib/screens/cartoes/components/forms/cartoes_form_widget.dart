@@ -6,9 +6,9 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/components/forms/cartoes_form_controller.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/stores/stores.dart';
+import 'package:projeto_controle_financeiro/stores/stores.dart';
 import 'package:projeto_controle_financeiro/utils/masks.dart';
 
-// ignore: must_be_immutable
 class CartoesFormWidget extends StatelessWidget {
   final String entityName;
   final String? cartaoId;
@@ -137,7 +137,6 @@ class CartoesFormWidget extends StatelessWidget {
                                 'data': Timestamp.now(),
                                 'descricao':
                                     cartoesFormController.descricao.text,
-                                'mediaMensal': 0,
                               };
                               if (entityName == 'cartoesCredito') {
                                 cartao['diaVencimento'] = num.parse(
@@ -145,7 +144,7 @@ class CartoesFormWidget extends StatelessWidget {
                               }
 
                               if (cartaoId != null) {
-                                cartao['uid'] = cartaoId!;
+                                cartao['id'] = cartaoId!;
                                 await cartoesFormStore.updateCartao(
                                   entity: cartao,
                                   entityName: entityName,
@@ -238,7 +237,7 @@ class CartoesFormWidget extends StatelessWidget {
                                 onPressed: () async {
                                   // inicio - definição de objeto a ser excluído
                                   Map<String, dynamic> cartao = {
-                                    'uid': cartaoId,
+                                    'id': cartaoId,
                                     "titulo": cartoesFormController.titulo.text,
                                   };
                                   // fim - definição de objeto a ser excluído

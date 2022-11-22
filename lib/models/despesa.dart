@@ -8,7 +8,7 @@ class Despesa {
   late String formaPagamento;
   late String? cartao;
   late String? observacoes;
-  late String? uid;
+  late String? id;
 
   Despesa({
     required this.titulo,
@@ -18,7 +18,7 @@ class Despesa {
     required this.formaPagamento,
     this.cartao,
     this.observacoes,
-    this.uid,
+    this.id,
   });
 
   factory Despesa.fromJson(Map<String, dynamic> json) {
@@ -30,7 +30,7 @@ class Despesa {
       formaPagamento: json['formaPagamento'],
       cartao: json['cartao'],
       observacoes: json['observacoes'],
-      uid: json['uid'],
+      id: json['id'],
     );
   }
 }

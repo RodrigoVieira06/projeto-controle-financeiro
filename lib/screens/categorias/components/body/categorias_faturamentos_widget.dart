@@ -4,6 +4,7 @@ import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/screens/categorias/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/categorias/stores/stores.dart';
+import 'package:projeto_controle_financeiro/stores/stores.dart';
 
 class CategoriasFaturamentosWidget extends StatelessWidget {
   final String entityName;
@@ -47,7 +48,7 @@ class CategoriasFaturamentosWidget extends StatelessWidget {
                                 builder: (BuildContext context) {
                                   return CategoriasFormWidget(
                                     entityName: entityName,
-                                    categoriaId: categoria.uid,
+                                    categoriaId: categoria.id,
                                   );
                                 },
                               );
@@ -91,16 +92,32 @@ class CategoriasFaturamentosWidget extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          'Média mensal: R\$ ${categoria.valorTotal.toStringAsFixed(2)}',
-                                          style: const TextStyle(
-                                            fontFamily: 'Lato',
-                                            fontSize: 14,
+                                      ScopedBuilder<MediamensalStore, Exception,
+                                              num>(
+                                          store: MediamensalStore(
+                                            categoria.titulo,
+                                            'Faturamento',
                                           ),
-                                        ),
-                                      ),
+                                          onLoading: (context) => const Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                          onError: (context, error) =>
+                                              Text('$error'),
+                                          onState: (context, num mediamensal) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Média mensal: R\$ ${mediamensal.toStringAsFixed(2)}',
+                                                style: const TextStyle(
+                                                  fontFamily: 'Lato',
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            );
+                                          }),
                                     ],
                                   ),
                                 ],

@@ -5,7 +5,6 @@ import 'package:projeto_controle_financeiro/services/services.dart';
 class CartoesCreditoStore
     extends NotifierStore<Exception, List<CartaoCredito>> {
   final CartoesService cartoesService = CartoesService();
-  final MovimentacoesService movimentacoesService = MovimentacoesService();
 
   CartoesCreditoStore() : super([]) {
     getCartoesCredito();

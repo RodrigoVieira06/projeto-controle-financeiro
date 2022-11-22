@@ -31,13 +31,15 @@ class CartoesFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
           cartao = await cartoesService.getCartao(cartaoId, entityName);
         }
         dadosForm = {'cartao': cartao};
-      } else {
+      } else if ((entityName == 'cartoesDebito')) {
         CartaoDebito? cartao;
 
         if (cartaoId != null) {
           cartao = await cartoesService.getCartao(cartaoId, entityName);
         }
         dadosForm = {'cartao': cartao};
+      } else {
+        throw Exception('Não foi possível encontrar o cartão');
       }
 
       update(dadosForm);
@@ -51,26 +53,38 @@ class CartoesFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
     required String entityName,
     required Map<String, dynamic> entity,
   }) async {
-    setLoading(true);
-    await cartoesService.setCartao(entityName, entity);
-    setLoading(false);
+    try {
+      setLoading(true);
+      await cartoesService.setCartao(entityName, entity);
+      setLoading(false);
+    } catch (error) {
+      setError(Exception(error));
+    }
   }
 
   updateCartao({
     required String entityName,
     required Map<String, dynamic> entity,
   }) async {
-    setLoading(true);
-    await cartoesService.updateCartao(entityName, entity);
-    setLoading(false);
+    try {
+      setLoading(true);
+      await cartoesService.updateCartao(entityName, entity);
+      setLoading(false);
+    } catch (error) {
+      setError(Exception(error));
+    }
   }
 
   deleteCartao(
     String entityName,
     Map<String, dynamic> entity,
   ) async {
-    setLoading(true);
-    await cartoesService.deleteCartao(entityName, entity);
-    setLoading(false);
+    try {
+      setLoading(true);
+      await cartoesService.deleteCartao(entityName, entity);
+      setLoading(false);
+    } catch (error) {
+      setError(Exception(error));
+    }
   }
 }

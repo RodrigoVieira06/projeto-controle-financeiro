@@ -39,7 +39,7 @@ class CategoriasService {
     }
   }
 
-  getCategoria(String uid, String entityName) async {
+  getCategoria(String id, String entityName) async {
     try {
       late Categoria categoria;
       await dbProfiles.get().then((response) async {
@@ -51,7 +51,7 @@ class CategoriasService {
                 .get()
                 .then((value) {
               for (var doc in value.docs) {
-                if (doc.id == uid) {
+                if (doc.id == id) {
                   categoria = Categoria.fromJson(doc.data());
                 }
               }
@@ -72,8 +72,8 @@ class CategoriasService {
   ) async {
     try {
       // atribuindo um identificador único ao cadastro
-      final String uid = uuid.v4();
-      entity['uid'] = uid;
+      final String id = uuid.v4();
+      entity['id'] = id;
 
       await dbProfiles.get().then((profileResponse) async {
         for (var doc in profileResponse.docs) {
@@ -83,7 +83,7 @@ class CategoriasService {
             await dbProfiles
                 .doc(doc.id)
                 .collection(entityName)
-                .doc(uid)
+                .doc(id)
                 .set(entity);
           }
         }
@@ -107,7 +107,7 @@ class CategoriasService {
             await dbProfiles
                 .doc(doc.id)
                 .collection(entityName)
-                .doc(entity['uid'])
+                .doc(entity['id'])
                 .update(entity);
             break;
           }
@@ -131,7 +131,7 @@ class CategoriasService {
             await dbProfiles
                 .doc(doc.id)
                 .collection(entityName)
-                .doc(entity['uid'])
+                .doc(entity['id'])
                 .delete();
             break;
           }
