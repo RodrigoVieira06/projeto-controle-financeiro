@@ -47,14 +47,14 @@ class DespesasWidget extends StatelessWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return DespesasFormWidget(
-                                        despesaId: despesa.uid,
+                                        despesaId: despesa.id,
                                       );
                                     },
                                   );
                                 },
                                 child: Container(
                                   height: height * 0.1,
-                                  width: width * 0.98,
+                                  width: width * 0.95,
                                   color: Colors.white,
                                   child: Row(
                                     mainAxisAlignment:

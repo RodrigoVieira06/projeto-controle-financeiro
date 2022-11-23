@@ -47,14 +47,14 @@ class FaturamentosWidget extends StatelessWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return FaturamentosFormWidget(
-                                        faturamentoId: faturamento.uid,
+                                        faturamentoId: faturamento.id,
                                       );
                                     },
                                   );
                                 },
                                 child: Container(
                                   height: height * 0.1,
-                                  width: width * 0.98,
+                                  width: width * 0.95,
                                   color: Colors.white,
                                   child: Row(
                                     mainAxisAlignment:

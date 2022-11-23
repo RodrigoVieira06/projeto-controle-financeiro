@@ -7,8 +7,8 @@ class DespesasFormStore extends NotifierStore<Exception, Map<String, dynamic>> {
   final CategoriasService categoriasService = CategoriasService();
   final CartoesService cartoesService = CartoesService();
 
-  DespesasFormStore({String? uid}) : super({}) {
-    getDados(despesaId: uid);
+  DespesasFormStore({String? id}) : super({}) {
+    getDados(despesaId: id);
   }
 
   getDados({String? despesaId}) async {

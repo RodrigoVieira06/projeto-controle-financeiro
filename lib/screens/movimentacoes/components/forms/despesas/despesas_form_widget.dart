@@ -19,7 +19,7 @@ class DespesasFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DespesasFormStore despesasFormStore =
-        DespesasFormStore(uid: despesaId);
+        DespesasFormStore(id: despesaId);
     final TipoPagamentoStore tipoPagamentoStore = TipoPagamentoStore();
 
     return SingleChildScrollView(
@@ -382,7 +382,7 @@ class DespesasFormWidget extends StatelessWidget {
                                 // fim - definição de objeto a ser cadastrado
 
                                 if (despesaId != null) {
-                                  despesa['uid'] = despesaId;
+                                  despesa['id'] = despesaId;
                                   await despesasFormStore.updateDespesa(
                                     despesa: despesa,
                                   );
@@ -473,7 +473,7 @@ class DespesasFormWidget extends StatelessWidget {
 
                             // inicio - definição de objeto a ser excluído
                             Map<String, dynamic> despesa = {
-                              'uid': despesaId,
+                              'id': despesaId,
                               "titulo": despesasFormController.titulo.text,
                               'categoria':
                                   despesasFormController.categoriaValue,

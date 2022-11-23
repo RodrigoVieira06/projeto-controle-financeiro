@@ -6,9 +6,9 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/components/forms/cartoes_form_controller.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/stores/stores.dart';
+import 'package:projeto_controle_financeiro/stores/stores.dart';
 import 'package:projeto_controle_financeiro/utils/masks.dart';
 
-// ignore: must_be_immutable
 class CartoesFormWidget extends StatelessWidget {
   final String entityName;
   final String? cartaoId;
@@ -22,7 +22,7 @@ class CartoesFormWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final CartoesFormStore cartoesFormStore = CartoesFormStore(
       entityName: entityName,
-      uid: cartaoId,
+      id: cartaoId,
     );
 
     return SingleChildScrollView(
@@ -132,29 +132,19 @@ class CartoesFormWidget extends StatelessWidget {
                           onPressed: () async {
                             if (cartoesFormController.formKey.currentState!
                                 .validate()) {
-                              Map<String, dynamic> cartao;
+                              Map<String, dynamic> cartao = {
+                                'titulo': cartoesFormController.titulo.text,
+                                'data': Timestamp.now(),
+                                'descricao':
+                                    cartoesFormController.descricao.text,
+                              };
                               if (entityName == 'cartoesCredito') {
-                                cartao = {
-                                  'titulo': cartoesFormController.titulo.text,
-                                  'diaVencimento': num.parse(
-                                      cartoesFormController.diaVencimento.text),
-                                  'data': Timestamp.now(),
-                                  'bloqueado': false,
-                                  "descricao":
-                                      cartoesFormController.descricao.text,
-                                };
-                              } else {
-                                cartao = {
-                                  'titulo': cartoesFormController.titulo.text,
-                                  'data': Timestamp.now(),
-                                  'bloqueado': false,
-                                  "descricao":
-                                      cartoesFormController.descricao.text,
-                                };
+                                cartao['diaVencimento'] = num.parse(
+                                    cartoesFormController.diaVencimento.text);
                               }
 
                               if (cartaoId != null) {
-                                cartao['uid'] = cartaoId!;
+                                cartao['id'] = cartaoId!;
                                 await cartoesFormStore.updateCartao(
                                   entity: cartao,
                                   entityName: entityName,
@@ -231,59 +221,73 @@ class CartoesFormWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (cartaoId != null && !cartoesFormController.bloqueado)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2.0),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          // inicio - definição de objeto a ser excluído
-                          Map<String, dynamic> cartao = {
-                            'uid': cartaoId,
-                            "titulo": cartoesFormController.titulo.text,
-                          };
-                          // fim - definição de objeto a ser excluído
-
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return DeleteBoxWidget(
-                                funcaoExclusao: cartoesFormStore.deleteCartao,
-                                entity: cartao,
-                                path: '/cartoes/',
-                                entityName: entityName,
-                              );
-                            },
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.red[400],
-                          minimumSize: const Size(110, 40),
-                          maximumSize: const Size(110, 40),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.only(right: 2.0),
-                              child: Icon(
-                                Icons.delete_outline,
-                                size: 18,
-                              ),
+                  if (cartaoId != null)
+                    ScopedBuilder<BotaoexcluirStore, Exception, num>(
+                        store: BotaoexcluirStore(cartaoId!, entityName),
+                        onLoading: (context) => const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 2.0),
-                              child: Text(
-                                'Excluir',
-                                style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  color: Colors.white,
+                        onError: (context, error) => Text('$error'),
+                        onState: (context, num bloqueado) {
+                          if (bloqueado == 2) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 2.0),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  // inicio - definição de objeto a ser excluído
+                                  Map<String, dynamic> cartao = {
+                                    'id': cartaoId,
+                                    "titulo": cartoesFormController.titulo.text,
+                                  };
+                                  // fim - definição de objeto a ser excluído
+
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DeleteBoxWidget(
+                                        funcaoExclusao:
+                                            cartoesFormStore.deleteCartao,
+                                        entity: cartao,
+                                        path: '/cartoes/',
+                                        entityName: entityName,
+                                      );
+                                    },
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.red[400],
+                                  minimumSize: const Size(110, 40),
+                                  maximumSize: const Size(110, 40),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 2.0),
+                                      child: Icon(
+                                        Icons.delete_outline,
+                                        size: 18,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 2.0),
+                                      child: Text(
+                                        'Excluir',
+                                        style: TextStyle(
+                                          fontFamily: 'Lato',
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }),
                 ],
               ),
             );

@@ -8,8 +8,6 @@ class CategoriasFormController {
   TextEditingController descricao = TextEditingController();
   // fim - definição de configurações dos campos do formulário
 
-  bool bloqueado = false;
-
   late final Categoria? entity;
 
   CategoriasFormController(Map<String, dynamic> dadosForm) {
@@ -22,7 +20,6 @@ class CategoriasFormController {
     if (entity != null) {
       titulo = TextEditingController(text: entity!.titulo);
       descricao = TextEditingController(text: entity!.descricao);
-      bloqueado = entity!.bloqueado;
     }
   }
 }

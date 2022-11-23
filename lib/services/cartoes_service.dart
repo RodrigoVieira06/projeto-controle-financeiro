@@ -16,15 +16,15 @@ class CartoesService {
     try {
       if (entityName == 'cartoesCredito') {
         List<CartaoCredito> cartoes = [];
-        await dbProfiles.get().then((event) async {
-          for (var doc in event.docs) {
+        await dbProfiles.get().then((profiles) async {
+          for (var doc in profiles.docs) {
             if (doc.data()['uid'] == user!.uid) {
               await dbProfiles
                   .doc(doc.id)
                   .collection(entityName)
                   .get()
-                  .then((value) {
-                for (var doc in value.docs) {
+                  .then((entities) {
+                for (var doc in entities.docs) {
                   var dado = CartaoCredito.fromJson(doc.data());
                   cartoes.add(dado);
                 }
@@ -60,7 +60,7 @@ class CartoesService {
     }
   }
 
-  getCartao(String uid, String entityName) async {
+  getCartao(String id, String entityName) async {
     try {
       if (entityName == 'cartoesCredito') {
         late CartaoCredito cartao;
@@ -73,7 +73,7 @@ class CartoesService {
                   .get()
                   .then((value) {
                 for (var doc in value.docs) {
-                  if (doc.id == uid) {
+                  if (doc.id == id) {
                     cartao = CartaoCredito.fromJson(doc.data());
                   }
                 }
@@ -94,7 +94,7 @@ class CartoesService {
                   .get()
                   .then((value) {
                 for (var doc in value.docs) {
-                  if (doc.id == uid) {
+                  if (doc.id == id) {
                     cartao = CartaoDebito.fromJson(doc.data());
                   }
                 }
@@ -115,8 +115,8 @@ class CartoesService {
     Map<String, dynamic> entity,
   ) async {
     // atribuindo um identificador único ao cadastro
-    final String uid = uuid.v4();
-    entity['uid'] = uid;
+    final String id = uuid.v4();
+    entity['id'] = id;
 
     await dbProfiles.get().then((profileResponse) async {
       for (var doc in profileResponse.docs) {
@@ -126,7 +126,7 @@ class CartoesService {
           await dbProfiles
               .doc(doc.id)
               .collection(entityName)
-              .doc(uid)
+              .doc(id)
               .set(entity);
         }
       }
@@ -147,7 +147,7 @@ class CartoesService {
             await dbProfiles
                 .doc(doc.id)
                 .collection(entityName)
-                .doc(entity['uid'])
+                .doc(entity['id'])
                 .update(entity);
             break;
           }
@@ -171,7 +171,7 @@ class CartoesService {
             await dbProfiles
                 .doc(doc.id)
                 .collection(entityName)
-                .doc(entity['uid'])
+                .doc(entity['id'])
                 .delete();
             break;
           }

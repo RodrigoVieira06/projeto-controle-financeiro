@@ -23,7 +23,7 @@ class ResumoDespesasCard extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     color: Colors.white,
                   ),
-                  height: 310,
+                  height: 370,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,6 +132,42 @@ class ResumoDespesasCard extends StatelessWidget {
                                 ),
                                 const Text(
                                   'Total em dinheiro',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Lato',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Text(
+                              'R\$0,00',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Lato',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: 24, left: 16, right: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 16.0),
+                                  child: Icon(
+                                    Icons.pix,
+                                    color: projectTheme.iconTheme.color,
+                                    size: projectTheme.iconTheme.size,
+                                  ),
+                                ),
+                                const Text(
+                                  'Total em pix',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'Lato',

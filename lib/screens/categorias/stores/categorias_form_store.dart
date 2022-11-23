@@ -7,11 +7,11 @@ class CategoriasFormStore
   final CategoriasService categoriasService = CategoriasService();
 
   CategoriasFormStore({
-    String? uid,
+    String? id,
     required String entityName,
   }) : super({}) {
     getCategoria(
-      categoriaId: uid,
+      categoriaId: id,
       entityName: entityName,
     );
   }

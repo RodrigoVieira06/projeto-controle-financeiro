@@ -20,7 +20,7 @@ class FaturamentosFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FaturamentosFormStore faturamentosFormStore =
-        FaturamentosFormStore(uid: faturamentoId);
+        FaturamentosFormStore(id: faturamentoId);
 
     return SingleChildScrollView(
       child: AlertDialog(
@@ -233,7 +233,7 @@ class FaturamentosFormWidget extends StatelessWidget {
                                 };
 
                                 if (faturamentoId != null) {
-                                  faturamento['uid'] = faturamentoId;
+                                  faturamento['id'] = faturamentoId;
                                   await faturamentosFormStore.updateFaturamento(
                                     faturamento: faturamento,
                                   );
@@ -319,7 +319,7 @@ class FaturamentosFormWidget extends StatelessWidget {
                           onPressed: () async {
                             // inicio - definição de objeto a ser excluído
                             Map<String, dynamic> faturamento = {
-                              'uid': faturamentoId,
+                              'id': faturamentoId,
                               "titulo": faturamentosFormController.titulo.text,
                               "categoria":
                                   faturamentosFormController.categoriaValue,

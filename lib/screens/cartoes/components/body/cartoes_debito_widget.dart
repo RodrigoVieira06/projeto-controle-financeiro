@@ -4,6 +4,7 @@ import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/stores/stores.dart';
+import 'package:projeto_controle_financeiro/stores/stores.dart';
 
 class CartoesDebitoWidget extends StatelessWidget {
   const CartoesDebitoWidget({Key? key}) : super(key: key);
@@ -43,14 +44,14 @@ class CartoesDebitoWidget extends StatelessWidget {
                                 builder: (BuildContext context) {
                                   return CartoesFormWidget(
                                     entityName: 'cartoesDebito',
-                                    cartaoId: cartaoDebito.uid,
+                                    cartaoId: cartaoDebito.id,
                                   );
                                 },
                               );
                             },
                             child: Container(
                               height: height * 0.1,
-                              width: width * 0.98,
+                              width: width * 0.95,
                               color: Colors.white,
                               child: Row(
                                 mainAxisAlignment:
@@ -86,16 +87,31 @@ class CartoesDebitoWidget extends StatelessWidget {
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
-                                    children: const [
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          'Média mensal: R\$ 0.00',
-                                          style: TextStyle(
-                                            fontFamily: 'Lato',
-                                            fontSize: 14,
-                                          ),
+                                    children: [
+                                      ScopedBuilder<MediamensalStore, Exception,
+                                          num>(
+                                        store: MediamensalStore(
+                                          cartaoDebito.titulo,
+                                          'Débito',
                                         ),
+                                        onLoading: (context) => const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                        onError: (context, error) =>
+                                            Text('$error'),
+                                        onState: (context, num mediamensal) {
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Média mensal: R\$ ${mediamensal.toStringAsFixed(2)}',
+                                              style: const TextStyle(
+                                                fontFamily: 'Lato',
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),

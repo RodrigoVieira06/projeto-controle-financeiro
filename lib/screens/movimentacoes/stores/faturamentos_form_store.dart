@@ -8,8 +8,8 @@ class FaturamentosFormStore
   final CategoriasService categoriasService = CategoriasService();
   final CartoesService cartoesService = CartoesService();
 
-  FaturamentosFormStore({String? uid}) : super({}) {
-    getDados(faturamentoId: uid);
+  FaturamentosFormStore({String? id}) : super({}) {
+    getDados(faturamentoId: id);
   }
 
   getDados({String? faturamentoId}) async {
