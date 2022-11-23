@@ -80,7 +80,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             )
                           : Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Image.asset('assets/images/LogoApp.png'),
+                              child: Image.asset('assets/images/logo_app.png'),
                             ),
                       if (!isLogin)
                         Padding(

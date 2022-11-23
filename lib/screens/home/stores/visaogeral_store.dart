@@ -6,6 +6,7 @@ import 'package:projeto_controle_financeiro/services/services.dart';
 
 class VisaogeralStore extends NotifierStore<Exception, Visaogeral> {
   final MovimentacoesService movimentacoesService = MovimentacoesService();
+  final DateTime dataAtual = DateTime.now();
 
   VisaogeralStore()
       : super(Visaogeral(
@@ -26,8 +27,8 @@ class VisaogeralStore extends NotifierStore<Exception, Visaogeral> {
 
       Visaogeral visaogeral = Visaogeral(
         saldoAtual: _getSaldoAtual(despesas, faturamentos),
-        mediaDespesasMensais: 0,
-        mediaBalancoMensal: 0,
+        mediaDespesasMensais: _getMediaDespesasMensais(despesas),
+        mediaBalancoMensal: _getMediaBalancoMensal(despesas, faturamentos),
       );
 
       update(visaogeral);
@@ -42,12 +43,98 @@ class VisaogeralStore extends NotifierStore<Exception, Visaogeral> {
     num faturamentoTotal = 0;
 
     for (var despesa in despesas) {
-      despesaTotal += despesa.valor;
+      // confere
+      if (despesa.data.microsecondsSinceEpoch <
+          dataAtual.microsecondsSinceEpoch) {
+        despesaTotal += despesa.valor;
+      }
     }
     for (var faturamento in faturamentos) {
-      faturamentoTotal += faturamento.valor;
+      if (faturamento.data.microsecondsSinceEpoch <
+          dataAtual.microsecondsSinceEpoch) {
+        faturamentoTotal += faturamento.valor;
+      }
     }
 
     return faturamentoTotal - despesaTotal;
+  }
+
+  num _getMediaDespesasMensais(List<Despesa> despesas) {
+    try {
+      if (despesas.isEmpty) {
+        return 0;
+      }
+
+      num mediaDespesasMensais = 0;
+      num valorTotal = 0;
+      List<DateTime> datas = [];
+
+      // atribuindo valor total e datas das despesas
+      for (var despesa in despesas) {
+        valorTotal += despesa.valor;
+        datas.add(DateTime.fromMicrosecondsSinceEpoch(
+          despesa.data.microsecondsSinceEpoch,
+        ));
+      }
+
+      mediaDespesasMensais = valorTotal / _getQuantidadeMeses(datas);
+
+      return mediaDespesasMensais;
+    } catch (error) {
+      throw 'Erro ao calcular média';
+    }
+  }
+
+  num _getMediaBalancoMensal(
+      List<Despesa> despesas, List<Faturamento> faturamentos) {
+    try {
+      if (despesas.isEmpty && faturamentos.isEmpty) {
+        return 0;
+      }
+
+      num mediaDespesasMensais = 0;
+      num valorTotal = 0;
+      List<DateTime> datas = [];
+
+      // atribuindo valor total e datas das despesas
+      for (var despesa in despesas) {
+        valorTotal += despesa.valor * -1;
+        datas.add(DateTime.fromMicrosecondsSinceEpoch(
+          despesa.data.microsecondsSinceEpoch,
+        ));
+      }
+
+      // atribuindo valor total e datas dos faturamentos
+      for (var faturamento in faturamentos) {
+        valorTotal += faturamento.valor;
+        datas.add(DateTime.fromMicrosecondsSinceEpoch(
+          faturamento.data.microsecondsSinceEpoch,
+        ));
+      }
+
+      mediaDespesasMensais = valorTotal / _getQuantidadeMeses(datas);
+      return mediaDespesasMensais;
+    } catch (error) {
+      throw 'Erro ao calcular média';
+    }
+  }
+
+  num _getQuantidadeMeses(List<DateTime> datas) {
+    num quantidadeMeses = 0;
+
+    // ordenar datas obtidas
+    datas.sort();
+
+    // como a lista está ordenada por data, a cada mudança de mês ou ano,
+    // a quantidade de meses será incrementada, afim de receber um total de meses
+    for (var i = 0; i < datas.length; i++) {
+      if (i + 1 == datas.length ||
+          !(datas[i].month == datas[i + 1].month &&
+              datas[i].year == datas[i + 1].year)) {
+        quantidadeMeses++;
+      }
+    }
+
+    return quantidadeMeses;
   }
 }

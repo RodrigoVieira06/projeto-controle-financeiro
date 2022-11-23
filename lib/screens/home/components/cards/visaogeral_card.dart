@@ -124,7 +124,7 @@ class VisaogeralCard extends StatelessWidget {
                                   ),
                                 ),
                                 const Text(
-                                  'Média de despesas mensais',
+                                  'Média de despesas \nmensais',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'Lato',
@@ -134,9 +134,10 @@ class VisaogeralCard extends StatelessWidget {
                             ),
                             Text(
                               'R\$${visaogeral.mediaDespesasMensais.toStringAsFixed(2)}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Lato',
+                                color: Colors.red[400],
                               ),
                             ),
                           ],
@@ -160,7 +161,7 @@ class VisaogeralCard extends StatelessWidget {
                                   ),
                                 ),
                                 const Text(
-                                  'Média de balanço mensal',
+                                  'Média de balanço \nmensal',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'Lato',
