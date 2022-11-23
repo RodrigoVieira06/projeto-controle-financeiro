@@ -1,7 +1,5 @@
 import 'package:flutter_triple/flutter_triple.dart';
-import 'package:projeto_controle_financeiro/models/despesa.dart';
-import 'package:projeto_controle_financeiro/models/faturamento.dart';
-import 'package:projeto_controle_financeiro/screens/home/models/models.dart';
+import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
 class VisaogeralStore extends NotifierStore<Exception, Visaogeral> {

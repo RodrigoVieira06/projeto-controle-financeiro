@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/home/stores/stores.dart';
-import 'package:projeto_controle_financeiro/screens/home/models/visaogeral.dart';
+import 'package:projeto_controle_financeiro/models/visaogeral.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class VisaogeralCard extends StatelessWidget {
@@ -10,7 +10,7 @@ class VisaogeralCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final visaogeralStore = VisaogeralStore();
+    final VisaogeralStore visaogeralStore = VisaogeralStore();
 
     return Padding(
       padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -30,7 +30,7 @@ class VisaogeralCard extends StatelessWidget {
               child: ScopedBuilder<VisaogeralStore, Exception, Visaogeral>(
                 store: visaogeralStore,
                 onLoading: (context) =>
-                    const CardLoadingWidget(info: 'Carregando dados gerais.'),
+                    const CardLoadingWidget(info: 'Carregando visão geral.'),
                 onError: (context, error) => Text('$error'),
                 onState: (context, Visaogeral visaogeral) {
                   final Color? colorSaldoAtual;
