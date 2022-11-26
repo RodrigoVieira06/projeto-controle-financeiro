@@ -1,3 +1,4 @@
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
@@ -124,44 +125,22 @@ class DespesasFormWidget extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
+                      child: DateTimePicker(
                         controller: despesasFormController.data,
-                        inputFormatters: [
-                          Masks().dateMask,
-                        ],
-                        keyboardType: TextInputType.datetime,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Data *',
                         ),
-                        style: const TextStyle(
-                          fontFamily: 'Lato',
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
+                        type: DateTimePickerType.date,
+                        icon: const Icon(Icons.event),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime(2100),
+                        dateMask: 'dd/MM/yyyy',
                         validator: (value) {
-                          if (value == null) {
-                            return 'Informe a data.';
+                          if (value!.isEmpty) {
+                            return 'Informe a data';
                           }
-                          final components = value.split("/");
-                          if (components.length == 3) {
-                            final int? day = int.tryParse(components[0]);
-                            final int? month = int.tryParse(components[1]);
-                            final int? year = int.tryParse(components[2]);
-                            if (day == null ||
-                                month == null ||
-                                year == null ||
-                                day < 1 ||
-                                day > 31 ||
-                                month < 1 ||
-                                month > 12 ||
-                                year < 1900) {
-                              return "Data inválida";
-                            } else {
-                              return null;
-                            }
-                          }
-                          return "Preencha a data corretamente";
+                          return null;
                         },
                       ),
                     ),
@@ -369,7 +348,7 @@ class DespesasFormWidget extends StatelessWidget {
                                 Map<String, dynamic> despesa = {
                                   "titulo": despesasFormController.titulo.text,
                                   "valor": num.parse(valorTratado),
-                                  "data": DateFormat('d/M/y')
+                                  "data": DateFormat('y-M-d')
                                       .parse(despesasFormController.data.text),
                                   "categoria":
                                       despesasFormController.categoriaValue,

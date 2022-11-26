@@ -16,12 +16,11 @@ dependencies:
   firebase_database: ^9.1.2
   cloud_firestore: ^3.5.0
   flutter_triple: ^1.2.7+4
-  mask_text_input_formatter: ^2.4.0
   currency_text_input_formatter: ^2.1.7
+  date_time_picker: ^2.1.0
   intl: ^0.17.0
   uuid: ^3.0.6
   fl_chart: ^0.55.1
-  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:
