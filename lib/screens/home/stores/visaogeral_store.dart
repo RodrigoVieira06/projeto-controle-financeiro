@@ -1,7 +1,5 @@
 import 'package:flutter_triple/flutter_triple.dart';
-import 'package:projeto_controle_financeiro/models/despesa.dart';
-import 'package:projeto_controle_financeiro/models/faturamento.dart';
-import 'package:projeto_controle_financeiro/screens/home/models/models.dart';
+import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/services/services.dart';
 
 class VisaogeralStore extends NotifierStore<Exception, Visaogeral> {
@@ -41,9 +39,9 @@ class VisaogeralStore extends NotifierStore<Exception, Visaogeral> {
   num _getSaldoAtual(List<Despesa> despesas, List<Faturamento> faturamentos) {
     num despesaTotal = 0;
     num faturamentoTotal = 0;
+    num valorTotal = 0;
 
     for (var despesa in despesas) {
-      // confere
       if (despesa.data.microsecondsSinceEpoch <
           dataAtual.microsecondsSinceEpoch) {
         despesaTotal += despesa.valor;
@@ -56,7 +54,9 @@ class VisaogeralStore extends NotifierStore<Exception, Visaogeral> {
       }
     }
 
-    return faturamentoTotal - despesaTotal;
+    valorTotal = faturamentoTotal - despesaTotal;
+
+    return valorTotal;
   }
 
   num _getMediaDespesasMensais(List<Despesa> despesas) {
@@ -113,6 +113,7 @@ class VisaogeralStore extends NotifierStore<Exception, Visaogeral> {
       }
 
       mediaDespesasMensais = valorTotal / _getQuantidadeMeses(datas);
+
       return mediaDespesasMensais;
     } catch (error) {
       throw 'Erro ao calcular média';

@@ -7,7 +7,6 @@ import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/components/forms/cartoes_form_controller.dart';
 import 'package:projeto_controle_financeiro/screens/cartoes/stores/stores.dart';
 import 'package:projeto_controle_financeiro/stores/stores.dart';
-import 'package:projeto_controle_financeiro/utils/masks.dart';
 
 class CartoesFormWidget extends StatelessWidget {
   final String entityName;
@@ -92,8 +91,8 @@ class CartoesFormWidget extends StatelessWidget {
                       child: TextFormField(
                         controller: cartoesFormController.diaVencimento,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(22),
-                          Masks().diaVencimento,
+                          LengthLimitingTextInputFormatter(2),
+                          FilteringTextInputFormatter.digitsOnly,
                         ],
                         keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
