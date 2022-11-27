@@ -18,6 +18,7 @@ dependencies:
   flutter_triple: ^1.2.7+4
   currency_text_input_formatter: ^2.1.7
   date_time_picker: ^2.1.0
+  month_picker_dialog: ^0.4.0
   intl: ^0.17.0
   uuid: ^3.0.6
   fl_chart: ^0.55.1

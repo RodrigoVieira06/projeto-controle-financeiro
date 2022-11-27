@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/components/forms/faturamentos/faturamentos_form_controller.dart';
 import 'package:projeto_controle_financeiro/screens/movimentacoes/stores/stores.dart';
-import 'package:projeto_controle_financeiro/utils/utils.dart';
 
 // ignore: must_be_immutable
 class FaturamentosFormWidget extends StatelessWidget {

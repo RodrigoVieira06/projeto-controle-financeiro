@@ -21,7 +21,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   final List<Widget> _widgetOptions = <Widget>[
     const InicioWidget(),
-    const ResumoMensalWidget(),
+    ResumoMensalWidget(),
   ];
 
   @override
