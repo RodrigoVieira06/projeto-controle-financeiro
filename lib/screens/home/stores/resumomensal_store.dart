@@ -4,13 +4,11 @@ import 'package:projeto_controle_financeiro/services/services.dart';
 
 class ResumomensalStore extends NotifierStore<Exception, Resumomensal> {
   final MovimentacoesService movimentacoesService = MovimentacoesService();
-  final DateTime dataAtual = DateTime.now();
 
   ResumomensalStore()
       : super(Resumomensal(
           saldoMes: -1,
           balancoMes: -1,
-          totalDespesas: -1,
           totalFaturamentos: -1,
         )) {
     getDados();
@@ -32,9 +30,8 @@ class ResumomensalStore extends NotifierStore<Exception, Resumomensal> {
       );
 
       final Resumomensal resumomensal = Resumomensal(
-        saldoMes: _getSaldoMes(despesasFiltered, faturamentosFiltered),
+        saldoMes: _getSaldoMes(despesas, faturamentos, selectedDate),
         balancoMes: _getBalancoMes(despesasFiltered, faturamentosFiltered),
-        totalDespesas: _getDespesasMes(despesasFiltered),
         totalFaturamentos: _getFaturamentosMes(faturamentosFiltered),
       );
 
@@ -45,24 +42,60 @@ class ResumomensalStore extends NotifierStore<Exception, Resumomensal> {
     setLoading(false);
   }
 
-  num _getSaldoMes(List<Despesa> despesas, List<Faturamento> faturamentos) {
+  num _getSaldoMes(
+    List<Despesa> despesas,
+    List<Faturamento> faturamentos,
+    DateTime? selectedDate,
+  ) {
+    final DateTime date;
+    num despesaTotal = 0;
+    num faturamentoTotal = 0;
     num valorTotal = 0;
+
+    (selectedDate != null) ? date = selectedDate : date = DateTime.now();
+
+    for (var despesa in despesas) {
+      if (despesa.data.microsecondsSinceEpoch < date.microsecondsSinceEpoch) {
+        despesaTotal += despesa.valor;
+      }
+    }
+    for (var faturamento in faturamentos) {
+      if (faturamento.data.microsecondsSinceEpoch <
+          date.microsecondsSinceEpoch) {
+        faturamentoTotal += faturamento.valor;
+      }
+    }
+
+    valorTotal = faturamentoTotal - despesaTotal;
+
     return valorTotal;
   }
 
   num _getBalancoMes(List<Despesa> despesas, List<Faturamento> faturamentos) {
+    num despesaTotal = 0;
+    num faturamentoTotal = 0;
     num valorTotal = 0;
-    return valorTotal;
-  }
 
-  num _getDespesasMes(List<Despesa> despesas) {
-    num valorTotal = 0;
+    for (var despesa in despesas) {
+      despesaTotal += despesa.valor;
+    }
+    for (var faturamento in faturamentos) {
+      faturamentoTotal += faturamento.valor;
+    }
+
+    valorTotal = faturamentoTotal - despesaTotal;
+
     return valorTotal;
   }
 
   num _getFaturamentosMes(List<Faturamento> faturamentos) {
-    num valorTotal = 0;
-    return valorTotal;
+    num faturamentoTotal = 0;
+
+    for (var faturamento in faturamentos) {
+      faturamentoTotal += faturamento.valor;
+    }
+
+    return faturamentoTotal;
   }
 
   List<Despesa> _despesasFilter(

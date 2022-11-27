@@ -25,7 +25,7 @@ class ResumodespesasCard {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white,
                 ),
-                height: 310,
+                height: 365,
                 child: ScopedBuilder<ResumodespesasStore, Exception,
                     Resumodespesas>(
                   store: resumodespesasStore,
@@ -53,6 +53,46 @@ class ResumodespesasCard {
                         Padding(
                           padding: const EdgeInsets.only(
                               top: 8, left: 16, right: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 16.0),
+                                    child: Icon(
+                                      Icons.money_off,
+                                      color: projectTheme.iconTheme.color,
+                                      size: projectTheme.iconTheme.size,
+                                    ),
+                                  ),
+                                  const Text(
+                                    'Despesas do mês',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'Lato',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                'R\$${resumodespesas.total.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'Lato',
+                                  color: Colors.red[400],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 24,
+                            left: 16,
+                            right: 16,
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,

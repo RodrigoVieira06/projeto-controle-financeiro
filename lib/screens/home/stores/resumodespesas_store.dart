@@ -8,6 +8,7 @@ class ResumodespesasStore extends NotifierStore<Exception, Resumodespesas> {
 
   ResumodespesasStore()
       : super(Resumodespesas(
+          total: -1,
           totalCredito: -1,
           totalDebito: -1,
           totalDinheiro: -1,
@@ -26,6 +27,7 @@ class ResumodespesasStore extends NotifierStore<Exception, Resumodespesas> {
       );
 
       final Resumodespesas resumodespesas = Resumodespesas(
+        total: _getDespesasMes(despesasFiltered),
         totalDebito: _getTotalDebito(despesasFiltered),
         totalCredito: _getTotalCredito(despesasFiltered),
         totalDinheiro: _getTotalDinheiro(despesasFiltered),
@@ -37,6 +39,16 @@ class ResumodespesasStore extends NotifierStore<Exception, Resumodespesas> {
       setError(Exception(error));
     }
     setLoading(false);
+  }
+
+  num _getDespesasMes(List<Despesa> despesas) {
+    num despesaTotal = 0;
+
+    for (var despesa in despesas) {
+      despesaTotal += despesa.valor;
+    }
+
+    return despesaTotal;
   }
 
   num _getTotalDebito(List<Despesa> despesas) {

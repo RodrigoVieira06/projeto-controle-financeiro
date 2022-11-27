@@ -25,7 +25,7 @@ class ResumomensalCard {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white,
                 ),
-                height: 310,
+                height: 240,
                 child:
                     ScopedBuilder<ResumomensalStore, Exception, Resumomensal>(
                   store: resumomensalStore,
@@ -71,7 +71,7 @@ class ResumomensalCard {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              top: 8, left: 16, right: 16),
+                              top: 8.0, left: 16.0, right: 16.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -138,43 +138,6 @@ class ResumomensalCard {
                                   fontSize: 16,
                                   fontFamily: 'Lato',
                                   color: corBalanco,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 24, left: 16, right: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 16.0),
-                                    child: Icon(
-                                      Icons.money_off,
-                                      color: projectTheme.iconTheme.color,
-                                      size: projectTheme.iconTheme.size,
-                                    ),
-                                  ),
-                                  const Text(
-                                    'Despesas do mês',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'Lato',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                'R\$${resumomensal.totalDespesas.toStringAsFixed(2)}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'Lato',
-                                  color: Colors.red[400],
                                 ),
                               ),
                             ],
