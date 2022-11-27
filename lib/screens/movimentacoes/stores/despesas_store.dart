@@ -12,8 +12,11 @@ class DespesasStore extends NotifierStore<Exception, List<Despesa>> {
   getDespesas({DateTime? selectedDate}) async {
     setLoading(true);
     try {
-      List<Despesa> despesas = await despesasService.getDespesas();
-      List<Despesa> despesasFiltered = _despesasFilter(selectedDate, despesas);
+      final List<Despesa> despesas = await despesasService.getDespesas();
+      final List<Despesa> despesasFiltered = _despesasFilter(
+        selectedDate,
+        despesas,
+      );
       update(despesasFiltered);
     } catch (error) {
       setError(Exception(error));

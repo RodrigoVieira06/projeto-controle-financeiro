@@ -12,7 +12,7 @@ class DateselectButtonsWidget {
 
   Widget buildWidget(
     BuildContext context,
-    Function({DateTime? selectedDate}) getEntity,
+    List<Function({DateTime? selectedDate})> getEntityFunctions,
   ) {
     return ScopedBuilder<DateselectStore, Exception, DateTime>(
         store: dateselectStore,
@@ -35,7 +35,9 @@ class DateselectButtonsWidget {
                       dateselectStore.decrementMonth(selectedDate);
                       DateTime newDate =
                           selectedDate.subtract(const Duration(days: 31));
-                      await getEntity(selectedDate: newDate);
+                      for (var function in getEntityFunctions) {
+                        function(selectedDate: newDate);
+                      }
                     },
                   ),
                 ),
@@ -54,7 +56,9 @@ class DateselectButtonsWidget {
                     );
                     if (newDate == null) return;
                     dateselectStore.setDate(newDate);
-                    await getEntity(selectedDate: newDate);
+                    for (var function in getEntityFunctions) {
+                      function(selectedDate: newDate);
+                    }
                   },
                 ),
                 Padding(
@@ -64,11 +68,13 @@ class DateselectButtonsWidget {
                       primary: projectTheme.primaryColor,
                     ),
                     child: const Icon(Icons.arrow_right_rounded),
-                    onPressed: () async {
+                    onPressed: () {
                       dateselectStore.incrementMonth(selectedDate);
                       DateTime newDate =
                           selectedDate.add(const Duration(days: 31));
-                      await getEntity(selectedDate: newDate);
+                      for (var function in getEntityFunctions) {
+                        function(selectedDate: newDate);
+                      }
                     },
                   ),
                 )

@@ -16,24 +16,27 @@ class ResumodespesasStore extends NotifierStore<Exception, Resumodespesas> {
     getDados();
   }
 
-  getDados() async {
+  getDados({DateTime? selectedDate}) async {
+    setLoading(true);
     try {
-      setLoading(true);
-
       final List<Despesa> despesas = await movimentacoesService.getDespesas();
+      final List<Despesa> despesasFiltered = _despesasFilter(
+        selectedDate,
+        despesas,
+      );
 
       final Resumodespesas resumodespesas = Resumodespesas(
-        totalDebito: _getTotalDebito(despesas),
-        totalCredito: _getTotalCredito(despesas),
-        totalDinheiro: _getTotalDinheiro(despesas),
-        totalPix: _getTotalPix(despesas),
+        totalDebito: _getTotalDebito(despesasFiltered),
+        totalCredito: _getTotalCredito(despesasFiltered),
+        totalDinheiro: _getTotalDinheiro(despesasFiltered),
+        totalPix: _getTotalPix(despesasFiltered),
       );
 
       update(resumodespesas);
-      setLoading(false);
     } catch (error) {
       setError(Exception(error));
     }
+    setLoading(false);
   }
 
   num _getTotalDebito(List<Despesa> despesas) {
@@ -75,5 +78,27 @@ class ResumodespesasStore extends NotifierStore<Exception, Resumodespesas> {
       }
     }
     return valorTotal;
+  }
+
+  List<Despesa> _despesasFilter(
+      DateTime? selectedDate, List<Despesa> despesas) {
+    final DateTime date;
+    List<Despesa> despesaFiltered = [];
+
+    selectedDate == null ? date = DateTime.now() : date = selectedDate;
+
+    for (var despesa in despesas) {
+      num despesaMonth = DateTime.fromMicrosecondsSinceEpoch(
+              despesa.data.microsecondsSinceEpoch)
+          .month;
+      num despesaYear = DateTime.fromMicrosecondsSinceEpoch(
+              despesa.data.microsecondsSinceEpoch)
+          .year;
+
+      if (despesaMonth == date.month && despesaYear == date.year) {
+        despesaFiltered.add(despesa);
+      }
+    }
+    return despesaFiltered;
   }
 }

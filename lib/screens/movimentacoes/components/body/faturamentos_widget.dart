@@ -24,7 +24,7 @@ class FaturamentosWidget extends StatelessWidget {
         children: [
           dateselectButtonsWidget.buildWidget(
             context,
-            faturamentosStore.getFaturamentos,
+            [faturamentosStore.getFaturamentos],
           ),
           ScopedBuilder<FaturamentosStore, Exception, List<Faturamento>>(
             store: faturamentosStore,

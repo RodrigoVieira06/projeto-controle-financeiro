@@ -24,7 +24,7 @@ class DespesasWidget extends StatelessWidget {
         children: [
           dateselectButtonsWidget.buildWidget(
             context,
-            despesasStore.getDespesas,
+            [despesasStore.getDespesas],
           ),
           ScopedBuilder<DespesasStore, Exception, List<Despesa>>(
             store: despesasStore,

@@ -16,26 +16,33 @@ class ResumomensalStore extends NotifierStore<Exception, Resumomensal> {
     getDados();
   }
 
-  getDados() async {
+  getDados({DateTime? selectedDate}) async {
+    setLoading(true);
     try {
-      setLoading(true);
-
       final List<Despesa> despesas = await movimentacoesService.getDespesas();
       final List<Faturamento> faturamentos =
           await movimentacoesService.getFaturamentos();
+      final List<Despesa> despesasFiltered = _despesasFilter(
+        selectedDate,
+        despesas,
+      );
+      final List<Faturamento> faturamentosFiltered = _faturamentosFilter(
+        selectedDate,
+        faturamentos,
+      );
 
       final Resumomensal resumomensal = Resumomensal(
-        saldoMes: _getSaldoMes(despesas, faturamentos),
-        balancoMes: _getBalancoMes(despesas, faturamentos),
-        totalDespesas: _getDespesasMes(despesas),
-        totalFaturamentos: _getFaturamentosMes(faturamentos),
+        saldoMes: _getSaldoMes(despesasFiltered, faturamentosFiltered),
+        balancoMes: _getBalancoMes(despesasFiltered, faturamentosFiltered),
+        totalDespesas: _getDespesasMes(despesasFiltered),
+        totalFaturamentos: _getFaturamentosMes(faturamentosFiltered),
       );
 
       update(resumomensal);
-      setLoading(false);
     } catch (error) {
       setError(Exception(error));
     }
+    setLoading(false);
   }
 
   num _getSaldoMes(List<Despesa> despesas, List<Faturamento> faturamentos) {
@@ -56,5 +63,49 @@ class ResumomensalStore extends NotifierStore<Exception, Resumomensal> {
   num _getFaturamentosMes(List<Faturamento> faturamentos) {
     num valorTotal = 0;
     return valorTotal;
+  }
+
+  List<Despesa> _despesasFilter(
+      DateTime? selectedDate, List<Despesa> despesas) {
+    final DateTime date;
+    List<Despesa> despesaFiltered = [];
+
+    selectedDate == null ? date = DateTime.now() : date = selectedDate;
+
+    for (var despesa in despesas) {
+      num despesaMonth = DateTime.fromMicrosecondsSinceEpoch(
+              despesa.data.microsecondsSinceEpoch)
+          .month;
+      num despesaYear = DateTime.fromMicrosecondsSinceEpoch(
+              despesa.data.microsecondsSinceEpoch)
+          .year;
+
+      if (despesaMonth == date.month && despesaYear == date.year) {
+        despesaFiltered.add(despesa);
+      }
+    }
+    return despesaFiltered;
+  }
+
+  List<Faturamento> _faturamentosFilter(
+      DateTime? selectedDate, List<Faturamento> faturamentos) {
+    final DateTime date;
+    List<Faturamento> faturamentoFiltered = [];
+
+    selectedDate == null ? date = DateTime.now() : date = selectedDate;
+
+    for (var faturamento in faturamentos) {
+      num faturamentoMonth = DateTime.fromMicrosecondsSinceEpoch(
+              faturamento.data.microsecondsSinceEpoch)
+          .month;
+      num faturamentoYear = DateTime.fromMicrosecondsSinceEpoch(
+              faturamento.data.microsecondsSinceEpoch)
+          .year;
+
+      if (faturamentoMonth == date.month && faturamentoYear == date.year) {
+        faturamentoFiltered.add(faturamento);
+      }
+    }
+    return faturamentoFiltered;
   }
 }
