@@ -11,7 +11,6 @@ class FaturamentosWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DateselectStore dateselectStore = DateselectStore();
     final FaturamentosStore faturamentosStore = FaturamentosStore();
     final DateselectButtonsWidget dateselectButtonsWidget =
         DateselectButtonsWidget();
@@ -23,18 +22,9 @@ class FaturamentosWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          ScopedBuilder<DateselectStore, Exception, DateTime>(
-            store: dateselectStore,
-            onLoading: (context) => const CircularProgressIndicator(),
-            onError: (context, error) => Text('$error'),
-            onState: (context, DateTime selectedDate) {
-              return dateselectButtonsWidget.buildWidget(
-                context,
-                dateselectStore,
-                selectedDate,
-                faturamentosStore.getFaturamentos,
-              );
-            },
+          dateselectButtonsWidget.buildWidget(
+            context,
+            faturamentosStore.getFaturamentos,
           ),
           ScopedBuilder<FaturamentosStore, Exception, List<Faturamento>>(
             store: faturamentosStore,
