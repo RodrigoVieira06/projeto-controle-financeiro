@@ -55,13 +55,19 @@ class ResumomensalStore extends NotifierStore<Exception, Resumomensal> {
     (selectedDate != null) ? date = selectedDate : date = DateTime.now();
 
     for (var despesa in despesas) {
-      if (despesa.data.microsecondsSinceEpoch < date.microsecondsSinceEpoch) {
+      DateTime despesaDate = DateTime.fromMicrosecondsSinceEpoch(
+          despesa.data.microsecondsSinceEpoch);
+      if (despesaDate.year < date.year ||
+          (despesaDate.year == date.year && despesaDate.month <= date.month)) {
         despesaTotal += despesa.valor;
       }
     }
     for (var faturamento in faturamentos) {
-      if (faturamento.data.microsecondsSinceEpoch <
-          date.microsecondsSinceEpoch) {
+      DateTime faturamentoDate = DateTime.fromMicrosecondsSinceEpoch(
+          faturamento.data.microsecondsSinceEpoch);
+      if (faturamentoDate.year < date.year ||
+          (faturamentoDate.year == date.year &&
+              faturamentoDate.month <= date.month)) {
         faturamentoTotal += faturamento.valor;
       }
     }
