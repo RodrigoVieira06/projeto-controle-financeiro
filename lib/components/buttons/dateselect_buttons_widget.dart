@@ -34,7 +34,7 @@ class DateselectButtonsWidget {
                     onPressed: () async {
                       dateselectStore.decrementMonth(selectedDate);
                       DateTime newDate =
-                          selectedDate.subtract(const Duration(days: 31));
+                          selectedDate.subtract(const Duration(days: 30));
                       for (var function in getEntityFunctions) {
                         function(selectedDate: newDate);
                       }
@@ -71,7 +71,7 @@ class DateselectButtonsWidget {
                     onPressed: () {
                       dateselectStore.incrementMonth(selectedDate);
                       DateTime newDate =
-                          selectedDate.add(const Duration(days: 31));
+                          selectedDate.add(const Duration(days: 30));
                       for (var function in getEntityFunctions) {
                         function(selectedDate: newDate);
                       }
