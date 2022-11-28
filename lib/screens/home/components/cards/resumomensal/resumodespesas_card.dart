@@ -5,11 +5,11 @@ import 'package:projeto_controle_financeiro/models/models.dart';
 import 'package:projeto_controle_financeiro/screens/home/stores/stores.dart';
 import 'package:projeto_controle_financeiro/utils/utils.dart';
 
-class ResumomensalCard {
-  const ResumomensalCard();
+class ResumodespesasCard {
+  const ResumodespesasCard();
 
   Widget buildWidget(
-      BuildContext context, ResumomensalStore resumomensalStore) {
+      BuildContext context, ResumodespesasStore resumodespesasStore) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -25,33 +25,14 @@ class ResumomensalCard {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white,
                 ),
-                height: 240,
-                child:
-                    ScopedBuilder<ResumomensalStore, Exception, Resumomensal>(
-                  store: resumomensalStore,
+                height: 365,
+                child: ScopedBuilder<ResumodespesasStore, Exception,
+                    Resumodespesas>(
+                  store: resumodespesasStore,
                   onLoading: (context) => const CardLoadingWidget(
-                      info: 'Carregando resumo mensal.'),
+                      info: 'Carregando resumo de despesas.'),
                   onError: (context, error) => Text('$error'),
-                  onState: (context, Resumomensal resumomensal) {
-                    final Color? corSaldoMes;
-                    final Color? corBalanco;
-
-                    if (resumomensal.saldoMes > 0) {
-                      corSaldoMes = Colors.blue[400];
-                    } else if (resumomensal.saldoMes < 0) {
-                      corSaldoMes = Colors.red[400];
-                    } else {
-                      corSaldoMes = projectTheme.primaryColor;
-                    }
-
-                    if (resumomensal.balancoMes > 0) {
-                      corBalanco = Colors.blue[400];
-                    } else if (resumomensal.balancoMes < 0) {
-                      corBalanco = Colors.red[400];
-                    } else {
-                      corBalanco = projectTheme.primaryColor;
-                    }
-
+                  onState: (context, Resumodespesas resumodespesas) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +41,7 @@ class ResumomensalCard {
                           title: Padding(
                             padding: EdgeInsets.only(left: 16.0, top: 8.0),
                             child: Text(
-                              'Resumo mensal',
+                              'Resumo de despesas',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -71,7 +52,7 @@ class ResumomensalCard {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              top: 8.0, left: 16.0, right: 16.0),
+                              top: 8, left: 16, right: 16),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,13 +62,13 @@ class ResumomensalCard {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 16.0),
                                     child: Icon(
-                                      Icons.account_balance,
+                                      Icons.money_off,
                                       color: projectTheme.iconTheme.color,
                                       size: projectTheme.iconTheme.size,
                                     ),
                                   ),
                                   const Text(
-                                    'Saldo da conta ao \nfim do mês',
+                                    'Despesa total \ndo mês',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontFamily: 'Lato',
@@ -96,11 +77,51 @@ class ResumomensalCard {
                                 ],
                               ),
                               Text(
-                                'R\$${resumomensal.saldoMes.toStringAsFixed(2)}',
+                                'R\$${resumodespesas.total.toStringAsFixed(2)}',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'Lato',
-                                  color: corSaldoMes,
+                                  color: Colors.red[400],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 24,
+                            left: 16,
+                            right: 16,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 16.0),
+                                    child: Icon(
+                                      Icons.credit_card,
+                                      color: projectTheme.iconTheme.color,
+                                      size: projectTheme.iconTheme.size,
+                                    ),
+                                  ),
+                                  const Text(
+                                    'Total em crédito',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'Lato',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                'R\$${resumodespesas.totalCredito.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'Lato',
+                                  color: Colors.red[400],
                                 ),
                               ),
                             ],
@@ -118,13 +139,13 @@ class ResumomensalCard {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 16.0),
                                     child: Icon(
-                                      Icons.balance,
+                                      Icons.credit_card,
                                       color: projectTheme.iconTheme.color,
                                       size: projectTheme.iconTheme.size,
                                     ),
                                   ),
                                   const Text(
-                                    'Balanço do mês',
+                                    'Total em débito',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontFamily: 'Lato',
@@ -133,11 +154,11 @@ class ResumomensalCard {
                                 ],
                               ),
                               Text(
-                                'R\$${resumomensal.balancoMes.toStringAsFixed(2)}',
+                                'R\$${resumodespesas.totalDebito.toStringAsFixed(2)}',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'Lato',
-                                  color: corBalanco,
+                                  color: Colors.red[400],
                                 ),
                               ),
                             ],
@@ -155,13 +176,13 @@ class ResumomensalCard {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 16.0),
                                     child: Icon(
-                                      Icons.attach_money,
+                                      Icons.money,
                                       color: projectTheme.iconTheme.color,
                                       size: projectTheme.iconTheme.size,
                                     ),
                                   ),
                                   const Text(
-                                    'Faturamentos do mês',
+                                    'Total em dinheiro',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontFamily: 'Lato',
@@ -170,11 +191,48 @@ class ResumomensalCard {
                                 ],
                               ),
                               Text(
-                                'R\$${resumomensal.totalFaturamentos.toStringAsFixed(2)}',
+                                'R\$${resumodespesas.totalDinheiro.toStringAsFixed(2)}',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'Lato',
-                                  color: Colors.blue[400],
+                                  color: Colors.red[400],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 24, left: 16, right: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 16.0),
+                                    child: Icon(
+                                      Icons.pix,
+                                      color: projectTheme.iconTheme.color,
+                                      size: projectTheme.iconTheme.size,
+                                    ),
+                                  ),
+                                  const Text(
+                                    'Total em pix',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'Lato',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                'R\$${resumodespesas.totalPix.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'Lato',
+                                  color: Colors.red[400],
                                 ),
                               ),
                             ],

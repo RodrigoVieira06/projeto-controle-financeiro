@@ -19,7 +19,7 @@ class ResumoMensalWidget extends StatelessWidget {
     // fim - stores contendo os dados a serem exibidos nos cards
 
     // inicio - Widgets dos cards usados na tela
-    const ResumomensalCard resumomensalCard = ResumomensalCard();
+    const ResumogeralCard resumomensalCard = ResumogeralCard();
     const ResumodespesasCard resumodespesasCard = ResumodespesasCard();
     // fim - Widgets dos cards usados na tela
 
