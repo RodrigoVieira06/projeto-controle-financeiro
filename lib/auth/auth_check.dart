@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:projeto_controle_financeiro/components/components.dart';
 import 'package:projeto_controle_financeiro/screens/home/page/home_page_widget.dart';
-import 'package:projeto_controle_financeiro/screens/login/page/login_page.dart';
+import 'package:projeto_controle_financeiro/screens/login/pages/login_page.dart';
 import 'package:projeto_controle_financeiro/utils/utils.dart';
 
 class AuthCheck extends StatelessWidget {
