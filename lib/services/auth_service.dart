@@ -73,6 +73,15 @@ class AuthService {
     return _auth.currentUser;
   }
 
+  alterarSenha(String senha) async {
+    _auth.currentUser?.updatePassword(senha);
+  }
+
+  delete() async {
+    _deleteProfile();
+    _auth.currentUser?.delete();
+  }
+
   getProfile() async {
     await dbProfiles.get().then((event) async {
       for (var doc in event.docs) {
@@ -102,13 +111,21 @@ class AuthService {
     for (Map<String, dynamic> categoriaDespesa
         in configuracoesIniciais.categoriasDespesas) {
       await categoriasService.setCategoria(
-          'categoriasDespesas', categoriaDespesa);
+        'categoriasDespesas',
+        categoriaDespesa,
+      );
     }
 
     for (Map<String, dynamic> categoriaFaturamento
         in configuracoesIniciais.categoriasFaturamentos) {
       await categoriasService.setCategoria(
-          'categoriasFaturamentos', categoriaFaturamento);
+        'categoriasFaturamentos',
+        categoriaFaturamento,
+      );
     }
+  }
+
+  _deleteProfile() async {
+    await dbProfiles.doc(_auth.currentUser!.uid).delete();
   }
 }

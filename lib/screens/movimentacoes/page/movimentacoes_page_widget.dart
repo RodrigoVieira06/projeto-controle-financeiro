@@ -29,7 +29,7 @@ class _MovimentacoesPageWidgetState extends State<MovimentacoesPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: projectTheme.backgroundColor,
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       appBar: AppBar(
         title: const Text(
           'MOVIMENTAÇÕES',

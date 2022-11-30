@@ -31,7 +31,34 @@ class AuthController {
     }
   }
 
-  logout() async {
-    await authService.logout();
+  logout(BuildContext context) async {
+    try {
+      await authService.logout();
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    }
+  }
+
+  alterarSenha(BuildContext context, String senha) async {
+    try {
+      await authService.alterarSenha(senha);
+
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Senha alterada com sucesso')));
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    }
+  }
+
+  delete(BuildContext context) async {
+    try {
+      await authService.delete();
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    }
   }
 }

@@ -22,6 +22,7 @@ dependencies:
   intl: ^0.17.0
   uuid: ^3.0.6
   fl_chart: ^0.55.2
+  image_picker: ^0.8.6
 
 dev_dependencies:
   flutter_test:
@@ -33,7 +34,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/laucher_icon.png"
+  image_path: "assets/images/launcher_icon.png"
 
 flutter:
 
@@ -42,7 +43,7 @@ flutter:
   assets:
     - assets/fonts/
     - assets/images/logo_app.png
-    - assets/images/laucher_icon.png
+    - assets/images/launcher_icon.png
 
   fonts:
     - family: Lato

@@ -6,13 +6,21 @@ import 'package:projeto_controle_financeiro/services/services.dart';
 import 'package:projeto_controle_financeiro/utils/theme.dart';
 
 class DrawerWidget extends StatelessWidget {
-  DrawerWidget({Key? key}) : super(key: key);
+  const DrawerWidget({Key? key}) : super(key: key);
 
-  final User? user = AuthService().getUser();
-  final AuthController auth = AuthController();
+  // setImage() {
+  //   if (user!.photoURL == null) {
+  //     return null;
+  //   } else {
+  //     return NetworkImage(user!.photoURL!);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final User? user = AuthService().getUser();
+    final AuthController auth = AuthController();
+
     return Drawer(
       backgroundColor: Colors.white,
       child: Column(
@@ -26,12 +34,23 @@ class DrawerWidget extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 60.0, bottom: 8.0),
+                      padding: const EdgeInsets.only(top: 60.0, bottom: 8.0),
                       child: CircleAvatar(
-                        backgroundColor: Colors.grey,
+                        backgroundColor: const Color.fromARGB(255, 4, 45, 78),
                         minRadius: 50,
+                        maxRadius: 50,
+                        // backgroundImage: setImage(),
+                        child: Text(
+                          user!.displayName![0].toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Lato',
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -42,7 +61,7 @@ class DrawerWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: Text(
-                        user!.displayName ?? "",
+                        user.displayName ?? "",
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w700,
@@ -59,7 +78,7 @@ class DrawerWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: Text(
-                        user!.email ?? '',
+                        user.email ?? '',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
@@ -76,7 +95,9 @@ class DrawerWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, right: 16),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Modular.to.navigate('/minhaconta/');
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.white,
                           minimumSize: const Size(80, 30),
@@ -95,7 +116,7 @@ class DrawerWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          auth.logout();
+                          auth.logout(context);
                           Modular.to.navigate('/');
                         },
                         style: ElevatedButton.styleFrom(

@@ -28,7 +28,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: projectTheme.backgroundColor,
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       appBar: AppBar(
         title: const Text(
           'PAINEL INICIAL',
