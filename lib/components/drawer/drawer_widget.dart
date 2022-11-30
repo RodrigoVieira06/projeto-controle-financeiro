@@ -95,7 +95,9 @@ class DrawerWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, right: 16),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Modular.to.navigate('/minhaconta/');
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.white,
                           minimumSize: const Size(80, 30),
@@ -114,7 +116,7 @@ class DrawerWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          auth.logout();
+                          auth.logout(context);
                           Modular.to.navigate('/');
                         },
                         style: ElevatedButton.styleFrom(

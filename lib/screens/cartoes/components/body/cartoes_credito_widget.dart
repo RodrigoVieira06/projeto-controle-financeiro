@@ -65,8 +65,8 @@ class CartoesCreditoWidget extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Icon(
-                                              Icons.money_off,
-                                              color: Colors.red[400],
+                                              Icons.credit_card,
+                                              color: Colors.green[400],
                                             ),
                                           ),
                                           Padding(

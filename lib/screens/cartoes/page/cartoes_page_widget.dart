@@ -47,13 +47,13 @@ class _CartoesPageWidgetState extends State<CartoesPageWidget> {
       body: _widgetOptions.elementAt(_selectedIndex),
       floatingActionButton: const AddButtonWidget(
         text1: 'Cartão de crédito',
-        icon1: Icon(Icons.money_off),
-        iconcolor1: Color.fromARGB(255, 255, 67, 67),
+        icon1: Icon(Icons.credit_card),
+        iconcolor1: Color.fromARGB(255, 102, 187, 106),
         formdialog1: CartoesFormWidget(
           entityName: 'cartoesCredito',
         ),
         text2: 'Cartão de débito',
-        icon2: Icon(Icons.attach_money),
+        icon2: Icon(Icons.credit_card),
         iconcolor2: Color.fromARGB(255, 36, 137, 232),
         formdialog2: CartoesFormWidget(
           entityName: 'cartoesDebito',
@@ -64,7 +64,7 @@ class _CartoesPageWidgetState extends State<CartoesPageWidget> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: const Icon(Icons.credit_card),
-            backgroundColor: Colors.red[400],
+            backgroundColor: Colors.green[400],
             label: 'Cartões de crédito',
           ),
           BottomNavigationBarItem(
