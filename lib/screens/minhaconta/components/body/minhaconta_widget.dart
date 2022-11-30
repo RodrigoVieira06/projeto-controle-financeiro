@@ -12,7 +12,7 @@ class MinhacontaWidget extends StatelessWidget {
     final User? user = AuthService().getUser();
     const ConfirmacaoExclusaoWidget confirmacaoExclusaoWidget =
         ConfirmacaoExclusaoWidget();
-    final AlterarSenhaWidget alterarSenhaWidget = AlterarSenhaWidget();
+    const AlterarSenhaWidget alterarSenhaWidget = AlterarSenhaWidget();
 
     return Column(
       children: [

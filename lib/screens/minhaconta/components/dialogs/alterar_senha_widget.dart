@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:projeto_controle_financeiro/auth/controller/auth_controller.dart';
+import 'package:projeto_controle_financeiro/screens/minhaconta/controllers/alterar_senha_controller.dart';
 
 class AlterarSenhaWidget extends StatelessWidget {
-  AlterarSenhaWidget({Key? key}) : super(key: key);
-  final formKey = GlobalKey<FormState>();
-  TextEditingController senha = TextEditingController();
-  TextEditingController confirmarSenha = TextEditingController();
+  const AlterarSenhaWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AuthController authController = AuthController();
+    final AlterarSenhaController alterarSenhaController =
+        AlterarSenhaController();
 
     return AlertDialog(
       content: SizedBox(
         width: 300,
         height: 330,
         child: Form(
-          key: formKey,
+          key: alterarSenhaController.formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +35,7 @@ class AlterarSenhaWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: senha,
+                  controller: alterarSenhaController.senha,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
                   enableSuggestions: false,
@@ -58,7 +57,7 @@ class AlterarSenhaWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: confirmarSenha,
+                  controller: alterarSenhaController.confirmarSenha,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
                   enableSuggestions: false,
@@ -70,7 +69,7 @@ class AlterarSenhaWidget extends StatelessWidget {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Repita a sua senha.';
-                    } else if (value != senha.text) {
+                    } else if (value != alterarSenhaController.senha.text) {
                       return 'A senha não é a mesma.';
                     }
                     return null;
@@ -84,10 +83,11 @@ class AlterarSenhaWidget extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        if (formKey.currentState!.validate()) {
+                        if (alterarSenhaController.formKey.currentState!
+                            .validate()) {
                           await authController.alterarSenha(
                             context,
-                            senha.text,
+                            alterarSenhaController.senha.text,
                           );
                           // ignore: use_build_context_synchronously
                           Navigator.of(context).pop();
