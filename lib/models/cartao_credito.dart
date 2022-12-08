@@ -5,6 +5,7 @@ class CartaoCredito {
   late String titulo;
   late int diaVencimento;
   late Timestamp data;
+
   late String? descricao;
 
   CartaoCredito({

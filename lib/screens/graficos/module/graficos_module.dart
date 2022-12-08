@@ -1,5 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projeto_controle_financeiro/screens/graficos/page/graficos_page_widget.dart';
+import 'package:projeto_controle_financeiro/screens/graficos/page/graficos_page.dart';
 
 class GraficosModule extends Module {
   @override
@@ -7,6 +7,6 @@ class GraficosModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute('/', child: (context, args) => const GraficosPageWidget()),
+        ChildRoute('/', child: (context, args) => const GraficosPage()),
       ];
 }

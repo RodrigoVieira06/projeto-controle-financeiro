@@ -207,7 +207,7 @@ class CategoriasFormWidget extends StatelessWidget {
                                     // inicio - definição de objeto a ser excluído
                                     Map<String, dynamic> categoria = {
                                       'id': categoriaId,
-                                      "titulo":
+                                      'titulo':
                                           categoriasFormController.titulo.text,
                                     };
                                     // fim - definição de objeto a ser excluído

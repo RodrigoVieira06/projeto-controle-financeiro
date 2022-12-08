@@ -88,9 +88,9 @@ class CartoesCreditoWidget extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      ScopedBuilder<MediamensalStore, Exception,
-                                          num>(
-                                        store: MediamensalStore(
+                                      ScopedBuilder<PercentualGastosStore,
+                                          Exception, num>(
+                                        store: PercentualGastosStore(
                                           cartaoCredito.titulo,
                                           'Crédito',
                                         ),
@@ -100,15 +100,50 @@ class CartoesCreditoWidget extends StatelessWidget {
                                         ),
                                         onError: (context, error) =>
                                             Text('$error'),
-                                        onState: (context, num mediamensal) {
+                                        onState:
+                                            (context, num percentualGastos) {
+                                          final Color? percentualColor;
+
+                                          if (percentualGastos > 0) {
+                                            percentualColor = Colors.blue;
+                                          } else {
+                                            percentualColor = Colors.black;
+                                          }
+
                                           return Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Média mensal: R\$ ${mediamensal.toStringAsFixed(2)}',
-                                              style: const TextStyle(
-                                                fontFamily: 'Lato',
-                                                fontSize: 14,
-                                              ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const SizedBox(
+                                                  width: 120,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 1.0),
+                                                    child: Text(
+                                                      'Percentual de gastos em cartão:',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Lato',
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 1.0),
+                                                  child: Text(
+                                                    '${percentualGastos.toStringAsFixed(1)}%',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Lato',
+                                                      fontSize: 16,
+                                                      color: percentualColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           );
                                         },

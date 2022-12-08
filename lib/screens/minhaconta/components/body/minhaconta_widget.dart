@@ -21,7 +21,8 @@ class MinhacontaWidget extends StatelessWidget {
           child: Card(
             color: Colors.white,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
@@ -57,6 +58,25 @@ class MinhacontaWidget extends StatelessWidget {
                 const Divider(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    backgroundColor: const Color.fromARGB(255, 4, 45, 78),
+                    minRadius: 50,
+                    maxRadius: 50,
+                    // backgroundImage: setImage(),
+                    child: Text(
+                      user!.displayName![0].toUpperCase(),
+                      style: const TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Lato',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -74,7 +94,7 @@ class MinhacontaWidget extends StatelessWidget {
                       ),
                       Flexible(
                         child: TextFormField(
-                          initialValue: user!.displayName,
+                          initialValue: user.displayName,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             enabled: false,

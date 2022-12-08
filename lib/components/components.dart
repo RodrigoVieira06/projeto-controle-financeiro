@@ -6,3 +6,4 @@ export 'package:projeto_controle_financeiro/components/buttons/add_button_widget
 export 'package:projeto_controle_financeiro/components/empty_list/lista_vazia_widget.dart';
 export 'package:projeto_controle_financeiro/components/delete_box/delete_box_widget.dart';
 export 'package:projeto_controle_financeiro/components/charts/graficogeral_widget.dart';
+export 'package:projeto_controle_financeiro/components/accordions/accordion_widget.dart';
