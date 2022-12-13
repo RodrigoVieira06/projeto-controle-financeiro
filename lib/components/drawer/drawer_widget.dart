@@ -138,84 +138,90 @@ class DrawerWidget extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              leading: const Icon(Icons.home),
-              title: Text(
-                'Painel inicial',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: projectTheme.primaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Lato',
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: const Icon(Icons.home),
+                    title: Text(
+                      'Painel inicial',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: projectTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Lato',
+                      ),
+                    ),
+                    onTap: () => Modular.to.navigate('/home/'),
+                  ),
                 ),
-              ),
-              onTap: () => Modular.to.navigate('/home/'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              leading: const Icon(Icons.swap_vertical_circle_sharp),
-              title: Text(
-                'Movimentações',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: projectTheme.primaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Lato',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: const Icon(Icons.swap_vertical_circle_sharp),
+                    title: Text(
+                      'Movimentações',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: projectTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Lato',
+                      ),
+                    ),
+                    onTap: () => Modular.to.navigate('/movimentacoes/'),
+                  ),
                 ),
-              ),
-              onTap: () => Modular.to.navigate('/movimentacoes/'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              leading: const Icon(Icons.bookmarks_rounded),
-              title: Text(
-                'Categorias',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: projectTheme.primaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Lato',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: const Icon(Icons.bookmarks_rounded),
+                    title: Text(
+                      'Categorias',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: projectTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Lato',
+                      ),
+                    ),
+                    onTap: () => Modular.to.navigate('/categorias/'),
+                  ),
                 ),
-              ),
-              onTap: () => Modular.to.navigate('/categorias/'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              leading: const Icon(Icons.credit_card),
-              title: Text(
-                'Cartões',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: projectTheme.primaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Lato',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: const Icon(Icons.credit_card),
+                    title: Text(
+                      'Cartões',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: projectTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Lato',
+                      ),
+                    ),
+                    onTap: () => Modular.to.navigate('/cartoes/'),
+                  ),
                 ),
-              ),
-              onTap: () => Modular.to.navigate('/cartoes/'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              leading: const Icon(Icons.bar_chart_rounded),
-              title: Text(
-                'Gráficos',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: projectTheme.primaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Lato',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: const Icon(Icons.bar_chart_rounded),
+                    title: Text(
+                      'Gráficos',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: projectTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Lato',
+                      ),
+                    ),
+                    onTap: () => Modular.to.navigate('/graficos/'),
+                  ),
                 ),
-              ),
-              onTap: () => Modular.to.navigate('/graficos/'),
+              ],
             ),
           ),
         ],
