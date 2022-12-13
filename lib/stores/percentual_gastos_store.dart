@@ -14,7 +14,7 @@ class PercentualGastosStore extends NotifierStore<Exception, num> {
       setLoading(true);
       num valorTotal = 0;
       num valorTotalEntity = 0;
-      final num percentual;
+      num percentual = 0;
 
       if (tipo == 'Crédito' || tipo == 'Débito' || tipo == 'Despesa') {
         List<Despesa> despesas = await movimentacoesService.getDespesas();
@@ -46,7 +46,9 @@ class PercentualGastosStore extends NotifierStore<Exception, num> {
         throw Exception('Não foi possível encontrar o tipo da entidade');
       }
 
-      percentual = (valorTotalEntity * 100) / valorTotal;
+      if (valorTotal != 0) {
+        percentual = (valorTotalEntity * 100) / valorTotal;
+      }
 
       update(percentual);
 
